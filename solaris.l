@@ -60,12 +60,14 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
     processToken(DELIMITER, yytext);
 }
 
+    /* Comentário de linha: começa com '#' e vai até o final da linha */
 "#"[^\n]* {
-    processToken(COMMENT_LINE, yytext);  // Comentários de linha
+    processToken(COMMENT_LINE, yytext);  // Comentário de linha
 }
 
-##\[([^]]|\][^#]|[^]]#|[^]]\])*\]## {
-    processToken(COMMENT_BLOCK, yytext);  // Comentários de bloco
+    /* Comentário de bloco: começa com '##' e termina com '##' */
+"##"([^#]|\#[^#])*"##" {
+    processToken(COMMENT_BLOCK, yytext);  // Comentário de bloco
 }
 
 [ \t]+ {

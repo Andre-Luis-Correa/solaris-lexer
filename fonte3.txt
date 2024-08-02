@@ -1,0 +1,16 @@
+##[ Este é um comentário de bloco que não será fechado corretamente
+
+start
+    integer x = 10;
+
+    @invalidSymbol = 5; // Erro: Símbolo inválido
+
+    float longNumber = 12345678901234567890; // Erro: Número longo
+
+    string badString = "Hello, world"; // Erro: String malformada (falta fechar aspas)
+
+    float malformedNumber = 2.3.4; // Erro: Número malformado
+
+    malformedNumber2 = 5.3e10.5; // Erro: Número malformado
+
+finish
