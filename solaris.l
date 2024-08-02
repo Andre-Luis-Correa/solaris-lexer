@@ -8,8 +8,8 @@ tokenList *tokenListHead = NULL;
 void processToken(int type, const char *text) {
     if (type != WHITESPACE && type != NEWLINE) { // Ignore whitespace and newline tokens in print
         printf("Token: Type=%s, Value=%s\n", getTokenTypeName(type), text);
+        addToken(&tokenListHead, type, text);
     }
-    addToken(&tokenListHead, type, text);
 }
 %}
 
