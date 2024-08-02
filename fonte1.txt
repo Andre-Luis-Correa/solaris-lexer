@@ -1,0 +1,65 @@
+# Este e um exemplo de codigo correto em ZenCode com tipos de variaveis inspirados em C
+
+##[
+   Este e um comentario de bloco.
+   Pode incluir multiplas linhas e ##, mas nao ]## sozinho.
+]##
+
+function (integer): sumOfSquares receive (integer a, integer b) {
+    integer sum = a * a + b * b;
+    result sum;
+};
+
+function (void): greet receive (string name) {
+    string message = "Hello, " + name + "!";
+    show message;
+};
+
+function (double): average receive (double x, double y) {
+    double avg = (x + y) / 2.0;
+    result avg;
+};
+
+function (void): displayChar receive (char c) {
+    show "Character received: " + c;
+};
+
+function (void): displayMessage receive (void) {
+    show "This is a message from a void function!";
+};
+
+execute {
+    integer x = 3;
+    integer y = 4;
+    integer squareSum = call sumOfSquares(x, y);
+    show "The sum of squares of " + x + " and " + y + " is: " + squareSum;
+
+    string userName = "ZenCoder";
+    call greet(userName);
+
+    double num1 = 5.5;
+    double num2 = 10.2;
+    double avgValue = call average(num1, num2);
+    show "The average of " + num1 + " and " + num2 + " is: " + avgValue;
+
+    char initial = 'Z';
+    call displayChar(initial);
+
+    call displayMessage();
+
+    boolean isPositive = (squareSum > 0);
+    choose (isPositive) {
+        show "The sum of squares is positive.";
+    } otherwise {
+        show "The sum of squares is not positive.";
+    };
+
+    # Demonstrating loop
+    integer total = 0;
+    loop (integer i = 1) until (i <= 5) {
+        total = total + i;
+        i = i + 1;
+    };
+
+    show "The sum of numbers from 1 to 5 is: " + total;
+};
