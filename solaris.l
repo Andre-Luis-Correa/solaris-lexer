@@ -56,7 +56,7 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
     processToken(ASSIGNMENT_OP, yytext);
 }
 
-";"|","|"("|")"|"{"|"}"|"["|"]" {
+":"|";"|","|"("|")"|"{"|"}"|"["|"]" {
     processToken(DELIMITER, yytext);
 }
 
