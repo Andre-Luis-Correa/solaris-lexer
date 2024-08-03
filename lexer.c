@@ -89,6 +89,7 @@ void printTokens(const tokenList *head, const char *listName) {
 //   - 'type' deve ser um valor válido de tipo de token definido pelo sistema (por exemplo, RESERVED_WORD, IDENTIFIER).
 //   - 'text' deve ser uma string não nula que representa o valor do token identificado.
 // Pós-condições:
+//   - Token do tipo WHITESPACE e NEWLINE não adicionados a nenhuma lista
 //   - O token é adicionado à lista de palavras reservadas se 'type' for RESERVED_WORD.
 //   - Caso contrário, o token é adicionado à lista de outros tokens.
 void processToken(int type, const char *text) {
