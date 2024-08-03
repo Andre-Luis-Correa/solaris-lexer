@@ -2,8 +2,7 @@
 
 ##
    Este e um comentario de bloco.
-   Pode incluir multiplas linhas e ####te
-   ste##
+   Pode incluir multiplas linhas e ####teste##
 
 function (integer): sumOfSquares receive (integer a, integer b) {
     integer sum = a * a + b * b;

@@ -1,3 +1,22 @@
 # ninja log v5
-0	334	7442614570580150	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+348	543	7444251632331360	untitled1.exe	e4929e6d7f4c7ad9
+3	347	7444251630410294	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
 12	338	7442614570570150	CMakeFiles/untitled1.dir/lexer.c.obj	4cbb63bf91bfdddd
+2	599	7444249746658813	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
+1	216	7444253058910242	build.ninja	3fe41b8140a90edd
+3	117	7444253474727575	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+118	341	7444253476888537	untitled1.exe	e4929e6d7f4c7ad9
+16	468	7444256364921299	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+2	470	7444256364951305	CMakeFiles/untitled1.dir/lexer.c.obj	4cbb63bf91bfdddd
+37	487	7444256365031283	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
+487	687	7444256367101350	untitled1.exe	e4929e6d7f4c7ad9
+3	164	7444257350443919	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
+165	364	7444257352365206	untitled1.exe	e4929e6d7f4c7ad9
+2	145	7444260368450610	CMakeFiles/untitled1.dir/lexer.c.obj	4cbb63bf91bfdddd
+28	210	7444260369095810	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
+3	427	7444268434165752	CMakeFiles/untitled1.dir/lexer.c.obj	4cbb63bf91bfdddd
+18	428	7444268434165752	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+32	436	7444268434255739	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
+437	616	7444268436086072	untitled1.exe	e4929e6d7f4c7ad9
+2	126	7444269237927051	CMakeFiles/untitled1.dir/lexer.c.obj	4cbb63bf91bfdddd
+127	324	7444269239806005	untitled1.exe	e4929e6d7f4c7ad9

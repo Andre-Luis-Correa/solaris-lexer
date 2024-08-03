@@ -1,26 +1,27 @@
 #include "lexer.h"
 
 // Flex gera essas variáveis
-extern FILE *yyin;
-extern int yylex();
-extern tokenList *tokenListHead;
+extern FILE *yyin;        // Variável externa para o arquivo de entrada do Flex
+extern int yylex();       // Função gerada pelo Flex que realiza a análise léxica
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        fprintf(stderr, "Usage: %s <source-file>\n", argv[0]);
-        exit(1);
-    }
+int main() {
+    char filename[256];  // Buffer para armazenar o nome do arquivo
 
-    FILE *file = fopen(argv[1], "r");
+    printf("--> Digite o nome do arquivo para analise lexica: ");
+    scanf("%[^\n]", filename);
+
+    FILE *file = fopen(filename, "r");
     if (!file) {
-        perror("fopen");
+        perror("Erro ao abrir o arquivo");
         exit(1);
     }
 
     yyin = file;
     yylex();
-    printTokens(tokenListHead);
-    freeTokenList(tokenListHead);
+    printTokens(reservedWordListHead, "Palavras Reservadas");
+    printTokens(otherTokensListHead, "Outros Tokens");
+    freeTokenList(reservedWordListHead);
+    freeTokenList(otherTokensListHead);
 
     fclose(file);
     return 0;

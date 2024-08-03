@@ -1,16 +1,6 @@
 %{
 #include "lexer.h"
-
-// Cabeça da lista de tokens
-tokenList *tokenListHead = NULL;
-
-// Função auxiliar para imprimir e armazenar o token
-void processToken(int type, const char *text) {
-    if (type != WHITESPACE && type != NEWLINE) { // Ignore whitespace and newline tokens in print
-        printf("Token: Type=%s, Value=%s\n", getTokenTypeName(type), text);
-        addToken(&tokenListHead, type, text);
-    }
-}
+// As variáveis globais são declaradas em lexer.h
 %}
 
 /* Definições de padrões */
@@ -21,7 +11,7 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
 %%
     /* Regras de tokens */
 "start"|"finish"|"loop"|"until"|"show"|"define"|"result"|"choose"|"otherwise"|"function"|"receive"|"execute"|"call"|"and"|"or"|"not" {
-    processToken(RESERVED_WORD, yytext);
+    processToken(RESERVED_WORD, yytext);  // Identifica palavras reservadas
 }
 
 "integer"|"float"|"double"|"char"|"string"|"boolean" {
@@ -62,12 +52,12 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
 
     /* Comentário de linha: começa com '#' e vai até o final da linha */
 "#"[^\n]* {
-    processToken(COMMENT_LINE, yytext);  // Comentário de linha
+    processToken(COMMENT_LINE, yytext);
 }
 
     /* Comentário de bloco: começa com '##' e termina com '##' */
 "##"([^#]|\#[^#])*"##" {
-    processToken(COMMENT_BLOCK, yytext);  // Comentário de bloco
+    processToken(COMMENT_BLOCK, yytext);
 }
 
 [ \t]+ {
@@ -80,7 +70,7 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
 
 . {
     printf("INVALID CHARACTER: %s\n", yytext);
-    addToken(&tokenListHead, UNKNOWN, yytext);
+    addToken(&otherTokensListHead, UNKNOWN, yytext);
 }
 
 %%

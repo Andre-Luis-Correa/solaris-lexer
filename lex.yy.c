@@ -459,19 +459,9 @@ char *yytext;
 #define INITIAL 0
 #line 2 "solaris.l"
 #include "lexer.h"
-
-// Cabeça da lista de tokens
-tokenList *tokenListHead = NULL;
-
-// Função auxiliar para imprimir e armazenar o token
-void processToken(int type, const char *text) {
-    if (type != WHITESPACE && type != NEWLINE) { // Ignore whitespace and newline tokens in print
-        printf("Token: Type=%s, Value=%s\n", getTokenTypeName(type), text);
-        addToken(&tokenListHead, type, text);
-    }
-}
+// As variáveis globais são declaradas em lexer.h
 /* Definições de padrões */
-#line 475 "lex.yy.c"
+#line 465 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -622,10 +612,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 21 "solaris.l"
+#line 11 "solaris.l"
 
     /* Regras de tokens */
-#line 629 "lex.yy.c"
+#line 619 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -710,70 +700,70 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 23 "solaris.l"
+#line 13 "solaris.l"
 {
-    processToken(RESERVED_WORD, yytext);
+    processToken(RESERVED_WORD, yytext);  // Identifica palavras reservadas
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 27 "solaris.l"
+#line 17 "solaris.l"
 {
     processToken(DATA_TYPE, yytext);
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 31 "solaris.l"
+#line 21 "solaris.l"
 {
     processToken(BOOLEAN, yytext);
 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 35 "solaris.l"
+#line 25 "solaris.l"
 {
     processToken(IDENTIFIER, yytext);
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 39 "solaris.l"
+#line 29 "solaris.l"
 {
     processToken(NUMBER, yytext);
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 43 "solaris.l"
+#line 33 "solaris.l"
 {
     processToken(STRING, yytext);
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 47 "solaris.l"
+#line 37 "solaris.l"
 {
     processToken(ARITHMETIC_OP, yytext);
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 51 "solaris.l"
+#line 41 "solaris.l"
 {
     processToken(RELATIONAL_OP, yytext);
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 55 "solaris.l"
+#line 45 "solaris.l"
 {
     processToken(ASSIGNMENT_OP, yytext);
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 59 "solaris.l"
+#line 49 "solaris.l"
 {
     processToken(DELIMITER, yytext);
 }
@@ -781,47 +771,47 @@ YY_RULE_SETUP
 /* Comentário de linha: começa com '#' e vai até o final da linha */
 case 11:
 YY_RULE_SETUP
-#line 64 "solaris.l"
+#line 54 "solaris.l"
 {
-    processToken(COMMENT_LINE, yytext);  // Comentário de linha
+    processToken(COMMENT_LINE, yytext);
 }
 	YY_BREAK
 /* Comentário de bloco: começa com '##' e termina com '##' */
 case 12:
 YY_RULE_SETUP
-#line 69 "solaris.l"
+#line 59 "solaris.l"
 {
-    processToken(COMMENT_BLOCK, yytext);  // Comentário de bloco
+    processToken(COMMENT_BLOCK, yytext);
 }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 73 "solaris.l"
+#line 63 "solaris.l"
 {
     processToken(WHITESPACE, yytext); // Ignorar espaços em branco
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 77 "solaris.l"
+#line 67 "solaris.l"
 {
     processToken(NEWLINE, yytext); // Contabilizar nova linha
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 81 "solaris.l"
+#line 71 "solaris.l"
 {
     printf("INVALID CHARACTER: %s\n", yytext);
-    addToken(&tokenListHead, UNKNOWN, yytext);
+    addToken(&otherTokensListHead, UNKNOWN, yytext);
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 86 "solaris.l"
+#line 76 "solaris.l"
 ECHO;
 	YY_BREAK
-#line 825 "lex.yy.c"
+#line 815 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1707,7 +1697,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 86 "solaris.l"
+#line 76 "solaris.l"
 
 
 int yywrap() {

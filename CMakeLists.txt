@@ -3,7 +3,9 @@ project(untitled1 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(untitled1 main.c
+add_executable(untitled1
         lexer.h
         lexer.c
-        main.c)
+        main.c
+        lex.yy.c
+)

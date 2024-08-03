@@ -1,6 +1,12 @@
 #include "lexer.h"
 
-// Função para criar um novo token
+// Definições das variáveis globais
+tokenList *reservedWordListHead = NULL;  // Cabeça da lista de palavras reservadas
+tokenList *otherTokensListHead = NULL;   // Cabeça da lista de outros tokens
+
+// Cria um novo token e inicializa seus valores.
+// Pré-condições: 'value' deve ser uma string válida.
+// Pós-condições: Retorna um novo token com o tipo e valor especificados.
 tokenList* createToken(int type, const char *value) {
     tokenList *newToken = (tokenList *)malloc(sizeof(tokenList));
     newToken->type = type;
@@ -9,7 +15,9 @@ tokenList* createToken(int type, const char *value) {
     return newToken;
 }
 
-// Função para adicionar um token à lista encadeada
+// Adiciona um novo token ao final da lista encadeada de tokens.
+// Pré-condições: 'head' deve ser o ponteiro para a cabeça da lista de tokens.
+// Pós-condições: O novo token é adicionado ao final da lista.
 void addToken(tokenList **head, int type, const char *value) {
     tokenList *newToken = createToken(type, value);
     if (*head == NULL) {
@@ -23,7 +31,9 @@ void addToken(tokenList **head, int type, const char *value) {
     }
 }
 
-// Função para liberar a memória da lista de tokens
+// Libera a memória alocada para a lista de tokens.
+// Pré-condições: 'head' deve ser o ponteiro para a cabeça da lista de tokens.
+// Pós-condições: Toda a memória alocada para a lista é liberada.
 void freeTokenList(tokenList *head) {
     tokenList *current = head;
     while (current != NULL) {
@@ -34,7 +44,9 @@ void freeTokenList(tokenList *head) {
     }
 }
 
-// Função para obter o nome do tipo de token
+// Retorna o nome do tipo de token com base em seu valor enumerado.
+// Pré-condições: 'type' deve ser um valor válido de enumeração de tipo de token.
+// Pós-condições: Retorna a string correspondente ao tipo de token.
 const char* getTokenTypeName(int type) {
     switch (type) {
         case RESERVED_WORD: return "RESERVED_WORD";
@@ -57,10 +69,12 @@ const char* getTokenTypeName(int type) {
     }
 }
 
-// Função para imprimir a lista de tokens
-void printTokens(const tokenList *head) {
+// Imprime todos os tokens da lista fornecida.
+// Pré-condições: 'head' deve ser o ponteiro para a cabeça da lista de tokens.
+// Pós-condições: Todos os tokens da lista são impressos no console.
+void printTokens(const tokenList *head, const char *listName) {
     const tokenList *current = head;
-    printf("\nTokens encontrados:\n");
+    printf("\nTokens na lista %s:\n", listName);
     printf("%-15s %-20s\n", "Tipo", "Valor");
     printf("------------------------------\n");
     while (current != NULL) {
@@ -68,4 +82,21 @@ void printTokens(const tokenList *head) {
         current = current->next;
     }
     printf("------------------------------\n");
+}
+
+// Função auxiliar para armazenar o token na lista apropriada
+// Pré-condições:
+//   - 'type' deve ser um valor válido de tipo de token definido pelo sistema (por exemplo, RESERVED_WORD, IDENTIFIER).
+//   - 'text' deve ser uma string não nula que representa o valor do token identificado.
+// Pós-condições:
+//   - O token é adicionado à lista de palavras reservadas se 'type' for RESERVED_WORD.
+//   - Caso contrário, o token é adicionado à lista de outros tokens.
+void processToken(int type, const char *text) {
+    if (type != WHITESPACE && type != NEWLINE) {
+        if (type == RESERVED_WORD) {
+            addToken(&reservedWordListHead, type, text);  // Adiciona à lista de palavras reservadas
+        } else {
+            addToken(&otherTokensListHead, type, text);   // Adiciona à lista de outros tokens
+        }
+    }
 }
