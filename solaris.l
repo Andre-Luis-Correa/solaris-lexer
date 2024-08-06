@@ -1,7 +1,13 @@
 %{
 #include "lexer.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 // As variáveis globais são declaradas em lexer.h
+char errorMessage[256];
 %}
+
+%option yylineno
 
 /* Definições de padrões */
 DIGITO     [0-9]
@@ -9,8 +15,9 @@ LETRA      [a-zA-Z]
 IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
 
 %%
+
     /* Regras de tokens */
-"start"|"finish"|"loop"|"until"|"show"|"define"|"result"|"choose"|"otherwise"|"function"|"receive"|"execute"|"call"|"and"|"or"|"not" {
+"loop"|"until"|"show"|"define"|"result"|"choose"|"otherwise"|"function"|"receive"|"execute"|"call"|"and"|"or"|"not" {
     processToken(RESERVED_WORD, yytext);  // Identifica palavras reservadas
 }
 
@@ -30,8 +37,12 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
     processToken(NUMBER, yytext);
 }
 
-\"([^\\\"]|\\.)*\"|\'([^\\\']|\\.)*\' {
+\"([^\\\"]|\\.)*\" {  // Captura strings bem formadas
     processToken(STRING, yytext);
+}
+
+\'([^\\\']|\\.)*\' {  // Captura caracteres char bem formados
+    processToken(STRING, yytext); // Você pode usar um token diferente para chars
 }
 
 "+"|"-"|"*"|"/"|"%" {
@@ -68,9 +79,31 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
     processToken(NEWLINE, yytext); // Contabilizar nova linha
 }
 
-. {
-    printf("INVALID CHARACTER: %s\n", yytext);
-    addToken(&otherTokensListHead, UNKNOWN, yytext);
+
+    /* Tratamento de Erros Léxicos */
+##[^#]* {  // Comentário de bloco não fechado
+    sprintf(errorMessage, "Comentário de bloco não fechado na linha %d\n", yylineno);
+    processToken(UNKNOWN, errorMessage);
+}
+
+[^a-zA-Z0-9_#"+\-*/=;:{}()\[\].,\n \t] {  // Símbolos inválidos
+    sprintf(errorMessage, "ERROR: Simbolo invalido '%s' na linha %d\n", yytext, yylineno);
+    processToken(UNKNOWN, errorMessage);
+}
+
+{DIGITO}+\.[^0-9]+ {  // Número malformado
+    sprintf(errorMessage, "Numero malformado '%s' na linha %d\n", yytext, yylineno);
+    processToken(UNKNOWN, errorMessage);
+}
+
+\"([^\\\"]|\\.)*$ {  // String malformada
+    sprintf(errorMessage, "String malformada '%s' na linha %d\n", yytext, yylineno);
+    processToken(UNKNOWN, errorMessage);
+}
+
+. {  // Qualquer outro caractere inválido
+    sprintf(errorMessage, "INVALID CHARACTER: %s\n", yytext);
+    processToken(UNKNOWN, errorMessage);
 }
 
 %%

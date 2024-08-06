@@ -18,8 +18,13 @@ int main() {
 
     yyin = file;
     yylex();
-    printTokens(reservedWordListHead, "Palavras Reservadas");
-    printTokens(otherTokensListHead, "Outros Tokens");
+
+    if(errorFlag == 0) {
+        printTokens(reservedWordListHead, "Palavras Reservadas");
+        printTokens(otherTokensListHead, "Outros Tokens");
+    }
+    else printf("Análise interrompida devido a erros lexicos");
+
     freeTokenList(reservedWordListHead);
     freeTokenList(otherTokensListHead);
 

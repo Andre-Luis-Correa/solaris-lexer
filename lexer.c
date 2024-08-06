@@ -1,6 +1,7 @@
 #include "lexer.h"
 
 // Definições das variáveis globais
+int errorFlag = 0;
 tokenList *reservedWordListHead = NULL;  // Cabeça da lista de palavras reservadas
 tokenList *otherTokensListHead = NULL;   // Cabeça da lista de outros tokens
 
@@ -96,6 +97,9 @@ void processToken(int type, const char *text) {
     if (type != WHITESPACE && type != NEWLINE) {
         if (type == RESERVED_WORD) {
             addToken(&reservedWordListHead, type, text);  // Adiciona à lista de palavras reservadas
+        } else if (type == UNKNOWN) {
+            printf("ERRO LEXICO: %s\n", text); // Imprime erro léxico
+            errorFlag = 1; // Seta a flag de erro
         } else {
             addToken(&otherTokensListHead, type, text);   // Adiciona à lista de outros tokens
         }

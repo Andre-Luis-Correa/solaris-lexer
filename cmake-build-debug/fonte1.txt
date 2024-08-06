@@ -6,6 +6,7 @@
 
 function (integer): sumOfSquares receive (integer a, integer b) {
     integer sum = a * a + b * b;
+
     result sum;
 };
 

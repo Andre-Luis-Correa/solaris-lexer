@@ -30,6 +30,7 @@ typedef struct token {
     struct token *next;     // Ponteiro para o próximo token na lista
 } tokenList;
 
+extern int errorFlag;
 // Declarações das variáveis globais como extern
 extern tokenList *reservedWordListHead;  // Cabeça da lista de palavras reservadas
 extern tokenList *otherTokensListHead;   // Cabeça da lista de outros tokens

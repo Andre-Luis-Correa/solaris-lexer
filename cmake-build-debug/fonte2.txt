@@ -1,17 +1,20 @@
-# Este exemplo contém erros intencionais
+# Este e um exemplo de codigo com erros em ZenCode com tipos de variaveis inspirados em C
+
+# Este e um comentario de bloco nao fechado
 
 function (integer): sumOfSquares receive (integer a, integer b) {
-    integer sum = a * a + b * b
-    result sum;  # Erro: ponto e vírgula ausente na linha anterior
+    integer sum = a * a + b * b;
+
+    result sum;
 };
 
 function (void): greet receive (string name) {
-    string message = "Hello, " + name + "!;  # Erro: string não fechada
+    string message = "Hello, " + name + "!;  # String malformada, sem fechamento de aspas
     show message;
 };
 
 function (double): average receive (double x, double y) {
-    double avg = (x + y) / 2.0;
+    double avg = (x + y) / 2.0.5;  # Número malformado com múltiplos pontos
     result avg;
 };
 
@@ -37,7 +40,8 @@ execute {
     double avgValue = call average(num1, num2);
     show "The average of " + num1 + " and " + num2 + " is: " + avgValue;
 
-    char initial = 'Z';
+    char initial = '@';  # Símbolo inválido
+
     call displayChar(initial);
 
     call displayMessage();
@@ -51,7 +55,7 @@ execute {
 
     # Demonstrating loop
     integer total = 0;
-    loop integer i = 1 until i <= 5 {  # Erro: falta de parênteses na condição
+    loop (integer i = 1) until (i <= 5) {
         total = total + i;
         i = i + 1;
     };

@@ -3,13 +3,13 @@
 start
     integer x = 10;
 
-    @invalidSymbol = 5; // Erro: Símbolo inválido
+    @invalidSymbol = 5;
 
-    float longNumber = 12345678901234567890; // Erro: Número longo
+    float longNumber = 12345678901234567890;
 
-    string badString = "Hello, world"; // Erro: String malformada (falta fechar aspas)
+    string badString = "Hello, world";
 
-    float malformedNumber = 2.3.4; // Erro: Número malformado
+    float malformedNumber = 2.3.4;
 
     malformedNumber2 = 5.3e10.5; // Erro: Número malformado
 
