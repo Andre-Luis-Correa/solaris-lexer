@@ -11,7 +11,7 @@ function (integer): sumOfSquares receive (integer a, integer b) {
 };
 
 function (void): greet receive (string name) {
-    string message = "Hello, " + name + "!aaaaaaaaa";  # String malformada, sem fechamento de aspas
+    @ string message = "Hello, " + name + "!aa@aaaaaaa";  # String malformada, sem fechamento de aspas
     show message;
 };
 

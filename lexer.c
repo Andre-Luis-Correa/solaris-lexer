@@ -16,10 +16,31 @@ tokenList* createToken(int type, const char *value) {
     return newToken;
 }
 
-// Adiciona um novo token ao final da lista encadeada de tokens.
+// Busca um token na lista encadeada de tokens.
 // Pré-condições: 'head' deve ser o ponteiro para a cabeça da lista de tokens.
-// Pós-condições: O novo token é adicionado ao final da lista.
+// Pós-condições: Retorna 1 se o token for encontrado, caso contrário retorna 0.
+int findToken(tokenList *head, int type, const char *value) {
+    tokenList *current = head;
+    while (current != NULL) {
+        if (current->type == type && strcmp(current->value, value) == 0) {
+            return 1; // Token já existe
+        }
+        current = current->next;
+    }
+    return 0; // Token não encontrado
+}
+
+
+// Adiciona um novo token ao final da lista encadeada de tokens, se ainda não estiver presente.
+// Pré-condições: 'head' deve ser o ponteiro para a cabeça da lista de tokens.
+// Pós-condições: O novo token é adicionado ao final da lista se não for um duplicado.
 void addToken(tokenList **head, int type, const char *value) {
+    // Verifica se o token já existe na lista
+    if (findToken(*head, type, value)) {
+        return; // Token já existe, não adicionar novamente
+    }
+
+    // Cria um novo token e o adiciona ao final da lista
     tokenList *newToken = createToken(type, value);
     if (*head == NULL) {
         *head = newToken;
