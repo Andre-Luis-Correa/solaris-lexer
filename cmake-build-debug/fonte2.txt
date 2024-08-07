@@ -2,6 +2,7 @@
 
 ## Este e um comentario de bloco
  nao fechado
+##
 
 function (integer): sumOfSquares receive (integer a, integer b) {
     integer sum = a * a + b * b;
@@ -10,12 +11,12 @@ function (integer): sumOfSquares receive (integer a, integer b) {
 };
 
 function (void): greet receive (string name) {
-    string message = "Hello, " + name + "!;  # String malformada, sem fechamento de aspas
+    string message = "Hello, " + name + "!aaaaaaaaa";  # String malformada, sem fechamento de aspas
     show message;
-}; ##
+};
 
 function (double): average receive (double x, double y) {
-    double avg = (x + y) / 2.0.5;  # Número malformado com múltiplos pontos
+    double avg = (x + y) / 2.0.00005.00;  # Numero malformado com multiplos pontos
     result avg;
 };
 
@@ -24,7 +25,7 @@ function (void): displayChar receive (char c) {
 };
 
 function (void): displayMessage receive (void) {
-    show "This is a message from a void function!";
+    show "This is a message from a void function";
 };
 
 execute {

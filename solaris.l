@@ -33,11 +33,12 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
     processToken(IDENTIFIER, yytext);
 }
 
+    /* Números inteiros ou decimais com apenas um ponto decimal */
 {DIGITO}+(\.{DIGITO}+)? {
     processToken(NUMBER, yytext);
 }
 
-\"([^\\\"]|\\.)*\" {  // Captura strings bem formadas
+\"([^\"\n\\]|\\.)*\" {  // Captura strings bem formadas
     processToken(STRING, yytext);
 }
 
@@ -80,31 +81,31 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
 }
 
     /* Tratamento de Erros Léxicos */
+\"([^\"\n\\]|\\.)*\n {
+    sprintf(errorMessage, "String malformada '%s' na linha %d\n", yytext, yylineno);
+    processToken(UNKNOWN, errorMessage);
+    return -1;  // Interrompe o processamento após detectar um erro
+}
+
 ##[^#]* {  // Comentário de bloco não fechado
     sprintf(errorMessage, "Comentario de bloco nao fechado na linha %d\n", yylineno);
     processToken(UNKNOWN, errorMessage);
     return -1;
 }
 
-[^a-zA-Z0-9_#"+\-*/=;:{}()\[\].,\n \t] {  // Símbolos inválidos
-    sprintf(errorMessage, "ERROR: Simbolo invalido '%s' na linha %d\n", yytext, yylineno);
-    processToken(UNKNOWN, errorMessage);
-    return -1;
-}
-
-{DIGITO}+\.[^0-9]+ {  // Número malformado
+{DIGITO}*\.[^0-9]+|\.[^0-9]+|{DIGITO}+\.[^0-9.]*\.|{DIGITO}+\.{DIGITO}*\.[0-9.]* {
     sprintf(errorMessage, "Numero malformado '%s' na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
     return -1;
 }
 
-\"([^\\\"]|\\.)*$ {  // String malformada
-    sprintf(errorMessage, "String malformada '%s' na linha %d\n", yytext, yylineno);
+\'[^\'\\\n]{2,}\'|\'[^\'\\\n]* {  // Caracter inválido
+    sprintf(errorMessage, "Caracter inválido '%s' na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
     return -1;
 }
 
-. {  // Qualquer outro caractere inválido
+. {
     sprintf(errorMessage, "INVALID CHARACTER: %s na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
     return -1;
