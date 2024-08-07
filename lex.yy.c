@@ -856,10 +856,11 @@ YY_RULE_SETUP
 /* Tratamento de Erros Léxicos */
 case 16:
 YY_RULE_SETUP
-#line 84 "solaris.l"
+#line 83 "solaris.l"
 {  // Comentário de bloco não fechado
-    sprintf(errorMessage, "Comentário de bloco não fechado na linha %d\n", yylineno);
+    sprintf(errorMessage, "Comentario de bloco nao fechado na linha %d\n", yylineno);
     processToken(UNKNOWN, errorMessage);
+    return -1;
 }
 	YY_BREAK
 case 17:
@@ -868,14 +869,16 @@ YY_RULE_SETUP
 {  // Símbolos inválidos
     sprintf(errorMessage, "ERROR: Simbolo invalido '%s' na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
+    return -1;
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 94 "solaris.l"
+#line 95 "solaris.l"
 {  // Número malformado
     sprintf(errorMessage, "Numero malformado '%s' na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
+    return -1;
 }
 	YY_BREAK
 case 19:
@@ -883,26 +886,28 @@ case 19:
 yy_c_buf_p = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 99 "solaris.l"
+#line 101 "solaris.l"
 {  // String malformada
     sprintf(errorMessage, "String malformada '%s' na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
+    return -1;
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 104 "solaris.l"
+#line 107 "solaris.l"
 {  // Qualquer outro caractere inválido
-    sprintf(errorMessage, "INVALID CHARACTER: %s\n", yytext);
+    sprintf(errorMessage, "INVALID CHARACTER: %s na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
+    return -1;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 109 "solaris.l"
+#line 113 "solaris.l"
 ECHO;
 	YY_BREAK
-#line 906 "lex.yy.c"
+#line 911 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1786,7 +1791,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 109 "solaris.l"
+#line 113 "solaris.l"
 
 
 int yywrap() {

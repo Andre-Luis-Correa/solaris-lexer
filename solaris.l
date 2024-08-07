@@ -79,31 +79,35 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
     processToken(NEWLINE, yytext); // Contabilizar nova linha
 }
 
-
     /* Tratamento de Erros Léxicos */
 ##[^#]* {  // Comentário de bloco não fechado
-    sprintf(errorMessage, "Comentário de bloco não fechado na linha %d\n", yylineno);
+    sprintf(errorMessage, "Comentario de bloco nao fechado na linha %d\n", yylineno);
     processToken(UNKNOWN, errorMessage);
+    return -1;
 }
 
 [^a-zA-Z0-9_#"+\-*/=;:{}()\[\].,\n \t] {  // Símbolos inválidos
     sprintf(errorMessage, "ERROR: Simbolo invalido '%s' na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
+    return -1;
 }
 
 {DIGITO}+\.[^0-9]+ {  // Número malformado
     sprintf(errorMessage, "Numero malformado '%s' na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
+    return -1;
 }
 
 \"([^\\\"]|\\.)*$ {  // String malformada
     sprintf(errorMessage, "String malformada '%s' na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
+    return -1;
 }
 
 . {  // Qualquer outro caractere inválido
-    sprintf(errorMessage, "INVALID CHARACTER: %s\n", yytext);
+    sprintf(errorMessage, "INVALID CHARACTER: %s na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
+    return -1;
 }
 
 %%

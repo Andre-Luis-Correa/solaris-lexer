@@ -1,6 +1,7 @@
 # Este e um exemplo de codigo com erros em ZenCode com tipos de variaveis inspirados em C
 
-# Este e um comentario de bloco nao fechado
+## Este e um comentario de bloco
+ nao fechado
 
 function (integer): sumOfSquares receive (integer a, integer b) {
     integer sum = a * a + b * b;
@@ -11,7 +12,7 @@ function (integer): sumOfSquares receive (integer a, integer b) {
 function (void): greet receive (string name) {
     string message = "Hello, " + name + "!;  # String malformada, sem fechamento de aspas
     show message;
-};
+}; ##
 
 function (double): average receive (double x, double y) {
     double avg = (x + y) / 2.0.5;  # Número malformado com múltiplos pontos
