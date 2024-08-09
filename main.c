@@ -23,7 +23,6 @@ int main() {
         printTokens(reservedWordListHead, "Palavras Reservadas");
         printTokens(otherTokensListHead, "Outros Tokens");
     }
-    else printf("Analise interrompida devido a erros lexicos\n");
 
     freeTokenList(reservedWordListHead);
     freeTokenList(otherTokensListHead);

@@ -81,7 +81,7 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
 }
 
     /* Tratamento de Erros Léxicos */
-\"([^\"\n\\]|\\.)*\n {
+\"([^\"\n\\]|\\.)* {
     sprintf(errorMessage, "String malformada '%s' na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
     return -1;  // Interrompe o processamento após detectar um erro

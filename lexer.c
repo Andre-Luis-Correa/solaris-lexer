@@ -119,7 +119,7 @@ void processToken(int type, const char *text) {
         if (type == RESERVED_WORD) {
             addToken(&reservedWordListHead, type, text);  // Adiciona à lista de palavras reservadas
         } else if (type == UNKNOWN) {
-            printf("\nERRO LEXICO -> %s\n", text); // Imprime erro léxico
+            fprintf(stderr,"\nERRO LEXICO -> %s\n", text); // Imprime erro léxico
             errorFlag = 1; // Seta a flag de erro
         } else {
             addToken(&otherTokensListHead, type, text);   // Adiciona à lista de outros tokens

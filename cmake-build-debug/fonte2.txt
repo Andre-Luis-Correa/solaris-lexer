@@ -2,7 +2,7 @@
 
 ## Este e um comentario de bloco
  nao fechado
-##
+
 
 function (integer): sumOfSquares receive (integer a, integer b) {
     integer sum = a * a + b * b;
@@ -11,12 +11,12 @@ function (integer): sumOfSquares receive (integer a, integer b) {
 };
 
 function (void): greet receive (string name) {
-    @ string message = "Hello, " + name + "!aa@aaaaaaa";  # String malformada, sem fechamento de aspas
+    string mess@age = "Hello, " + name + "world;  # String malformada, sem fechamento de aspas
     show message;
 };
 
 function (double): average receive (double x, double y) {
-    double avg = (x + y) / 2.0.00005.00;  # Numero malformado com multiplos pontos
+    double avg = (x + y) / 2.0..00;  # Numero malformado com multiplos pontos
     result avg;
 };
 
