@@ -21,7 +21,7 @@
 #define WHITESPACE    13
 #define NEWLINE       14
 #define UNKNOWN       15
-#define DATA_TYPE     16  // Nova macro para tipos de dados
+#define DATA_TYPE     16
 
 // Estrutura para um token
 typedef struct token {

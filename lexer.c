@@ -5,7 +5,7 @@ int errorFlag = 0;
 tokenList *reservedWordListHead = NULL;  // Cabeça da lista de palavras reservadas
 tokenList *otherTokensListHead = NULL;   // Cabeça da lista de outros tokens
 
-// Cria um novo token e inicializa seus valores.
+// Cria um token e inicializa seus valores.
 // Pré-condições: 'value' deve ser uma string válida.
 // Pós-condições: Retorna um novo token com o tipo e valor especificados.
 tokenList* createToken(int type, const char *value) {

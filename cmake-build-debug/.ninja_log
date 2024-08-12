@@ -34,3 +34,10 @@
 384	638	7449103268685383	untitled1.exe	e4929e6d7f4c7ad9
 3	909	7449107349608146	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
 910	1482	7449107355172992	untitled1.exe	e4929e6d7f4c7ad9
+14	339	7449111648192409	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+3	344	7449111648192409	CMakeFiles/untitled1.dir/lexer.c.obj	4cbb63bf91bfdddd
+344	576	7449111650537034	untitled1.exe	e4929e6d7f4c7ad9
+6	387	7452093953116587	CMakeFiles/untitled1.dir/lexer.c.obj	4cbb63bf91bfdddd
+66	388	7452093953116587	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+74	394	7452093953170511	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
+394	868	7452093957886647	untitled1.exe	e4929e6d7f4c7ad9

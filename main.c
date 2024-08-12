@@ -5,7 +5,7 @@ extern FILE *yyin;        // Variável externa para o arquivo de entrada do Flex
 extern int yylex();       // Função gerada pelo Flex que realiza a análise léxica
 
 int main() {
-    char filename[256];  // Buffer para armazenar o nome do arquivo
+    char filename[256];
 
     printf("--> Digite o nome do arquivo para analise lexica: ");
     scanf("%[^\n]", filename);

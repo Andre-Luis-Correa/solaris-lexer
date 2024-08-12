@@ -93,7 +93,7 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
     return -1;
 }
 
-{DIGITO}*\.[^0-9]+|\.[^0-9]+|{DIGITO}+\.[^0-9.]*\.|{DIGITO}+\.{DIGITO}*\.[0-9.]* {
+{DIGITO}*\.[^0-9]+|{DIGITO}*\.[0-9]*\.[0-9.]*|\.[^0-9]+ {
     sprintf(errorMessage, "Numero malformado '%s' na linha %d\n", yytext, yylineno);
     processToken(UNKNOWN, errorMessage);
     return -1;
