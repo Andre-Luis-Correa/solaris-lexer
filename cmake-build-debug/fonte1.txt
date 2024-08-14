@@ -1,5 +1,5 @@
 # Este e um exemplo de codigo correto em ZenCode com tipos de variaveis inspirados em C
-
+# tipos de dados e delimitadores devem estar na lista de reservados
 ##
    Este e um comentario de bloco.
    Pode incluir multiplas linhas e ####teste##

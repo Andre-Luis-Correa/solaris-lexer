@@ -64,12 +64,12 @@ IDENTIFICADOR [a-zA-Z_][a-zA-Z0-9_]*
 
     /* Comentário de linha: começa com '#' e vai até o final da linha */
 "#"[^\n]* {
-    processToken(COMMENT_LINE, yytext);
+
 }
 
     /* Comentário de bloco: começa com '##' e termina com '##' */
 "##"([^#]|\#[^#])*"##" {
-    processToken(COMMENT_BLOCK, yytext);
+
 }
 
 [ \t]+ {

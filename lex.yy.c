@@ -840,7 +840,7 @@ case 12:
 YY_RULE_SETUP
 #line 66 "solaris.l"
 {
-    processToken(COMMENT_LINE, yytext);
+
 }
 	YY_BREAK
 /* Comentário de bloco: começa com '##' e termina com '##' */
@@ -848,7 +848,7 @@ case 13:
 YY_RULE_SETUP
 #line 71 "solaris.l"
 {
-    processToken(COMMENT_BLOCK, yytext);
+
 }
 	YY_BREAK
 case 14:
