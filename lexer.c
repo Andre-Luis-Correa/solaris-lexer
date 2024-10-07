@@ -116,13 +116,18 @@ void printTokens(const tokenList *head, const char *listName) {
 //   - Caso contrário, o token é adicionado à lista de outros tokens.
 void processToken(int type, const char *text) {
     if (type != WHITESPACE && type != NEWLINE) {
-        if (type == RESERVED_WORD) {
+
+        if (type == RESERVED_WORD || type == DATA_TYPE || type == ARITHMETIC_OP || type == RELATIONAL_OP ||
+            type == ASSIGNMENT_OP || type == DELIMITER) {
             addToken(&reservedWordListHead, type, text);  // Adiciona à lista de palavras reservadas
+
         } else if (type == UNKNOWN) {
             fprintf(stderr,"\nERRO LEXICO -> %s\n", text); // Imprime erro léxico
             errorFlag = 1; // Seta a flag de erro
+
         } else {
             addToken(&otherTokensListHead, type, text);   // Adiciona à lista de outros tokens
         }
+
     }
 }
