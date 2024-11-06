@@ -97,13 +97,13 @@ const char* getTokenTypeName(int type) {
 void printTokens(const tokenList *head, const char *listName) {
     const tokenList *current = head;
     printf("\nTokens na lista %s:\n", listName);
-    printf("%-15s %-20s\n", "Tipo", "Valor");
+    printf("------------------------------\n");
+    printf("| %-15s %-10s |\n", "Tipo", "Valor");
     printf("------------------------------\n");
     while (current != NULL) {
         printf("%-15s %-20s\n", getTokenTypeName(current->type), current->value);
         current = current->next;
     }
-    printf("------------------------------\n");
 }
 
 // Função auxiliar para armazenar o token na lista apropriada
@@ -116,7 +116,6 @@ void printTokens(const tokenList *head, const char *listName) {
 //   - Caso contrário, o token é adicionado à lista de outros tokens.
 void processToken(int type, const char *text) {
     if (type != WHITESPACE && type != NEWLINE) {
-
         if (type == RESERVED_WORD || type == DATA_TYPE || type == ARITHMETIC_OP || type == RELATIONAL_OP ||
             type == ASSIGNMENT_OP || type == DELIMITER) {
             addToken(&reservedWordListHead, type, text);  // Adiciona à lista de palavras reservadas
@@ -128,6 +127,5 @@ void processToken(int type, const char *text) {
         } else {
             addToken(&otherTokensListHead, type, text);   // Adiciona à lista de outros tokens
         }
-
     }
 }
