@@ -1592,11 +1592,3 @@ yyreturn:
 void yyerror(char *s){
     printf("Caracter invalido: %s\n", s);
 }
-
-#ifdef SOLARIS_MAIN
-int main() {
-    yyparse();
-    printf("CADEIA ACEITA!\n");
-    return 0;
-}
-#endif

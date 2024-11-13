@@ -39,9 +39,3 @@ exp:
 void yyerror(char *s){
     printf("Caracter invalido: %s\n", s);
 }
-
-int main(){
-    yyparse();
-    printf("CADEIA ACEITA!\n");
-    return 0;
-}

@@ -6,22 +6,23 @@
 #include <string.h>
 
 // Definição de macros para tipos de tokens
-#define RESERVED_WORD 1
-#define IDENTIFIER    2
-#define NUMBER        3
-#define STRING        4
-#define ARITHMETIC_OP 5
-#define RELATIONAL_OP 6
-#define LOGICAL_OP    7
-#define DELIMITER     8
-#define ASSIGNMENT_OP 9
-#define COMMENT_LINE  10
-#define COMMENT_BLOCK 11
-#define BOOLEAN       12
-#define WHITESPACE    13
-#define NEWLINE       14
-#define UNKNOWN       15
-#define DATA_TYPE     16
+#define LEX_TOKEN_RESERVED_WORD  1
+#define LEX_TOKEN_IDENTIFIER     2
+#define LEX_TOKEN_INTEGER_NUMBER 3
+#define LEX_TOKEN_FLOAT_NUMBER   4
+#define LEX_TOKEN_STRING         5
+#define LEX_TOKEN_ARITHMETIC_OP  6
+#define LEX_TOKEN_RELATIONAL_OP  7
+#define LEX_TOKEN_LOGICAL_OP     8
+#define LEX_TOKEN_DELIMITER      9
+#define LEX_TOKEN_ASSIGNMENT_OP 10
+#define LEX_TOKEN_COMMENT_LINE  11
+#define LEX_TOKEN_COMMENT_BLOCK 12
+#define LEX_TOKEN_BOOLEAN       13
+#define LEX_TOKEN_WHITESPACE    14
+#define LEX_TOKEN_NEWLINE       15
+#define LEX_TOKEN_UNKNOWN       16
+#define LEX_TOKEN_DATA_TYPE     17
 
 // Estrutura para um token
 typedef struct token {

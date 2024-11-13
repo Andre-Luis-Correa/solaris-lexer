@@ -1,8 +1,17 @@
 # ninja log v5
-0	170	7531617165227948	CMakeFiles/untitled1.dir/lexer.c.obj	4cbb63bf91bfdddd
-3	100	7531627430098031	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
-2	214	7531627201961568	CMakeFiles/untitled1.dir/solaris.tab.c.obj	eecb5a0f5327f6cf
-3	236	7531628165179375	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
-1	192	7531628333779616	build.ninja	3fe41b8140a90edd
-2	242	7531628419046000	CMakeFiles/untitled1.dir/solaris.tab.c.obj	eecb5a0f5327f6cf
-243	406	7531628420631035	untitled1.exe	feeb4580db0de1f4
+2	485	7532003369139143	CMakeFiles/untitled1.dir/lexer.c.obj	4cbb63bf91bfdddd
+8	491	7532003369163780	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+129	263	7532006054350434	untitled1.exe	feeb4580db0de1f4
+12	512	7532011881884487	CMakeFiles/untitled1.dir/solaris.tab.c.obj	eecb5a0f5327f6cf
+2	522	7532011881989964	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
+1	192	7532012276208667	build.ninja	3fe41b8140a90edd
+9	105	7532012314744183	CMakeFiles/untitled1.dir/solaris.tab.c.obj	eecb5a0f5327f6cf
+2	134	7532012315031746	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
+2	467	7532014121300128	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+2	126	7532015041667575	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+19	180	7532015042200360	CMakeFiles/untitled1.dir/solaris.tab.c.obj	eecb5a0f5327f6cf
+12	203	7532015042432557	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
+203	419	7532015044509380	untitled1.exe	feeb4580db0de1f4
+2	111	7532019191231493	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+3	89	7532019308645435	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+90	204	7532019309738299	untitled1.exe	feeb4580db0de1f4

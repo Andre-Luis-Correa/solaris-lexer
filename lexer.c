@@ -71,23 +71,24 @@ void freeTokenList(tokenList *head) {
 // Pós-condições: Retorna a string correspondente ao tipo de token.
 const char* getTokenTypeName(int type) {
     switch (type) {
-        case RESERVED_WORD: return "RESERVED_WORD";
-        case IDENTIFIER:    return "IDENTIFIER";
-        case NUMBER:        return "NUMBER";
-        case STRING:        return "STRING";
-        case ARITHMETIC_OP: return "ARITHMETIC_OP";
-        case RELATIONAL_OP: return "RELATIONAL_OP";
-        case LOGICAL_OP:    return "LOGICAL_OP";
-        case DELIMITER:     return "DELIMITER";
-        case ASSIGNMENT_OP: return "ASSIGNMENT_OP";
-        case COMMENT_LINE:  return "COMMENT_LINE";
-        case COMMENT_BLOCK: return "COMMENT_BLOCK";
-        case BOOLEAN:       return "BOOLEAN";
-        case WHITESPACE:    return "WHITESPACE";
-        case NEWLINE:       return "NEWLINE";
-        case DATA_TYPE:     return "DATA_TYPE";
-        case UNKNOWN:       return "UNKNOWN";
-        default:            return "INVALID";
+        case LEX_TOKEN_RESERVED_WORD:  return "RESERVED_WORD";
+        case LEX_TOKEN_IDENTIFIER:     return "IDENTIFIER";
+        case LEX_TOKEN_INTEGER_NUMBER: return "INTEGER_NUMBER";
+        case LEX_TOKEN_FLOAT_NUMBER:   return "FLOAT_NUMBER";
+        case LEX_TOKEN_STRING:         return "STRING";
+        case LEX_TOKEN_ARITHMETIC_OP:  return "ARITHMETIC_OP";
+        case LEX_TOKEN_RELATIONAL_OP:  return "RELATIONAL_OP";
+        case LEX_TOKEN_LOGICAL_OP:     return "LOGICAL_OP";
+        case LEX_TOKEN_DELIMITER:      return "DELIMITER";
+        case LEX_TOKEN_ASSIGNMENT_OP:  return "ASSIGNMENT_OP";
+        case LEX_TOKEN_COMMENT_LINE:   return "COMMENT_LINE";
+        case LEX_TOKEN_COMMENT_BLOCK:  return "COMMENT_BLOCK";
+        case LEX_TOKEN_BOOLEAN:        return "BOOLEAN";
+        case LEX_TOKEN_WHITESPACE:     return "WHITESPACE";
+        case LEX_TOKEN_NEWLINE:        return "NEWLINE";
+        case LEX_TOKEN_DATA_TYPE:      return "DATA_TYPE";
+        case LEX_TOKEN_UNKNOWN:        return "UNKNOWN";
+        default:                   return "INVALID";
     }
 }
 
@@ -115,12 +116,12 @@ void printTokens(const tokenList *head, const char *listName) {
 //   - O token é adicionado à lista de palavras reservadas se 'type' for RESERVED_WORD.
 //   - Caso contrário, o token é adicionado à lista de outros tokens.
 void processToken(int type, const char *text) {
-    if (type != WHITESPACE && type != NEWLINE) {
-        if (type == RESERVED_WORD || type == DATA_TYPE || type == ARITHMETIC_OP || type == RELATIONAL_OP ||
-            type == ASSIGNMENT_OP || type == DELIMITER) {
+    if (type != LEX_TOKEN_WHITESPACE && type != LEX_TOKEN_NEWLINE) {
+        if (type == LEX_TOKEN_RESERVED_WORD || type == LEX_TOKEN_DATA_TYPE || type == LEX_TOKEN_ARITHMETIC_OP || type == LEX_TOKEN_RELATIONAL_OP ||
+            type == LEX_TOKEN_ASSIGNMENT_OP || type == LEX_TOKEN_DELIMITER) {
             addToken(&reservedWordListHead, type, text);  // Adiciona à lista de palavras reservadas
 
-        } else if (type == UNKNOWN) {
+        } else if (type == LEX_TOKEN_UNKNOWN) {
             fprintf(stderr,"\nERRO LEXICO -> %s\n", text); // Imprime erro léxico
             errorFlag = 1; // Seta a flag de erro
 

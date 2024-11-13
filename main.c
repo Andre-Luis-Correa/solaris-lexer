@@ -1,13 +1,20 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "lexer.h"
+#include "solaris.tab.h"
 
-// Flex gera essas variáveis
-extern FILE *yyin;        // Variável externa para o arquivo de entrada do Flex
-extern int yylex();       // Função gerada pelo Flex que realiza a análise léxica
+// Variáveis externas
+extern FILE *yyin;
+extern int yylex();
+extern int yyparse();
+extern int errorFlag;
+extern tokenList *reservedWordListHead;
+extern tokenList *otherTokensListHead;
 
 int main() {
     char filename[256];
 
-    printf("--> Digite o nome do arquivo para analise lexica: ");
+    printf("--> Digite o nome do arquivo para análise léxica e sintática: ");
     scanf("%[^\n]", filename);
 
     FILE *file = fopen(filename, "r");
@@ -17,16 +24,27 @@ int main() {
     }
 
     yyin = file;
-    yylex();
 
-    if(errorFlag == 0) {
-        printTokens(reservedWordListHead, "Palavras Reservadas");
-        printTokens(otherTokensListHead, "Outros Tokens");
+    // Realiza a análise léxica
+    printf("Iniciando análise léxica:\n");
+    while (yylex() != 0);  // Chama yylex() até terminar
+
+    // Imprime os tokens após análise léxica
+    printf("Tokens Identificados:\n");
+    printTokens(reservedWordListHead, "Palavras Reservadas");
+    printTokens(otherTokensListHead, "Outros Tokens");
+
+    // Realiza a análise sintática
+    fseek(file, 0, SEEK_SET); // Reinicia o ponteiro do arquivo
+    if (yyparse() == 0 && errorFlag == 0) {
+        printf("Análise sintática bem-sucedida.\n");
+    } else {
+        printf("Erros encontrados durante a análise.\n");
     }
 
     freeTokenList(reservedWordListHead);
     freeTokenList(otherTokensListHead);
-
     fclose(file);
+
     return 0;
 }
