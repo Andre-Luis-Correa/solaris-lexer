@@ -8,4 +8,5 @@ add_executable(untitled1
         lexer.c
         main.c
         lex.yy.c
+        solaris.tab.c
 )
