@@ -713,21 +713,23 @@ case 2:
 YY_RULE_SETUP
 #line 17 "solaris.l"
 {
+    yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DATA_TYPE, yytext);
     return TOKEN_DATA_TYPE;
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 22 "solaris.l"
+#line 23 "solaris.l"
 {
+    yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_IDENTIFIER, yytext);
     return TOKEN_IDENTIFIER;
 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 27 "solaris.l"
+#line 29 "solaris.l"
 {
     processToken(LEX_TOKEN_INTEGER_NUMBER, yytext);
     return TOKEN_INTEGER_NUMBER;
@@ -735,37 +737,38 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 32 "solaris.l"
+#line 34 "solaris.l"
 {
+    yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DELIMITER, yytext);
-    return ';';
+    return TOKEN_DELIMITER;
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 37 "solaris.l"
+#line 40 "solaris.l"
 {}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 39 "solaris.l"
+#line 42 "solaris.l"
 {
     return *yytext;
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 43 "solaris.l"
+#line 46 "solaris.l"
 {
     yyerror("Caracter invalido\n");
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 47 "solaris.l"
+#line 50 "solaris.l"
 ECHO;
 	YY_BREAK
-#line 769 "lex.yy.c"
+#line 772 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1649,7 +1652,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 47 "solaris.l"
+#line 50 "solaris.l"
 
 
 int yywrap(void) {

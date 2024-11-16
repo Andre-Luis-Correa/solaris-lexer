@@ -15,11 +15,13 @@
 }
 
 "integer"|"float"|"double"|"char"|"string"|"boolean" {
+    yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DATA_TYPE, yytext);
     return TOKEN_DATA_TYPE;
 }
 
 [a-zA-Z_][a-zA-Z0-9_]* {
+    yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_IDENTIFIER, yytext);
     return TOKEN_IDENTIFIER;
 }
@@ -30,8 +32,9 @@
 }
 
 ":"|";"|","|"("|")"|"{"|"}"|"["|"]" {
+    yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DELIMITER, yytext);
-    return ';';
+    return TOKEN_DELIMITER;
 }
 
 [ \t]+ {}

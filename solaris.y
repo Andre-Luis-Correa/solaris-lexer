@@ -6,15 +6,20 @@
     void yyerror(char *s);
 %}
 
+%union {
+    char *str;  // Para armazenar strings
+    int intval; // Para armazenar inteiros, se necessário
+}
+
 %token TOKEN_RESERVED_WORD
-%token TOKEN_IDENTIFIER
+%token <str> TOKEN_IDENTIFIER
 %token TOKEN_INTEGER_NUMBER
 %token TOKEN_FLOAT_NUMBER
 %token TOKEN_STRING
 %token TOKEN_ARITHMETIC_OP
 %token TOKEN_RELATIONAL_OP
 %token TOKEN_LOGICAL_OP
-%token TOKEN_DELIMITER
+%token <str> TOKEN_DELIMITER
 %token TOKEN_ASSIGNMENT_OP
 %token TOKEN_COMMENT_LINE
 %token TOKEN_COMMENT_BLOCK
@@ -22,7 +27,7 @@
 %token TOKEN_WHITESPACE
 %token TOKEN_NEWLINE
 %token TOKEN_UNKNOWN
-%token TOKEN_DATA_TYPE
+%token <str> TOKEN_DATA_TYPE
 
 %%
 
@@ -34,12 +39,12 @@ program:
     ;
 
 variable_declaration:
-    TOKEN_DATA_TYPE TOKEN_IDENTIFIER ';' {
+    TOKEN_DATA_TYPE TOKEN_IDENTIFIER TOKEN_DELIMITER {
         // Define um buffer de tamanho fixo para a string concatenada
         char buffer[256];
 
         // Formata e concatena as strings $1 e $2 no buffer
-        sprintf(buffer, "%s %s;", $1, $2);
+        sprintf(buffer, "%s %s%s", $1, $2, $3);
 
         // Processa a estrutura sintática com a string concatenada
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
