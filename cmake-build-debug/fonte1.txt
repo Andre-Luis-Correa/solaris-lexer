@@ -1,3 +1,1 @@
 integer x;
-float y;
-string name;

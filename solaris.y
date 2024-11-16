@@ -27,24 +27,10 @@
 %%
 
 program:
-    statement_list {
+    program variable_declaration {
         printf("Entrou na regra 'program'.\n");
     }
-    ;
-
-statement_list:
-    statement_list statement '\n' {
-        printf("Entrou na regra 'statement_list' com uma nova statement.\n");
-    }
-    | /* empty */ {
-        printf("Entrou na regra 'statement_list' vazia.\n");
-    }
-    ;
-
-statement:
-    variable_declaration {
-        printf("Entrou na regra 'statement' com uma declaracao de variavel.\n");
-    }
+    |
     ;
 
 variable_declaration:
@@ -62,7 +48,6 @@ variable_declaration:
         printf("Reconheceu uma declaracao de variavel: %s\n", buffer);
     }
     ;
-
 
 %%
 

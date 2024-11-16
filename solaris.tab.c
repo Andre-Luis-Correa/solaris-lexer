@@ -375,18 +375,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  3
+#define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   6
+#define YYLAST   19
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  22
+#define YYNTOKENS  21
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  5
+#define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  6
+#define YYNRULES  4
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  11
+#define YYNSTATES  7
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -399,11 +399,11 @@ union yyalloc
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      20,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,    21,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,    20,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -433,20 +433,20 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     5,     9,    10,    12
+       0,     0,     3,     6,     7
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      23,     0,    -1,    24,    -1,    24,    25,    20,    -1,    -1,
-      26,    -1,    19,     4,    21,    20,    -1
+      22,     0,    -1,    22,    23,    -1,    -1,    19,     4,    20,
+      -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    30,    30,    36,    39,    45,    51
+       0,    30,    30,    33,    37
 };
 #endif
 
@@ -461,8 +461,7 @@ static const char *const yytname[] =
   "TOKEN_LOGICAL_OP", "TOKEN_DELIMITER", "TOKEN_ASSIGNMENT_OP",
   "TOKEN_COMMENT_LINE", "TOKEN_COMMENT_BLOCK", "TOKEN_BOOLEAN",
   "TOKEN_WHITESPACE", "TOKEN_NEWLINE", "TOKEN_UNKNOWN", "TOKEN_DATA_TYPE",
-  "'\\n'", "';'", "$accept", "program", "statement_list", "statement",
-  "variable_declaration", YY_NULL
+  "';'", "$accept", "program", "variable_declaration", YY_NULL
 };
 #endif
 
@@ -473,20 +472,20 @@ static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-      10,    59
+      59
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    22,    23,    24,    24,    25,    26
+       0,    21,    22,    22,    23
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     3,     0,     1,     4
+       0,     2,     2,     0,     3
 };
 
 /* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
@@ -494,14 +493,13 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       4,     0,     2,     1,     0,     0,     5,     0,     3,     0,
-       6
+       3,     0,     1,     0,     2,     0,     4
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     2,     5,     6
+      -1,     1,     4
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
@@ -509,14 +507,13 @@ static const yytype_int8 yydefgoto[] =
 #define YYPACT_NINF -19
 static const yytype_int8 yypact[] =
 {
-     -19,     0,   -18,   -19,    -2,   -17,   -19,   -16,   -19,   -14,
-     -19
+     -19,     0,   -19,    -3,   -19,   -18,   -19
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -19,   -19,   -19,   -19,   -19
+     -19,   -19,   -19
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -525,7 +522,8 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-       3,     4,     7,     8,     0,     9,    10
+       2,     5,     6,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     3
 };
 
 #define yypact_value_is_default(Yystate) \
@@ -536,15 +534,15 @@ static const yytype_uint8 yytable[] =
 
 static const yytype_int8 yycheck[] =
 {
-       0,    19,     4,    20,    -1,    21,    20
+       0,     4,    20,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    19
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    23,    24,     0,    19,    25,    26,     4,    20,    21,
-      20
+       0,    22,     0,    19,    23,     4,    20
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1352,39 +1350,15 @@ yyreduce:
     }
     break;
 
-  case 3:
-/* Line 1792 of yacc.c  */
-#line 36 "solaris.y"
-    {
-        printf("Entrou na regra 'statement_list' com uma nova statement.\n");
-    }
-    break;
-
   case 4:
 /* Line 1792 of yacc.c  */
-#line 39 "solaris.y"
-    {
-        printf("Entrou na regra 'statement_list' vazia.\n");
-    }
-    break;
-
-  case 5:
-/* Line 1792 of yacc.c  */
-#line 45 "solaris.y"
-    {
-        printf("Entrou na regra 'statement' com uma declaracao de variavel.\n");
-    }
-    break;
-
-  case 6:
-/* Line 1792 of yacc.c  */
-#line 51 "solaris.y"
+#line 37 "solaris.y"
     {
         // Define um buffer de tamanho fixo para a string concatenada
         char buffer[256];
 
         // Formata e concatena as strings $1 e $2 no buffer
-        sprintf(buffer, "%s %s;", (yyvsp[(1) - (4)]), (yyvsp[(2) - (4)]));
+        sprintf(buffer, "%s %s;", (yyvsp[(1) - (3)]), (yyvsp[(2) - (3)]));
 
         // Processa a estrutura sintática com a string concatenada
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
@@ -1396,7 +1370,7 @@ yyreduce:
 
 
 /* Line 1792 of yacc.c  */
-#line 1400 "solaris.tab.c"
+#line 1374 "solaris.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1628,7 +1602,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 67 "solaris.y"
+#line 52 "solaris.y"
 
 
 void yyerror(char *s){

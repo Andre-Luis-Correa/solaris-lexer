@@ -25,27 +25,23 @@
 }
 
 [0-9]+ {
-    yylval = atoi(yytext);
     processToken(LEX_TOKEN_INTEGER_NUMBER, yytext);
     return TOKEN_INTEGER_NUMBER;
 }
 
 ":"|";"|","|"("|")"|"{"|"}"|"["|"]" {
     processToken(LEX_TOKEN_DELIMITER, yytext);
+    return ';';
 }
 
-[ \t]+ {
-    processToken(LEX_TOKEN_WHITESPACE, yytext); // Ignorar espaços em branco
-}
+[ \t]+ {}
 
 \n {
-    processToken(LEX_TOKEN_NEWLINE, yytext); // Contabilizar nova linha
+    return *yytext;
 }
 
 . {
-    sprintf(errorMessage, "INVALID CHARACTER: %s na linha %d\n", yytext, yylineno);
-    processToken(LEX_TOKEN_UNKNOWN, errorMessage);
-    return -1;
+    yyerror("Caracter invalido\n");
 }
 
 %%

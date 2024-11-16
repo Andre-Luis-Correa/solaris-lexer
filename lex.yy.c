@@ -729,47 +729,43 @@ case 4:
 YY_RULE_SETUP
 #line 27 "solaris.l"
 {
-    yylval = atoi(yytext);
     processToken(LEX_TOKEN_INTEGER_NUMBER, yytext);
     return TOKEN_INTEGER_NUMBER;
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 33 "solaris.l"
+#line 32 "solaris.l"
 {
     processToken(LEX_TOKEN_DELIMITER, yytext);
+    return ';';
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 37 "solaris.l"
-{
-    processToken(LEX_TOKEN_WHITESPACE, yytext); // Ignorar espaços em branco
-}
+{}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 41 "solaris.l"
+#line 39 "solaris.l"
 {
-    processToken(LEX_TOKEN_NEWLINE, yytext); // Contabilizar nova linha
+    return *yytext;
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 45 "solaris.l"
+#line 43 "solaris.l"
 {
-    sprintf(errorMessage, "INVALID CHARACTER: %s na linha %d\n", yytext, yylineno);
-    processToken(LEX_TOKEN_UNKNOWN, errorMessage);
-    return -1;
+    yyerror("Caracter invalido\n");
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 51 "solaris.l"
+#line 47 "solaris.l"
 ECHO;
 	YY_BREAK
-#line 773 "lex.yy.c"
+#line 769 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1653,7 +1649,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 51 "solaris.l"
+#line 47 "solaris.l"
 
 
 int yywrap(void) {
