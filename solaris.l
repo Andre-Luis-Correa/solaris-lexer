@@ -1,6 +1,8 @@
 %{
     #include "lexer.h"
     #include "solaris.tab.h"
+
+    char errorMessage[256];
 %}
 
 %option yylineno
@@ -28,8 +30,23 @@
     return TOKEN_INTEGER_NUMBER;
 }
 
+":"|";"|","|"("|")"|"{"|"}"|"["|"]" {
+    processToken(LEX_TOKEN_DELIMITER, yytext);
+}
 
-.           { yyerror("Caracter invalido\n"); }
+[ \t]+ {
+    processToken(LEX_TOKEN_WHITESPACE, yytext); // Ignorar espaços em branco
+}
+
+\n {
+    processToken(LEX_TOKEN_NEWLINE, yytext); // Contabilizar nova linha
+}
+
+. {
+    sprintf(errorMessage, "INVALID CHARACTER: %s na linha %d\n", yytext, yylineno);
+    processToken(LEX_TOKEN_UNKNOWN, errorMessage);
+    return -1;
+}
 
 %%
 

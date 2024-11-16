@@ -62,7 +62,7 @@ const char* getSyntacticStructureTypeName(int type) {
 // Imprime todas as estruturas sintáticas da lista
 void printSyntacticStructures(const syntacticStructureList *head, const char *listName) {
     const syntacticStructureList *current = head;
-    printf("\nEstruturas Sintáticas na lista %s:\n", listName);
+    printf("\nEstruturas Sintaticas na lista %s:\n", listName);
     printf("------------------------------\n");
     printf("| %-20s %-10s |\n", "Tipo", "Valor");
     printf("------------------------------\n");

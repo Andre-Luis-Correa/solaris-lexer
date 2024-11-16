@@ -377,7 +377,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   5
+#define YYLAST   6
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  22
@@ -386,7 +386,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  6
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  10
+#define YYNSTATES  11
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -440,13 +440,13 @@ static const yytype_uint8 yyprhs[] =
 static const yytype_int8 yyrhs[] =
 {
       23,     0,    -1,    24,    -1,    24,    25,    20,    -1,    -1,
-      26,    -1,    19,     4,    21,    -1
+      26,    -1,    19,     4,    21,    20,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    30,    30,    34,    35,    39,    43
+       0,    30,    30,    36,    39,    45,    51
 };
 #endif
 
@@ -486,7 +486,7 @@ static const yytype_uint8 yyr1[] =
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     3,     0,     1,     3
+       0,     2,     1,     3,     0,     1,     4
 };
 
 /* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
@@ -494,7 +494,8 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       4,     0,     2,     1,     0,     0,     5,     0,     3,     6
+       4,     0,     2,     1,     0,     0,     5,     0,     3,     0,
+       6
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -508,7 +509,8 @@ static const yytype_int8 yydefgoto[] =
 #define YYPACT_NINF -19
 static const yytype_int8 yypact[] =
 {
-     -19,     0,   -18,   -19,    -2,   -17,   -19,   -16,   -19,   -19
+     -19,     0,   -18,   -19,    -2,   -17,   -19,   -16,   -19,   -14,
+     -19
 };
 
 /* YYPGOTO[NTERM-NUM].  */
@@ -523,7 +525,7 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-       3,     4,     7,     8,     0,     9
+       3,     4,     7,     8,     0,     9,    10
 };
 
 #define yypact_value_is_default(Yystate) \
@@ -534,14 +536,15 @@ static const yytype_uint8 yytable[] =
 
 static const yytype_int8 yycheck[] =
 {
-       0,    19,     4,    20,    -1,    21
+       0,    19,     4,    20,    -1,    21,    20
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    23,    24,     0,    19,    25,    26,     4,    20,    21
+       0,    23,    24,     0,    19,    25,    26,     4,    20,    21,
+      20
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1341,18 +1344,59 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 6:
+        case 2:
 /* Line 1792 of yacc.c  */
-#line 43 "solaris.y"
+#line 30 "solaris.y"
     {
-                                processSyntacticStructure(SYN_VARIABLE_DECLARATION, "int");
-                                printf("Declaracao de variavel: int %s\n", (yyvsp[(2) - (3)]));
-                             }
+        printf("Entrou na regra 'program'.\n");
+    }
+    break;
+
+  case 3:
+/* Line 1792 of yacc.c  */
+#line 36 "solaris.y"
+    {
+        printf("Entrou na regra 'statement_list' com uma nova statement.\n");
+    }
+    break;
+
+  case 4:
+/* Line 1792 of yacc.c  */
+#line 39 "solaris.y"
+    {
+        printf("Entrou na regra 'statement_list' vazia.\n");
+    }
+    break;
+
+  case 5:
+/* Line 1792 of yacc.c  */
+#line 45 "solaris.y"
+    {
+        printf("Entrou na regra 'statement' com uma declaracao de variavel.\n");
+    }
+    break;
+
+  case 6:
+/* Line 1792 of yacc.c  */
+#line 51 "solaris.y"
+    {
+        // Define um buffer de tamanho fixo para a string concatenada
+        char buffer[256];
+
+        // Formata e concatena as strings $1 e $2 no buffer
+        sprintf(buffer, "%s %s;", (yyvsp[(1) - (4)]), (yyvsp[(2) - (4)]));
+
+        // Processa a estrutura sintática com a string concatenada
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        // Imprime a string concatenada para depuração
+        printf("Reconheceu uma declaracao de variavel: %s\n", buffer);
+    }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 1356 "solaris.tab.c"
+#line 1400 "solaris.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1584,7 +1628,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 49 "solaris.y"
+#line 67 "solaris.y"
 
 
 void yyerror(char *s){

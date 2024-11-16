@@ -27,24 +27,42 @@
 %%
 
 program:
-    statement_list
+    statement_list {
+        printf("Entrou na regra 'program'.\n");
+    }
     ;
 
 statement_list:
-    statement_list statement '\n'
-    | /* empty */
+    statement_list statement '\n' {
+        printf("Entrou na regra 'statement_list' com uma nova statement.\n");
+    }
+    | /* empty */ {
+        printf("Entrou na regra 'statement_list' vazia.\n");
+    }
     ;
 
 statement:
-    variable_declaration
+    variable_declaration {
+        printf("Entrou na regra 'statement' com uma declaracao de variavel.\n");
+    }
     ;
 
 variable_declaration:
     TOKEN_DATA_TYPE TOKEN_IDENTIFIER ';' {
-                                processSyntacticStructure(SYN_VARIABLE_DECLARATION, "int");
-                                printf("Declaracao de variavel: int %s\n", $2);
-                             }
+        // Define um buffer de tamanho fixo para a string concatenada
+        char buffer[256];
+
+        // Formata e concatena as strings $1 e $2 no buffer
+        sprintf(buffer, "%s %s;", $1, $2);
+
+        // Processa a estrutura sintática com a string concatenada
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        // Imprime a string concatenada para depuração
+        printf("Reconheceu uma declaracao de variavel: %s\n", buffer);
+    }
     ;
+
 
 %%
 
