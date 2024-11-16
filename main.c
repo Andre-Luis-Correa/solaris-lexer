@@ -2,14 +2,11 @@
 #include <stdlib.h>
 #include "lexer.h"
 #include "solaris.tab.h"
+#include "syntacticAnalysis.h"
 
 // Variáveis externas
 extern FILE *yyin;
 extern int yylex();
-extern int yyparse();
-extern int errorFlag;
-extern tokenList *reservedWordListHead;
-extern tokenList *otherTokensListHead;
 
 int main() {
     char filename[256];
@@ -26,20 +23,21 @@ int main() {
     yyin = file;
 
     // Realiza a análise léxica
-    printf("Iniciando análise léxica:\n");
+    printf("Iniciando analise lexica:\n");
     while (yylex() != 0);  // Chama yylex() até terminar
 
     // Imprime os tokens após análise léxica
     printf("Tokens Identificados:\n");
     printTokens(reservedWordListHead, "Palavras Reservadas");
     printTokens(otherTokensListHead, "Outros Tokens");
+    printSyntacticStructures(syntacticStructureListHead, "Estruturas Sintaticas Reconhecidas");
 
     // Realiza a análise sintática
     fseek(file, 0, SEEK_SET); // Reinicia o ponteiro do arquivo
     if (yyparse() == 0 && errorFlag == 0) {
-        printf("Análise sintática bem-sucedida.\n");
+        printf("Analise sintática bem-sucedida.\n");
     } else {
-        printf("Erros encontrados durante a análise.\n");
+        printf("Erros encontrados durante a analise.\n");
     }
 
     freeTokenList(reservedWordListHead);

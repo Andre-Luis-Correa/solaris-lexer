@@ -73,6 +73,12 @@ build CMakeFiles/untitled1.dir/solaris.tab.c.obj: C_COMPILER__untitled1_unscanne
   OBJECT_DIR = CMakeFiles\untitled1.dir
   OBJECT_FILE_DIR = CMakeFiles\untitled1.dir
 
+build CMakeFiles/untitled1.dir/syntacticAnalysis.c.obj: C_COMPILER__untitled1_unscanned_Debug C$:/Users/andre/CLionProjects/solaris-lexer/syntacticAnalysis.c || cmake_object_order_depends_target_untitled1
+  DEP_FILE = CMakeFiles\untitled1.dir\syntacticAnalysis.c.obj.d
+  FLAGS = -g -std=gnu99 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\untitled1.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled1.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target untitled1
@@ -81,7 +87,7 @@ build CMakeFiles/untitled1.dir/solaris.tab.c.obj: C_COMPILER__untitled1_unscanne
 #############################################
 # Link the executable untitled1.exe
 
-build untitled1.exe: C_EXECUTABLE_LINKER__untitled1_Debug CMakeFiles/untitled1.dir/lexer.c.obj CMakeFiles/untitled1.dir/main.c.obj CMakeFiles/untitled1.dir/lex.yy.c.obj CMakeFiles/untitled1.dir/solaris.tab.c.obj
+build untitled1.exe: C_EXECUTABLE_LINKER__untitled1_Debug CMakeFiles/untitled1.dir/lexer.c.obj CMakeFiles/untitled1.dir/main.c.obj CMakeFiles/untitled1.dir/lex.yy.c.obj CMakeFiles/untitled1.dir/solaris.tab.c.obj CMakeFiles/untitled1.dir/syntacticAnalysis.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\untitled1.dir

@@ -9,4 +9,6 @@ add_executable(untitled1
         main.c
         lex.yy.c
         solaris.tab.c
+        syntacticAnalysis.h
+        syntacticAnalysis.c
 )
