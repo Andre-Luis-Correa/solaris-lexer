@@ -3,6 +3,9 @@ string name;
 string oldName;
 float y;
 
+integer num = 5 + 9;
+integer total = 0;
+
 y = (5 + 9) * (9 + (9/2) * 9) && 1;
 oldName = name;
 
@@ -22,4 +25,18 @@ choose ( oldName == Name ) {
     }
 } otherwise {
     x = 5;
+}
+
+integer counter = 0;
+
+while (counter <= 8 && (counter != 9)) {
+    counter = counter + 1;
+
+    choose (counter == 8) {
+
+    }
+}
+
+loop (integer i = 3) until ( i <= 5) {
+    x = 90;
 }

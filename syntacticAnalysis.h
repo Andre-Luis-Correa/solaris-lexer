@@ -13,8 +13,8 @@
 #define SYN_LOGICAL_OPERATION          5
 #define SYN_CONDITIONAL_CHOOSE         6
 #define SYN_CONDITIONAL_CHOOSE_OTHERWISE      7
-#define SYN_LOOP_UNTIL                 8
-#define SYN_LOOP_FOREACH               9
+#define SYN_LOOP                     8
+#define SYN_LOOP_WHILE               9
 #define SYN_STRING                    10
 #define SYN_WRITE_DATA                11
 #define SYN_READ_DATA                 12

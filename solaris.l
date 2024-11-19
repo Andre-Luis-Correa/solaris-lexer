@@ -21,7 +21,25 @@
     return TOKEN_CONDITIONAL_OTHERWISE;
 }
 
-"loop"|"until"|"show"|"define"|"result"|"function"|"receive"|"execute"|"call"|"and"|"or"|"not" {
+"loop" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_LOOP;
+}
+
+"until" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_LOOP_UNTIL;
+}
+
+"while" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_LOOP_WHILE;
+}
+
+"show"|"define"|"result"|"function"|"receive"|"execute"|"call"|"and"|"or"|"not" {
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
     return TOKEN_RESERVED_WORD;
 }
