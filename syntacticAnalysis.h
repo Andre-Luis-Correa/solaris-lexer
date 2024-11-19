@@ -10,7 +10,7 @@
 #define SYN_ASSIGNMENT                 2
 #define SYN_ARITHMETIC_OPERATION       3
 #define SYN_RELATIONAL_OPERATION       4
-#define SYN_COMBINED_LOGICAL_OPERATION 5
+#define SYN_LOGICAL_OPERATION          5
 #define SYN_ONLY_IF                    6
 #define SYN_IF_ELSE                    7
 #define SYN_LOOP_UNTIL                 8

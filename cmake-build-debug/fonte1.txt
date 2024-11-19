@@ -1,1 +1,32 @@
 integer x;
+string name;
+string oldName;
+float y;
+
++
+>=
+&&
+
+name = "Joao";
+x = 5;
+oldName = name;
+y = 0.939393;
+
+
+choose (y <= 0) {
+    show "Y é menor ou igual a 0!";
+}
+
+choose (name == "Joao") {
+    choose (x == 5) {
+         show "X é igual a 5!";
+    };
+    show "Nome é Joao!";
+} otherwise {
+    choose (nome == "Aline") {
+        show "O nome é Aline.";
+    } otherwise {
+        show "O nome não é João.";
+    }
+};
+

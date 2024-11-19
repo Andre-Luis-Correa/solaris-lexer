@@ -45,7 +45,7 @@ const char* getSyntacticStructureTypeName(int type) {
         case SYN_ASSIGNMENT:                 return "ASSIGNMENT";
         case SYN_ARITHMETIC_OPERATION:       return "ARITHMETIC_OPERATION";
         case SYN_RELATIONAL_OPERATION:       return "RELATIONAL_OPERATION";
-        case SYN_COMBINED_LOGICAL_OPERATION: return "COMBINED_LOGICAL_OPERATION";
+        case SYN_LOGICAL_OPERATION:          return "LOGICAL_OPERATION";
         case SYN_ONLY_IF:                    return "ONLY_IF";
         case SYN_IF_ELSE:                    return "IF_ELSE";
         case SYN_LOOP_UNTIL:                 return "LOOP_UNTIL";

@@ -67,12 +67,13 @@
 
     #include <stdio.h>
     #include "syntacticAnalysis.h"
+    #define MAXBUFFER 1000
 
     int yylex(void);
     void yyerror(char *s);
 
 /* Line 371 of yacc.c  */
-#line 76 "solaris.tab.c"
+#line 77 "solaris.tab.c"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -133,14 +134,14 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 387 of yacc.c  */
-#line 9 "solaris.y"
+#line 10 "solaris.y"
 
     char *str;  // Para armazenar strings
     int intval; // Para armazenar inteiros, se necessário
 
 
 /* Line 387 of yacc.c  */
-#line 144 "solaris.tab.c"
+#line 145 "solaris.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -168,7 +169,7 @@ int yyparse ();
 /* Copy the second part of user declarations.  */
 
 /* Line 390 of yacc.c  */
-#line 172 "solaris.tab.c"
+#line 173 "solaris.tab.c"
 
 #ifdef short
 # undef short
@@ -388,16 +389,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   19
+#define YYLAST   21
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  20
+#define YYNTOKENS  21
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  3
+#define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  4
+#define YYNRULES  14
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  7
+#define YYNSTATES  26
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -410,7 +411,7 @@ union yyalloc
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      20,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -444,20 +445,25 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     6,     7
+       0,     0,     3,     7,    11,    15,    18,    19,    23,    28,
+      33,    38,    43,    45,    47
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      21,     0,    -1,    21,    22,    -1,    -1,    19,     4,    11,
-      -1
+      22,     0,    -1,    22,    23,    20,    -1,    22,    24,    20,
+      -1,    22,    25,    20,    -1,    22,    20,    -1,    -1,    19,
+       4,    11,    -1,     4,    12,     4,    11,    -1,     4,    12,
+       7,    11,    -1,     4,    12,     5,    11,    -1,     4,    12,
+       6,    11,    -1,     8,    -1,     9,    -1,    10,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    35,    35,    38,    42
+       0,    36,    36,    37,    38,    39,    40,    44,    52,    57,
+      62,    67,    75,    80,    85
 };
 #endif
 
@@ -472,7 +478,8 @@ static const char *const yytname[] =
   "TOKEN_LOGICAL_OP", "TOKEN_DELIMITER", "TOKEN_ASSIGNMENT_OP",
   "TOKEN_COMMENT_LINE", "TOKEN_COMMENT_BLOCK", "TOKEN_BOOLEAN",
   "TOKEN_WHITESPACE", "TOKEN_NEWLINE", "TOKEN_UNKNOWN", "TOKEN_DATA_TYPE",
-  "$accept", "program", "variable_declaration", YY_NULL
+  "'\\n'", "$accept", "program", "variable_declaration", "assignment",
+  "operators", YY_NULL
 };
 #endif
 
@@ -482,20 +489,23 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,   270,   271,   272,   273,   274
+     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
+      10
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    20,    21,    21,    22
+       0,    21,    22,    22,    22,    22,    22,    23,    24,    24,
+      24,    24,    25,    25,    25
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     2,     0,     3
+       0,     2,     3,     3,     3,     2,     0,     3,     4,     4,
+       4,     4,     1,     1,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
@@ -503,27 +513,31 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     0,     1,     0,     2,     0,     4
+       6,     0,     1,     0,    12,    13,    14,     0,     5,     0,
+       0,     0,     0,     0,     2,     3,     4,     0,     0,     0,
+       0,     7,     8,    10,    11,     9
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     4
+      -1,     1,     9,    10,    11
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -10
+#define YYPACT_NINF -18
 static const yytype_int8 yypact[] =
 {
-     -10,     0,   -10,    -3,   -10,    -9,   -10
+     -18,     0,   -18,   -11,   -18,   -18,   -18,    -2,   -18,   -17,
+     -15,   -14,     7,    -4,   -18,   -18,   -18,     4,     5,     6,
+      10,   -18,   -18,   -18,   -18,   -18
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -10,   -10,   -10
+     -18,   -18,   -18,   -18,   -18
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -532,27 +546,31 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-       2,     5,     6,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     3
+       2,    12,    13,    14,     3,    15,    16,    21,     4,     5,
+       6,    17,    18,    19,    20,    22,    23,    24,     0,     7,
+       8,    25
 };
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-10)))
+  (!!((Yystate) == (-18)))
 
 #define yytable_value_is_error(Yytable_value) \
   YYID (0)
 
 static const yytype_int8 yycheck[] =
 {
-       0,     4,    11,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    19
+       0,    12,     4,    20,     4,    20,    20,    11,     8,     9,
+      10,     4,     5,     6,     7,    11,    11,    11,    -1,    19,
+      20,    11
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    21,     0,    19,    22,     4,    11
+       0,    22,     0,     4,     8,     9,    10,    19,    20,    23,
+      24,    25,    12,     4,    20,    20,    20,     4,     5,     6,
+       7,    11,    11,    11,    11,    11
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1352,35 +1370,89 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 2:
+        case 7:
 /* Line 1792 of yacc.c  */
-#line 35 "solaris.y"
+#line 44 "solaris.y"
     {
-        printf("Entrou na regra 'program'.\n");
-    }
-    break;
-
-  case 4:
-/* Line 1792 of yacc.c  */
-#line 42 "solaris.y"
-    {
-        // Define um buffer de tamanho fixo para a string concatenada
-        char buffer[256];
-
-        // Formata e concatena as strings $1 e $2 no buffer
+        char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s%s", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].str));
-
-        // Processa a estrutura sintática com a string concatenada
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+    }
+    break;
 
-        // Imprime a string concatenada para depuração
-        printf("Reconheceu uma declaracao de variavel: %s\n", buffer);
+  case 8:
+/* Line 1792 of yacc.c  */
+#line 52 "solaris.y"
+    {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s%s", (yyvsp[(1) - (4)].str), (yyvsp[(2) - (4)].str), (yyvsp[(3) - (4)].str), (yyvsp[(4) - (4)].str));
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+    }
+    break;
+
+  case 9:
+/* Line 1792 of yacc.c  */
+#line 57 "solaris.y"
+    {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s%s", (yyvsp[(1) - (4)].str), (yyvsp[(2) - (4)].str), (yyvsp[(3) - (4)].str), (yyvsp[(4) - (4)].str));
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+    }
+    break;
+
+  case 10:
+/* Line 1792 of yacc.c  */
+#line 62 "solaris.y"
+    {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s%s", (yyvsp[(1) - (4)].str), (yyvsp[(2) - (4)].str), (yyvsp[(3) - (4)].str), (yyvsp[(4) - (4)].str));
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+    }
+    break;
+
+  case 11:
+/* Line 1792 of yacc.c  */
+#line 67 "solaris.y"
+    {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s%s", (yyvsp[(1) - (4)].str), (yyvsp[(2) - (4)].str), (yyvsp[(3) - (4)].str), (yyvsp[(4) - (4)].str));
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+    }
+    break;
+
+  case 12:
+/* Line 1792 of yacc.c  */
+#line 75 "solaris.y"
+    {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s", (yyvsp[(1) - (1)].str));
+        processSyntacticStructure(SYN_ARITHMETIC_OPERATION, buffer);
+    }
+    break;
+
+  case 13:
+/* Line 1792 of yacc.c  */
+#line 80 "solaris.y"
+    {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s", (yyvsp[(1) - (1)].str));
+        processSyntacticStructure(SYN_RELATIONAL_OPERATION, buffer);
+    }
+    break;
+
+  case 14:
+/* Line 1792 of yacc.c  */
+#line 85 "solaris.y"
+    {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s", (yyvsp[(1) - (1)].str));
+        processSyntacticStructure(SYN_LOGICAL_OPERATION, buffer);
     }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 1384 "solaris.tab.c"
+#line 1456 "solaris.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1612,7 +1684,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 57 "solaris.y"
+#line 91 "solaris.y"
 
 
 void yyerror(char *s){

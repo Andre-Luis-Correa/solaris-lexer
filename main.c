@@ -11,7 +11,7 @@ extern int yylex();
 int main() {
     char filename[256];
 
-    printf("--> Digite o nome do arquivo para analise lexica e sintatica: ");
+    printf("--> Digite o nome do arquivo para analise lexica e sintatica:  ");
     scanf("%[^\n]", filename);
 
     FILE *file = fopen(filename, "r");

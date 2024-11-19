@@ -26,9 +26,56 @@
     return TOKEN_IDENTIFIER;
 }
 
+[0-9]+\.[0-9]+ {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_FLOAT_NUMBER, yytext);
+    return TOKEN_FLOAT_NUMBER;
+}
+
 [0-9]+ {
+    yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_INTEGER_NUMBER, yytext);
     return TOKEN_INTEGER_NUMBER;
+}
+
+\"([^\"\n\\]|\\.)*\" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_STRING, yytext);
+    return TOKEN_STRING;
+}
+
+"+"|"-"|"*"|"/"|"%" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_ARITHMETIC_OP, yytext);
+    return TOKEN_ARITHMETIC_OP;
+}
+
+"=="|"!="|"<="|">="|"<"|">" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RELATIONAL_OP, yytext);
+    return TOKEN_RELATIONAL_OP;
+}
+
+"&&" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_LOGICAL_OP, yytext);
+    return TOKEN_LOGICAL_OP;
+}
+"||" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_LOGICAL_OP, yytext);
+    return TOKEN_LOGICAL_OP;
+}
+"!" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_LOGICAL_OP, yytext);
+    return TOKEN_LOGICAL_OP;
+}
+
+"=" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_ASSIGNMENT_OP, yytext);
+    return TOKEN_ASSIGNMENT_OP;
 }
 
 ":"|";"|","|"("|")"|"{"|"}"|"["|"]" {
