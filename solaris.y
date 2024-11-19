@@ -30,12 +30,18 @@
 %token TOKEN_UNKNOWN
 %token <str> TOKEN_DATA_TYPE
 
+%type <str> expression
+
+%left TOKEN_LOGICAL_OP
+%left TOKEN_RELATIONAL_OP
+%left TOKEN_ARITHMETIC_OP
+
 %%
 
 program:
     program variable_declaration '\n'
     | program assignment '\n'
-    | program operators '\n'
+    | program expression '\n'
     | program '\n'
     |
     ;
@@ -71,23 +77,41 @@ assignment:
     }
     ;
 
-operators:
-    TOKEN_ARITHMETIC_OP {
+expression:
+    expression TOKEN_ARITHMETIC_OP expression {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s", $1);
+        sprintf(buffer, "%s %s %s", $1, $2, $3);
         processSyntacticStructure(SYN_ARITHMETIC_OPERATION, buffer);
+        $$ = strdup(buffer);
     }
-    | TOKEN_RELATIONAL_OP {
+    | expression TOKEN_RELATIONAL_OP expression {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s", $1);
+        sprintf(buffer, "%s %s %s", $1, $2, $3);
         processSyntacticStructure(SYN_RELATIONAL_OPERATION, buffer);
+        $$ = strdup(buffer);
     }
-    | TOKEN_LOGICAL_OP {
+    | expression TOKEN_LOGICAL_OP expression {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s", $1);
-        processSyntacticStructure(SYN_COMBINED_LOGICAL_OPERATION, buffer);
+        sprintf(buffer, "%s %s %s", $1, $2, $3);
+        processSyntacticStructure(SYN_LOGICAL_OPERATION, buffer);
+        $$ = strdup(buffer);
+    }
+    | TOKEN_DELIMITER expression TOKEN_DELIMITER {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s", $1, $2, $3);
+        $$ = strdup(buffer);
+    }
+    | TOKEN_IDENTIFIER {
+        $$ = strdup($1); // Identificadores
+    }
+    | TOKEN_INTEGER_NUMBER {
+        $$ = strdup($1); // Números inteiros
+    }
+    | TOKEN_FLOAT_NUMBER {
+        $$ = strdup($1); // Números flutuantes
     }
     ;
+
 %%
 
 void yyerror(char *s){
