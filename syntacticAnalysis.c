@@ -50,7 +50,7 @@ const char* getSyntacticStructureTypeName(int type) {
         case SYN_CONDITIONAL_CHOOSE_OTHERWISE:                    return "CONDITIONAL_CHOOOSE_OTHERWISE";
         case SYN_LOOP:                       return "LOOP";
         case SYN_LOOP_WHILE:                 return "LOOP_WHILE";
-        case SYN_STRING:                     return "STRING";
+        case SYN_STRING_DECLARATION:                     return "STRING_DECLARATION";
         case SYN_WRITE_DATA:                 return "WRITE_DATA";
         case SYN_READ_DATA:                  return "READ_DATA";
         case SYN_LIBRARIES_INCLUSION:        return "LIBRARIES_INCLUSION";

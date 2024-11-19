@@ -44,7 +44,13 @@
     return TOKEN_RESERVED_WORD;
 }
 
-"integer"|"float"|"double"|"char"|"string"|"boolean" {
+"string" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    return TOKEN_DATA_TYPE_STRING;
+}
+
+"integer"|"float"|"double"|"char"|"boolean" {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DATA_TYPE, yytext);
     return TOKEN_DATA_TYPE;

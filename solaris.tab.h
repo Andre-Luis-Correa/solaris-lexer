@@ -62,8 +62,9 @@ extern int yydebug;
      TOKEN_LOOP_UNTIL = 271,
      TOKEN_LOOP_WHILE = 272,
      TOKEN_DATA_TYPE = 273,
-     TOKEN_BOOLEAN = 274,
-     TOKEN_UNKNOWN = 275
+     TOKEN_DATA_TYPE_STRING = 274,
+     TOKEN_BOOLEAN = 275,
+     TOKEN_UNKNOWN = 276
    };
 #endif
 
@@ -79,7 +80,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 83 "solaris.tab.h"
+#line 84 "solaris.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -28,6 +28,7 @@
 %token <str> TOKEN_LOOP_UNTIL
 %token <str> TOKEN_LOOP_WHILE
 %token <str> TOKEN_DATA_TYPE
+%token <str> TOKEN_DATA_TYPE_STRING
 
 %token TOKEN_BOOLEAN
 %token TOKEN_UNKNOWN
@@ -71,6 +72,18 @@ variable_declaration:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s", $1, $2);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+        $$ = strdup(buffer);
+    }
+    | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_STRING_DECLARATION, buffer);
+        $$ = strdup(buffer);
+    }
+    | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
+        processSyntacticStructure(SYN_STRING_DECLARATION, buffer);
         $$ = strdup(buffer);
     }
     ;
