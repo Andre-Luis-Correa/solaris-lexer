@@ -3,11 +3,12 @@ string name;
 string oldName;
 float y;
 
-5+5
-
-(5+5) == (10)
+y = (5 + 9) * (9 + (9/2) * 9) && 1;
+oldName = name;
 
 name = "Joao";
 x = 5;
 oldName = name;
 y = 0.939393;
+
+choose ( oldName == Name ) { }

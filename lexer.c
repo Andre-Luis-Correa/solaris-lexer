@@ -71,7 +71,7 @@ void freeTokenList(tokenList *head) {
 // Pós-condições: Retorna a string correspondente ao tipo de token.
 const char* getTokenTypeName(int type) {
     switch (type) {
-        case LEX_TOKEN_RESERVED_WORD:  return "RESERVED_WORD";
+        case LEX_TOKEN_RESERVED_WORD:               return "RESERVED_WORD";
         case LEX_TOKEN_IDENTIFIER:     return "IDENTIFIER";
         case LEX_TOKEN_INTEGER_NUMBER: return "INTEGER_NUMBER";
         case LEX_TOKEN_FLOAT_NUMBER:   return "FLOAT_NUMBER";
@@ -84,10 +84,10 @@ const char* getTokenTypeName(int type) {
         case LEX_TOKEN_COMMENT_LINE:   return "COMMENT_LINE";
         case LEX_TOKEN_COMMENT_BLOCK:  return "COMMENT_BLOCK";
         case LEX_TOKEN_BOOLEAN:        return "BOOLEAN";
-        case LEX_TOKEN_WHITESPACE:     return "WHITESPACE";
-        case LEX_TOKEN_NEWLINE:        return "NEWLINE";
-        case LEX_TOKEN_DATA_TYPE:      return "DATA_TYPE";
-        case LEX_TOKEN_UNKNOWN:        return "UNKNOWN";
+        case LEX_TOKEN_WHITESPACE:                return "WHITESPACE";
+        case LEX_TOKEN_NEWLINE:                   return "NEWLINE";
+        case LEX_TOKEN_DATA_TYPE:                 return "DATA_TYPE";
+        case LEX_TOKEN_UNKNOWN:                   return "UNKNOWN";
         default:                   return "INVALID";
     }
 }

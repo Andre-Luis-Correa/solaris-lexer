@@ -56,13 +56,11 @@ extern int yydebug;
      TOKEN_LOGICAL_OP = 265,
      TOKEN_DELIMITER = 266,
      TOKEN_ASSIGNMENT_OP = 267,
-     TOKEN_COMMENT_LINE = 268,
-     TOKEN_COMMENT_BLOCK = 269,
+     TOKEN_CONDITIONAL_CHOOSE = 268,
+     TOKEN_CONDITIONAL_OTHERWISE = 269,
      TOKEN_BOOLEAN = 270,
-     TOKEN_WHITESPACE = 271,
-     TOKEN_NEWLINE = 272,
-     TOKEN_UNKNOWN = 273,
-     TOKEN_DATA_TYPE = 274
+     TOKEN_UNKNOWN = 271,
+     TOKEN_DATA_TYPE = 272
    };
 #endif
 
@@ -78,7 +76,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 82 "solaris.tab.h"
+#line 80 "solaris.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

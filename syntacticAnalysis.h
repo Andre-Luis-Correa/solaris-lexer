@@ -11,8 +11,8 @@
 #define SYN_ARITHMETIC_OPERATION       3
 #define SYN_RELATIONAL_OPERATION       4
 #define SYN_LOGICAL_OPERATION          5
-#define SYN_ONLY_IF                    6
-#define SYN_IF_ELSE                    7
+#define SYN_CONDITIONAL_CHOOSE         6
+#define SYN_CONDITIONAL_OTHERWISE      7
 #define SYN_LOOP_UNTIL                 8
 #define SYN_LOOP_FOREACH               9
 #define SYN_STRING                    10

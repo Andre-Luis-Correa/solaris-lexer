@@ -9,7 +9,19 @@
 
 %%
 
-"loop"|"until"|"show"|"define"|"result"|"choose"|"otherwise"|"function"|"receive"|"execute"|"call"|"and"|"or"|"not" {
+"choose" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_CONDITIONAL_CHOOSE;
+}
+
+"otherwise" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_CONDITIONAL_OTHERWISE;
+}
+
+"loop"|"until"|"show"|"define"|"result"|"function"|"receive"|"execute"|"call"|"and"|"or"|"not" {
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
     return TOKEN_RESERVED_WORD;
 }
@@ -56,17 +68,7 @@
     return TOKEN_RELATIONAL_OP;
 }
 
-"&&" {
-    yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_LOGICAL_OP, yytext);
-    return TOKEN_LOGICAL_OP;
-}
-"||" {
-    yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_LOGICAL_OP, yytext);
-    return TOKEN_LOGICAL_OP;
-}
-"!" {
+"&&"|"||"|"!" {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_LOGICAL_OP, yytext);
     return TOKEN_LOGICAL_OP;
@@ -78,7 +80,13 @@
     return TOKEN_ASSIGNMENT_OP;
 }
 
-":"|";"|","|"("|")"|"{"|"}"|"["|"]" {
+";"|"("|")"|"{"|"}" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_DELIMITER, yytext);
+    return * yytext;
+}
+
+":"|","|"{"|"}"|"["|"]" {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DELIMITER, yytext);
     return TOKEN_DELIMITER;

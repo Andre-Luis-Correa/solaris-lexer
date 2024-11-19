@@ -1,0 +1,439 @@
+Terminals unused in grammar
+
+   TOKEN_RESERVED_WORD
+   TOKEN_DELIMITER
+   TOKEN_COMMENT_LINE
+   TOKEN_COMMENT_BLOCK
+   TOKEN_BOOLEAN
+   TOKEN_WHITESPACE
+   TOKEN_NEWLINE
+   TOKEN_UNKNOWN
+
+
+State 22 conflicts: 1 shift/reduce
+State 23 conflicts: 1 shift/reduce
+State 24 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: program variable_declaration '\n'
+    2        | program assignment '\n'
+    3        | program expression '\n'
+    4        | program '\n'
+    5        | /* empty */
+
+    6 variable_declaration: TOKEN_DATA_TYPE TOKEN_IDENTIFIER ';'
+
+    7 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';'
+    8           | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';'
+    9           | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER ';'
+   10           | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER ';'
+   11           | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression ';'
+
+   12 expression: expression TOKEN_ARITHMETIC_OP expression
+   13           | expression TOKEN_RELATIONAL_OP expression
+   14           | expression TOKEN_LOGICAL_OP expression
+   15           | '(' expression ')'
+   16           | TOKEN_IDENTIFIER
+   17           | TOKEN_INTEGER_NUMBER
+   18           | TOKEN_FLOAT_NUMBER
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'\n' (10) 1 2 3 4
+'(' (40) 15
+')' (41) 15
+';' (59) 6 7 8 9 10 11
+error (256)
+TOKEN_RESERVED_WORD (258)
+TOKEN_IDENTIFIER (259) 6 7 8 9 10 11 16
+TOKEN_INTEGER_NUMBER (260) 9 17
+TOKEN_FLOAT_NUMBER (261) 10 18
+TOKEN_STRING (262) 8
+TOKEN_ARITHMETIC_OP (263) 12
+TOKEN_RELATIONAL_OP (264) 13
+TOKEN_LOGICAL_OP (265) 14
+TOKEN_DELIMITER (266)
+TOKEN_ASSIGNMENT_OP (267) 7 8 9 10 11
+TOKEN_COMMENT_LINE (268)
+TOKEN_COMMENT_BLOCK (269)
+TOKEN_BOOLEAN (270)
+TOKEN_WHITESPACE (271)
+TOKEN_NEWLINE (272)
+TOKEN_UNKNOWN (273)
+TOKEN_DATA_TYPE (274) 6
+
+
+Nonterminals, with rules where they appear
+
+$accept (24)
+    on left: 0
+program (25)
+    on left: 1 2 3 4 5, on right: 0 1 2 3 4
+variable_declaration (26)
+    on left: 6, on right: 1
+assignment (27)
+    on left: 7 8 9 10 11, on right: 2
+expression (28)
+    on left: 12 13 14 15 16 17 18, on right: 3 11 12 13 14 15
+
+
+State 0
+
+    0 $accept: . program $end
+
+    $default  reduce using rule 5 (program)
+
+    program  go to state 1
+
+
+State 1
+
+    0 $accept: program . $end
+    1 program: program . variable_declaration '\n'
+    2        | program . assignment '\n'
+    3        | program . expression '\n'
+    4        | program . '\n'
+
+    $end                  shift, and go to state 2
+    TOKEN_IDENTIFIER      shift, and go to state 3
+    TOKEN_INTEGER_NUMBER  shift, and go to state 4
+    TOKEN_FLOAT_NUMBER    shift, and go to state 5
+    TOKEN_DATA_TYPE       shift, and go to state 6
+    '\n'                  shift, and go to state 7
+    '('                   shift, and go to state 8
+
+    variable_declaration  go to state 9
+    assignment            go to state 10
+    expression            go to state 11
+
+
+State 2
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 3
+
+    7 assignment: TOKEN_IDENTIFIER . TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';'
+    8           | TOKEN_IDENTIFIER . TOKEN_ASSIGNMENT_OP TOKEN_STRING ';'
+    9           | TOKEN_IDENTIFIER . TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER ';'
+   10           | TOKEN_IDENTIFIER . TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER ';'
+   11           | TOKEN_IDENTIFIER . TOKEN_ASSIGNMENT_OP expression ';'
+   16 expression: TOKEN_IDENTIFIER .
+
+    TOKEN_ASSIGNMENT_OP  shift, and go to state 12
+
+    $default  reduce using rule 16 (expression)
+
+
+State 4
+
+   17 expression: TOKEN_INTEGER_NUMBER .
+
+    $default  reduce using rule 17 (expression)
+
+
+State 5
+
+   18 expression: TOKEN_FLOAT_NUMBER .
+
+    $default  reduce using rule 18 (expression)
+
+
+State 6
+
+    6 variable_declaration: TOKEN_DATA_TYPE . TOKEN_IDENTIFIER ';'
+
+    TOKEN_IDENTIFIER  shift, and go to state 13
+
+
+State 7
+
+    4 program: program '\n' .
+
+    $default  reduce using rule 4 (program)
+
+
+State 8
+
+   15 expression: '(' . expression ')'
+
+    TOKEN_IDENTIFIER      shift, and go to state 14
+    TOKEN_INTEGER_NUMBER  shift, and go to state 4
+    TOKEN_FLOAT_NUMBER    shift, and go to state 5
+    '('                   shift, and go to state 8
+
+    expression  go to state 15
+
+
+State 9
+
+    1 program: program variable_declaration . '\n'
+
+    '\n'  shift, and go to state 16
+
+
+State 10
+
+    2 program: program assignment . '\n'
+
+    '\n'  shift, and go to state 17
+
+
+State 11
+
+    3 program: program expression . '\n'
+   12 expression: expression . TOKEN_ARITHMETIC_OP expression
+   13           | expression . TOKEN_RELATIONAL_OP expression
+   14           | expression . TOKEN_LOGICAL_OP expression
+
+    TOKEN_ARITHMETIC_OP  shift, and go to state 18
+    TOKEN_RELATIONAL_OP  shift, and go to state 19
+    TOKEN_LOGICAL_OP     shift, and go to state 20
+    '\n'                 shift, and go to state 21
+
+
+State 12
+
+    7 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP . TOKEN_IDENTIFIER ';'
+    8           | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP . TOKEN_STRING ';'
+    9           | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP . TOKEN_INTEGER_NUMBER ';'
+   10           | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP . TOKEN_FLOAT_NUMBER ';'
+   11           | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP . expression ';'
+
+    TOKEN_IDENTIFIER      shift, and go to state 22
+    TOKEN_INTEGER_NUMBER  shift, and go to state 23
+    TOKEN_FLOAT_NUMBER    shift, and go to state 24
+    TOKEN_STRING          shift, and go to state 25
+    '('                   shift, and go to state 8
+
+    expression  go to state 26
+
+
+State 13
+
+    6 variable_declaration: TOKEN_DATA_TYPE TOKEN_IDENTIFIER . ';'
+
+    ';'  shift, and go to state 27
+
+
+State 14
+
+   16 expression: TOKEN_IDENTIFIER .
+
+    $default  reduce using rule 16 (expression)
+
+
+State 15
+
+   12 expression: expression . TOKEN_ARITHMETIC_OP expression
+   13           | expression . TOKEN_RELATIONAL_OP expression
+   14           | expression . TOKEN_LOGICAL_OP expression
+   15           | '(' expression . ')'
+
+    TOKEN_ARITHMETIC_OP  shift, and go to state 18
+    TOKEN_RELATIONAL_OP  shift, and go to state 19
+    TOKEN_LOGICAL_OP     shift, and go to state 20
+    ')'                  shift, and go to state 28
+
+
+State 16
+
+    1 program: program variable_declaration '\n' .
+
+    $default  reduce using rule 1 (program)
+
+
+State 17
+
+    2 program: program assignment '\n' .
+
+    $default  reduce using rule 2 (program)
+
+
+State 18
+
+   12 expression: expression TOKEN_ARITHMETIC_OP . expression
+
+    TOKEN_IDENTIFIER      shift, and go to state 14
+    TOKEN_INTEGER_NUMBER  shift, and go to state 4
+    TOKEN_FLOAT_NUMBER    shift, and go to state 5
+    '('                   shift, and go to state 8
+
+    expression  go to state 29
+
+
+State 19
+
+   13 expression: expression TOKEN_RELATIONAL_OP . expression
+
+    TOKEN_IDENTIFIER      shift, and go to state 14
+    TOKEN_INTEGER_NUMBER  shift, and go to state 4
+    TOKEN_FLOAT_NUMBER    shift, and go to state 5
+    '('                   shift, and go to state 8
+
+    expression  go to state 30
+
+
+State 20
+
+   14 expression: expression TOKEN_LOGICAL_OP . expression
+
+    TOKEN_IDENTIFIER      shift, and go to state 14
+    TOKEN_INTEGER_NUMBER  shift, and go to state 4
+    TOKEN_FLOAT_NUMBER    shift, and go to state 5
+    '('                   shift, and go to state 8
+
+    expression  go to state 31
+
+
+State 21
+
+    3 program: program expression '\n' .
+
+    $default  reduce using rule 3 (program)
+
+
+State 22
+
+    7 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER . ';'
+   16 expression: TOKEN_IDENTIFIER .
+
+    ';'  shift, and go to state 32
+
+    ';'       [reduce using rule 16 (expression)]
+    $default  reduce using rule 16 (expression)
+
+
+State 23
+
+    9 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER . ';'
+   17 expression: TOKEN_INTEGER_NUMBER .
+
+    ';'  shift, and go to state 33
+
+    ';'       [reduce using rule 17 (expression)]
+    $default  reduce using rule 17 (expression)
+
+
+State 24
+
+   10 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER . ';'
+   18 expression: TOKEN_FLOAT_NUMBER .
+
+    ';'  shift, and go to state 34
+
+    ';'       [reduce using rule 18 (expression)]
+    $default  reduce using rule 18 (expression)
+
+
+State 25
+
+    8 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING . ';'
+
+    ';'  shift, and go to state 35
+
+
+State 26
+
+   11 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression . ';'
+   12 expression: expression . TOKEN_ARITHMETIC_OP expression
+   13           | expression . TOKEN_RELATIONAL_OP expression
+   14           | expression . TOKEN_LOGICAL_OP expression
+
+    TOKEN_ARITHMETIC_OP  shift, and go to state 18
+    TOKEN_RELATIONAL_OP  shift, and go to state 19
+    TOKEN_LOGICAL_OP     shift, and go to state 20
+    ';'                  shift, and go to state 36
+
+
+State 27
+
+    6 variable_declaration: TOKEN_DATA_TYPE TOKEN_IDENTIFIER ';' .
+
+    $default  reduce using rule 6 (variable_declaration)
+
+
+State 28
+
+   15 expression: '(' expression ')' .
+
+    $default  reduce using rule 15 (expression)
+
+
+State 29
+
+   12 expression: expression . TOKEN_ARITHMETIC_OP expression
+   12           | expression TOKEN_ARITHMETIC_OP expression .
+   13           | expression . TOKEN_RELATIONAL_OP expression
+   14           | expression . TOKEN_LOGICAL_OP expression
+
+    $default  reduce using rule 12 (expression)
+
+
+State 30
+
+   12 expression: expression . TOKEN_ARITHMETIC_OP expression
+   13           | expression . TOKEN_RELATIONAL_OP expression
+   13           | expression TOKEN_RELATIONAL_OP expression .
+   14           | expression . TOKEN_LOGICAL_OP expression
+
+    TOKEN_ARITHMETIC_OP  shift, and go to state 18
+
+    $default  reduce using rule 13 (expression)
+
+
+State 31
+
+   12 expression: expression . TOKEN_ARITHMETIC_OP expression
+   13           | expression . TOKEN_RELATIONAL_OP expression
+   14           | expression . TOKEN_LOGICAL_OP expression
+   14           | expression TOKEN_LOGICAL_OP expression .
+
+    TOKEN_ARITHMETIC_OP  shift, and go to state 18
+    TOKEN_RELATIONAL_OP  shift, and go to state 19
+
+    $default  reduce using rule 14 (expression)
+
+
+State 32
+
+    7 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' .
+
+    $default  reduce using rule 7 (assignment)
+
+
+State 33
+
+    9 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER ';' .
+
+    $default  reduce using rule 9 (assignment)
+
+
+State 34
+
+   10 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER ';' .
+
+    $default  reduce using rule 10 (assignment)
+
+
+State 35
+
+    8 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' .
+
+    $default  reduce using rule 8 (assignment)
+
+
+State 36
+
+   11 assignment: TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression ';' .
+
+    $default  reduce using rule 11 (assignment)

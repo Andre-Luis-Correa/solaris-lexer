@@ -22,19 +22,21 @@
 %token <str> TOKEN_LOGICAL_OP
 %token <str> TOKEN_DELIMITER
 %token <str> TOKEN_ASSIGNMENT_OP
-%token TOKEN_COMMENT_LINE
-%token TOKEN_COMMENT_BLOCK
+%token <str> TOKEN_CONDITIONAL_CHOOSE
+%token <str> TOKEN_CONDITIONAL_OTHERWISE
+
 %token TOKEN_BOOLEAN
-%token TOKEN_WHITESPACE
-%token TOKEN_NEWLINE
+
 %token TOKEN_UNKNOWN
 %token <str> TOKEN_DATA_TYPE
 
 %type <str> expression
+%type <str> conditional
 
 %left TOKEN_LOGICAL_OP
 %left TOKEN_RELATIONAL_OP
 %left TOKEN_ARITHMETIC_OP
+%right TOKEN_ASSIGNMENT_OP
 
 %%
 
@@ -42,37 +44,43 @@ program:
     program variable_declaration '\n'
     | program assignment '\n'
     | program expression '\n'
+    | program conditional '\n'
     | program '\n'
     |
     ;
 
 variable_declaration:
-    TOKEN_DATA_TYPE TOKEN_IDENTIFIER TOKEN_DELIMITER {
+    TOKEN_DATA_TYPE TOKEN_IDENTIFIER ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s%s", $1, $2, $3);
+        sprintf(buffer, "%s %s%c", $1, $2, ';');
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
     }
     ;
 
 assignment:
-    TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER TOKEN_DELIMITER {
+    TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%s", $1, $2, $3, $4);
+        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
     }
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING TOKEN_DELIMITER {
+    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%s", $1, $2, $3, $4);
+        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
     }
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER TOKEN_DELIMITER {
+    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%s", $1, $2, $3, $4);
+        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
     }
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER TOKEN_DELIMITER {
+    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%s", $1, $2, $3, $4);
+        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+    }
+    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
     }
     ;
@@ -93,22 +101,30 @@ expression:
     | expression TOKEN_LOGICAL_OP expression {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", $1, $2, $3);
-        processSyntacticStructure(SYN_LOGICAL_OPERATION, buffer);
         $$ = strdup(buffer);
     }
-    | TOKEN_DELIMITER expression TOKEN_DELIMITER {
+    | '(' expression ')' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
+        sprintf(buffer, "%c %s %c", '(', $2, ')');
         $$ = strdup(buffer);
     }
     | TOKEN_IDENTIFIER {
-        $$ = strdup($1); // Identificadores
+        $$ = strdup($1);
     }
     | TOKEN_INTEGER_NUMBER {
-        $$ = strdup($1); // Números inteiros
+        $$ = strdup($1);
     }
     | TOKEN_FLOAT_NUMBER {
-        $$ = strdup($1); // Números flutuantes
+        $$ = strdup($1);
+    }
+    ;
+
+conditional:
+    TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' '}' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %c %s %c %c %c", $1, '(', $3, ')', '{', '}');
+        processSyntacticStructure(SYN_CONDITIONAL_CHOOSE, buffer);
+        $$ = strdup(buffer);
     }
     ;
 
