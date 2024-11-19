@@ -30,8 +30,11 @@
 %token TOKEN_UNKNOWN
 %token <str> TOKEN_DATA_TYPE
 
+%type <str> variable_declaration
+%type <str> assignment
 %type <str> expression
 %type <str> conditional
+%type <str> content
 
 %left TOKEN_LOGICAL_OP
 %left TOKEN_RELATIONAL_OP
@@ -54,6 +57,7 @@ variable_declaration:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s%c", $1, $2, ';');
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+        $$ = strdup(buffer);
     }
     ;
 
@@ -62,26 +66,31 @@ assignment:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        $$ = strdup(buffer);
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        $$ = strdup(buffer);
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER ';' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        $$ = strdup(buffer);
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER ';' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        $$ = strdup(buffer);
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression ';' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        $$ = strdup(buffer);
     }
     ;
 
@@ -120,11 +129,35 @@ expression:
     ;
 
 conditional:
-    TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' '}' {
+    TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' content '}' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %c %s %c %c %c", $1, '(', $3, ')', '{', '}');
+        sprintf(buffer, "%s %c %s %c %c %s %c", $1, '(', $3, ')', '{', $6, '}');
         processSyntacticStructure(SYN_CONDITIONAL_CHOOSE, buffer);
         $$ = strdup(buffer);
+    }
+    | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' content '}' TOKEN_CONDITIONAL_OTHERWISE '{' content '}' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %c %s %c %c %s %c %s %c %s %c", $1, '(', $3, ')', '{', $6, '}', $8, '{', $10, '}');
+        processSyntacticStructure(SYN_CONDITIONAL_CHOOSE, buffer);
+        $$ = strdup(buffer);
+    }
+    ;
+
+content:
+    /* vazio */ {
+        $$ = strdup(""); // Permitir blocos vazios
+    }
+    | content '\n' {
+        $$ = strdup("\n");
+    }
+    | content variable_declaration {
+        $$ = strdup($2); // Combine conteúdo atual com a nova declaração
+    }
+    | content assignment {
+        $$ = strdup($2); // Combine conteúdo atual com a nova atribuição
+    }
+    | content conditional {
+        $$ = strdup($2); // Combine conteúdo atual com o novo condicional
     }
     ;
 

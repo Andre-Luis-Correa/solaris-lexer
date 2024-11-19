@@ -11,4 +11,15 @@ x = 5;
 oldName = name;
 y = 0.939393;
 
-choose ( oldName == Name ) { }
+choose ( oldName == Name ) {
+}
+
+choose ( oldName == Name ) {
+    choose ( x >= y ) {
+        x = y;
+    } otherwise {
+        y = x;
+    }
+} otherwise {
+    x = 5;
+}
