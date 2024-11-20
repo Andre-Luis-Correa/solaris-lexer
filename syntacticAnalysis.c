@@ -77,5 +77,9 @@ void printSyntacticStructures(const syntacticStructureList *head, const char *li
 
 // Processa uma estrutura sintática e adiciona à lista
 void processSyntacticStructure(int type, const char *text) {
-    addSyntacticStructure(&syntacticStructureListHead, type, text);
+    if(type == SYN_ERROR) {
+        fprintf(stderr,"\nERRO SINTATICO -> %s\n", text);
+    } else {
+        addSyntacticStructure(&syntacticStructureListHead, type, text);
+    }
 }

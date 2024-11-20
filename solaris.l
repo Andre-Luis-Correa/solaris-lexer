@@ -2,7 +2,7 @@
     #include "lexer.h"
     #include "solaris.tab.h"
 
-    char errorMessage[1000];
+    char lexErrorMessage[1000];
 %}
 
 %option yylineno
@@ -168,39 +168,37 @@
     return *yytext;
 }
 
+<<EOF>> {
+    yylineno = 0;
+    return 0;
+}
+
     /* Tratamento de Erros Léxicos */
 \"([^\"\\\n]|\\.)*\n {
     int current_line = yylineno - 1;
-    sprintf(errorMessage, "String mal formada na linha %d: [ %s ]\n", current_line, yytext);
-    processToken(LEX_TOKEN_UNKNOWN, errorMessage);
+    sprintf(lexErrorMessage, "String mal formada na linha %d: [ %s ]\n", current_line, yytext);
+    processToken(LEX_TOKEN_UNKNOWN, lexErrorMessage);
     return -1;
 }
 
 ##[^#]* {
     int current_line = yylineno - 1;
-    sprintf(errorMessage, "Comentario de bloco nao fechado na linha %d\n", current_line);
-    processToken(LEX_TOKEN_UNKNOWN, errorMessage);
+    sprintf(lexErrorMessage, "Comentario de bloco nao fechado na linha %d\n", current_line);
+    processToken(LEX_TOKEN_UNKNOWN, lexErrorMessage);
     return -1;
 }
 
 [0-9]*\.[0-9]*[a-zA-Z]+|[0-9]*\.[0-9]*\.[0-9.]*|\.[0-9]+|[0-9]+\.[^0-9]+ {
-    int current_line = yylineno - 1;
-    sprintf(errorMessage, "Numero malformado na linha %d: [ %s ]\n", current_line, yytext);
-    processToken(LEX_TOKEN_UNKNOWN, errorMessage);
-    return -1;
-}
-
-\'[^\'\\\n]{2,}\'|\'[^\'\\\n]* {
-    int current_line = yylineno - 1;
-    sprintf(errorMessage, "Caracter invalido na linha %d: [ %s ]\n", current_line, yytext);
-    processToken(LEX_TOKEN_UNKNOWN, errorMessage);
+    int current_line = yylineno;
+    sprintf(lexErrorMessage, "Numero malformado na linha %d: [ %s ]\n", current_line, yytext);
+    processToken(LEX_TOKEN_UNKNOWN, lexErrorMessage);
     return -1;
 }
 
 . {
-    int current_line = yylineno - 1;
-    sprintf(errorMessage, "Token nao reconhecido linha %d: [ %s ]\n", current_line, yytext);
-    processToken(LEX_TOKEN_UNKNOWN, errorMessage);
+    int current_line = yylineno;
+    sprintf(lexErrorMessage, "Token nao reconhecido linha %d: [ %s ]\n", current_line, yytext);
+    processToken(LEX_TOKEN_UNKNOWN, lexErrorMessage);
     return -1;
 }
 

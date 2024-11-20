@@ -23,6 +23,7 @@
 #define SYN_COMMENT_LINE      15
 #define SYN_COMMENT_BLOCK      16
 #define SYN_FUNCTION_RETURN      17
+#define SYN_ERROR 18
 
 // Estrutura para armazenar uma estrutura sintática reconhecidaa
 typedef struct syntacticStructure {

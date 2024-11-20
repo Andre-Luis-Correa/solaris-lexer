@@ -4,7 +4,11 @@
     #define MAXBUFFER 1000
 
     int yylex(void);
-    void yyerror(char *s);
+    extern int yylineno;
+    extern char *yytext;
+    void yyerror(const char *s);
+
+    char synErrorMessage[MAXBUFFER];
 %}
 
 %union {
@@ -106,6 +110,18 @@ variable_declaration:
         sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
         processSyntacticStructure(SYN_STRING_DECLARATION, buffer);
         $$ = strdup(buffer);
+    }
+    /* Tratamento de erro: falta de `;` no final */
+    | TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de '%s' na linha %d\n", $2, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro: declaração incompleta */
+    | TOKEN_DATA_TYPE {
+        sprintf(synErrorMessage, "Erro: Declaração de variavel incompleta na linha %d proximo a '%s'\n", yylineno, yytext);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
     }
     ;
 
@@ -395,6 +411,7 @@ library_inclusion:
 
 %%
 
-void yyerror(char *s){
-    printf("Caracter invalido: %s\n", s);
+void yyerror(const char *s) {
+    fprintf(stderr, "Erro sintatico na linha %d proximo a '%s': %s\n", yylineno, yytext, s);
+    exit(EXIT_FAILURE);
 }
