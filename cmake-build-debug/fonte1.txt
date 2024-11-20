@@ -1,3 +1,7 @@
+use "solarisIo.sol"
+use "solarisLib.sol"
+use "directory/myLib.sol"
+
 integer x;
 string name = "Bruna";
 string oldName = "Andre";

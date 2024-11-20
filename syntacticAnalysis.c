@@ -53,7 +53,7 @@ const char* getSyntacticStructureTypeName(int type) {
         case SYN_STRING_DECLARATION:                     return "STRING_DECLARATION";
         case SYN_WRITE_DATA:                 return "WRITE_DATA";
         case SYN_READ_DATA:                  return "READ_DATA";
-        case SYN_LIBRARIES_INCLUSION:        return "LIBRARIES_INCLUSION";
+        case SYN_LIBRARY_INCLUSION:        return "LIBRARY_INCLUSION";
         case SYN_FUNCTION_DECLARATION:       return "FUNCTION_DECLARATION";
         case SYN_COMMENT_LINE:               return "COMMENT_LINE";
         case SYN_COMMENT_BLOCK:              return "COMMENT_BLOCK";

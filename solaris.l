@@ -69,7 +69,13 @@
     return TOKEN_FUNCTION_RECEIVE;
 }
 
-"define"|"result"|"execute"|"call"|"and"|"or"|"not" {
+"use" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_USE;
+}
+
+"define"|"execute"|"call"|"and"|"or"|"not" {
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
     return TOKEN_RESERVED_WORD;
 }

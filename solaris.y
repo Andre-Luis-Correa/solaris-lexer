@@ -36,6 +36,7 @@
 %token <str> TOKEN_FUNCTION
 %token <str> TOKEN_FUNCTION_RECEIVE
 %token <str> TOKEN_FUNCTION_RETURN
+%token <str> TOKEN_USE
 
 %token TOKEN_BOOLEAN
 %token TOKEN_UNKNOWN
@@ -55,6 +56,7 @@
 %type <str> function_declaration
 %type <str> function_return
 %type <str> function_parameter
+%type <str> library_inclusion
 
 %left TOKEN_LOGICAL_OP
 %left TOKEN_RELATIONAL_OP
@@ -75,6 +77,7 @@ program:
     | program read_data '\n'
     | program function_declaration '\n'
     | program function_return '\n'
+    | program library_inclusion '\n'
     | program '\n'
     |
     ;
@@ -381,6 +384,14 @@ function_return:
         $$ = strdup(buffer);
     }
     ;
+
+library_inclusion:
+    TOKEN_USE TOKEN_STRING {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_LIBRARY_INCLUSION, buffer);
+        $$ = strdup(buffer);
+    }
 
 %%
 

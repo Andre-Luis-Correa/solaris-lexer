@@ -18,7 +18,7 @@
 #define SYN_STRING_DECLARATION                    10
 #define SYN_WRITE_DATA                11
 #define SYN_READ_DATA                 12
-#define SYN_LIBRARIES_INCLUSION       13
+#define SYN_LIBRARY_INCLUSION       13
 #define SYN_FUNCTION_DECLARATION      14
 #define SYN_COMMENT_LINE      15
 #define SYN_COMMENT_BLOCK      16
