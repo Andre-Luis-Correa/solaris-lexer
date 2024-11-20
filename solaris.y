@@ -111,15 +111,27 @@ variable_declaration:
         processSyntacticStructure(SYN_STRING_DECLARATION, buffer);
         $$ = strdup(buffer);
     }
-    /* Tratamento de erro: falta de `;` no final */
+    /* Tratamento de erro */
     | TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
-        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de '%s' na linha %d\n", $2, yylineno);
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
         exit(EXIT_FAILURE);
     }
-    /* Tratamento de erro: declaração incompleta */
+    /* Tratamento de erro */
     | TOKEN_DATA_TYPE {
-        sprintf(synErrorMessage, "Erro: Declaração de variavel incompleta na linha %d proximo a '%s'\n", yylineno, yytext);
+        sprintf(synErrorMessage, "Erro: Declaracao de variavel incompleta na linha %d\n", yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER {
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING {
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
         exit(EXIT_FAILURE);
     }
@@ -156,6 +168,54 @@ assignment:
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
         $$ = strdup(buffer);
     }
+    /* Tratamento de erro */
+    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s", $1, $2, $3);
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a atribuicao [ %s ] na linha %d\n", buffer, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s", $1, $2, $3);
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a atribuicao [ %s ] na linha %d\n", buffer, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s", $1, $2, $3);
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a atribuicao [ %s ] na linha %d\n", buffer, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s", $1, $2, $3);
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a atribuicao [ %s ] na linha %d\n", buffer, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s", $1, $2, $3);
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a atribuicao [ %s ] na linha %d\n", buffer, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s", $1, $2);
+        sprintf(synErrorMessage, "Erro: Atribuicao incompleta [ %s ] na linha %d\n", buffer, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
     ;
 
 expression:
@@ -190,6 +250,44 @@ expression:
     | TOKEN_FLOAT_NUMBER {
         $$ = strdup($1);
     }
+    /* Tratamento de erro */
+    | expression TOKEN_ARITHMETIC_OP {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s", $1, $2);
+        sprintf(synErrorMessage, "Erro: Operacao incompleta apos operador '%s' na linha %d\n", $2, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | '(' ')' {
+        sprintf(synErrorMessage, "Erro: Operacao incompleta entre parenteses na linha %d\n", yylineno + 1);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | '(' expression {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "( %s", $2);
+        sprintf(synErrorMessage, "Erro: Operacao com fechamento de parenteses incompleto '%s' na linha %d\n", buffer, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_ARITHMETIC_OP expression {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s", $1, $2);
+        sprintf(synErrorMessage, "Erro: Operacao incompleta '%s' na linha %d\n", buffer, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_ARITHMETIC_OP {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s", $1);
+        sprintf(synErrorMessage, "Erro: Operacao '%s' sem operandos na linha %d\n", buffer, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
     ;
 
 conditional:
@@ -204,6 +302,36 @@ conditional:
         sprintf(buffer, "%s %c %s %c %c %s %c %s %c %s %c", $1, '(', $3, ')', '{', $6, '}', $8, '{', $10, '}');
         processSyntacticStructure(SYN_CONDITIONAL_CHOOSE, buffer);
         $$ = strdup(buffer);
+    }
+    /* Tratamento de erro */
+    | TOKEN_CONDITIONAL_CHOOSE '(' expression {
+        sprintf(synErrorMessage, "Erro: Falta de fechamento de parenteses no condicional na linha %d\n", yylineno + 1);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_CONDITIONAL_CHOOSE '(' ')' {
+        sprintf(synErrorMessage, "Erro: Condicional sem expressao na linha %d\n", yylineno +1 );
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' {
+        sprintf(synErrorMessage, "Erro: Falta de abertura de bloco '{' no condicional na linha %d\n", yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content '}' TOKEN_CONDITIONAL_OTHERWISE {
+        sprintf(synErrorMessage, "Erro: Bloco 'otherwise' incompleto na linha %d\n", yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content {
+        sprintf(synErrorMessage, "Erro: Falta de fechamento de bloco '}' no condicional na linha %d\n", yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
     }
     ;
 

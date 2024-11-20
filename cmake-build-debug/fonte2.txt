@@ -11,15 +11,34 @@ use "directory/myLib.sol"
 
 # DECLARACAO DE VARIAVEIS
 
+# ERRO SINTÁTICO: DECLARACAO DE VARIAVEL INCOMPLETA
+
+# integer number
+# integer
+# string newName
+# string newName = "Roberto"
+# integer intNumber = 5 && (9/1000)
+
 integer x = 0.9896511;
 string name = "Bruna";
 string oldName = "Andre";
 string address;
 float y;
-integer num
+integer num;
 integer total = 0;
 
 # ATRIBUICOES
+
+# ERRO SINTÁTICO: ATRIBUICAO COM FALTA DE ;
+
+# x = 5
+# y = 3.14
+# name = "Bruna"
+# oldName = name
+
+# ERRO SINTÁTICO: ATRIBUICAO INCOMPLETA
+
+# variable =
 
 y = (5 + 9) * (9 + (9/2) * 9) && 1;
 oldName = name;
@@ -28,7 +47,43 @@ x = 5;
 oldName = name;
 y = 0.48445;
 
+# ERRO SINTATICO: OPERACAO INCOMPLETA
+
+# x +
+
+# ERRO SINTATICO: PARENTHESES DESBALANCEADOS
+
+# (y + 3
+# z * (2 + 1
+
+# ERRO SINTATICO: OPERACAO COM TOKEN INVALIDO
+
+# x + @ 5
+
+# ERRO SINTATICO: EXPRESSAO VAZIA NOS PARENTHESES
+
+# ()
+# b + ()
+
+# ERRO SINTATICO: OPERADOR ISOLADO
+
+# +
+
 # OPERACOES CONDICIONAIS
+
+# ERRO SINTATICO: EXPRESSAO INCOMPLETA DENTRO DO CONDICIONAL
+
+# choose (x + ) { }
+
+# choose (x > 5 { }
+
+# choose () { }
+
+# choose (x == 5)
+
+# choose (x == 5) { } otherwise
+
+choose (x == 5) {
 
 choose ( oldName == Name ) {
 }
