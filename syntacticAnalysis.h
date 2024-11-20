@@ -20,6 +20,9 @@
 #define SYN_READ_DATA                 12
 #define SYN_LIBRARIES_INCLUSION       13
 #define SYN_FUNCTION_DECLARATION      14
+#define SYN_COMMENT_LINE      15
+#define SYN_COMMENT_BLOCK      16
+#define SYN_FUNCTION_RETURN      17
 
 // Estrutura para armazenar uma estrutura sintática reconhecidaa
 typedef struct syntacticStructure {

@@ -49,3 +49,21 @@ loop (integer i = 3) until ( i <= 5) {
         x = 90;
     }
 }
+
+# Este e um exemplo de codigo correto em Solaris com tipos de variaveis inspirados em C
+
+##
+   Este e um comentario de bloco.
+   Pode incluir multiplas linhas e
+##
+
+show "Ola Mundo!";
+show name;
+
+read name;
+
+function (integer): sumOfSquares receive (integer a, integer b) {
+    integer sum = a * a + b * b;
+
+    return sum;
+}

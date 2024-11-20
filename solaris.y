@@ -29,6 +29,13 @@
 %token <str> TOKEN_LOOP_WHILE
 %token <str> TOKEN_DATA_TYPE
 %token <str> TOKEN_DATA_TYPE_STRING
+%token <str> TOKEN_COMMENT_LINE
+%token <str> TOKEN_COMMENT_BLOCK
+%token <str> TOKEN_SHOW
+%token <str> TOKEN_READ
+%token <str> TOKEN_FUNCTION
+%token <str> TOKEN_FUNCTION_RECEIVE
+%token <str> TOKEN_FUNCTION_RETURN
 
 %token TOKEN_BOOLEAN
 %token TOKEN_UNKNOWN
@@ -42,6 +49,12 @@
 %type <str> loop_while
 %type <str> loop_start
 %type <str> loop_condition
+%type <str> comment
+%type <str> write_data
+%type <str> read_data
+%type <str> function_declaration
+%type <str> function_return
+%type <str> function_parameter
 
 %left TOKEN_LOGICAL_OP
 %left TOKEN_RELATIONAL_OP
@@ -57,6 +70,11 @@ program:
     | program conditional '\n'
     | program loop '\n'
     | program loop_while '\n'
+    | program comment '\n'
+    | program write_data '\n'
+    | program read_data '\n'
+    | program function_declaration '\n'
+    | program function_return '\n'
     | program '\n'
     |
     ;
@@ -192,6 +210,15 @@ possible_content:
     | possible_content loop_while {
         $$ = strdup($2);
     }
+    | possible_content comment {
+        $$ = strdup($2);
+    }
+    | possible_content read_data {
+        $$ = strdup($2);
+    }
+    | possible_content write_data {
+        $$ = strdup($2);
+    }
     ;
 
 loop:
@@ -258,6 +285,100 @@ loop_condition:
     }
     | TOKEN_FLOAT_NUMBER {
         $$ = strdup($1);
+    }
+    ;
+
+comment:
+    TOKEN_COMMENT_LINE {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s", $1);
+        processSyntacticStructure(SYN_COMMENT_LINE, buffer);
+        $$ = strdup(buffer);
+    }
+    | TOKEN_COMMENT_BLOCK {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s", $1);
+        processSyntacticStructure(SYN_COMMENT_BLOCK, buffer);
+        $$ = strdup(buffer);
+    }
+    ;
+
+write_data:
+    TOKEN_SHOW TOKEN_IDENTIFIER ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_WRITE_DATA, buffer);
+        $$ = strdup(buffer);
+    }
+    | TOKEN_SHOW TOKEN_STRING ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_WRITE_DATA, buffer);
+        $$ = strdup(buffer);
+    }
+    ;
+
+read_data:
+    TOKEN_READ TOKEN_IDENTIFIER ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_READ_DATA, buffer);
+        $$ = strdup(buffer);
+    }
+    ;
+
+function_declaration:
+    TOKEN_FUNCTION '(' TOKEN_DATA_TYPE ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '}' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s; }", $1, $3, $6, $7, $9, $12);
+        processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
+        $$ = strdup(buffer);
+    }
+    | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s; }", $1, $3, $6, $7, $9, $12);
+        processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
+        $$ = strdup(buffer);
+    }
+    ;
+
+function_parameter:
+    TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s", $1, $2);
+        $$ = strdup(buffer);
+    }
+    | function_parameter ',' TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s, %s %s", $1, $3, $4);
+        $$ = strdup(buffer);
+    }
+    ;
+
+function_return:
+    TOKEN_FUNCTION_RETURN TOKEN_IDENTIFIER ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
+        $$ = strdup(buffer);
+    }
+    | TOKEN_FUNCTION_RETURN TOKEN_STRING ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
+        $$ = strdup(buffer);
+    }
+    | TOKEN_FUNCTION_RETURN TOKEN_INTEGER_NUMBER ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
+        $$ = strdup(buffer);
+    }
+    | TOKEN_FUNCTION_RETURN TOKEN_FLOAT_NUMBER ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
+        $$ = strdup(buffer);
     }
     ;
 

@@ -39,7 +39,37 @@
     return TOKEN_LOOP_WHILE;
 }
 
-"show"|"define"|"result"|"function"|"receive"|"execute"|"call"|"and"|"or"|"not" {
+"show" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_SHOW;
+}
+
+"read" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_READ;
+}
+
+"function" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_FUNCTION;
+}
+
+"return" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_FUNCTION_RETURN;
+}
+
+"receive" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    return TOKEN_FUNCTION_RECEIVE;
+}
+
+"define"|"result"|"execute"|"call"|"and"|"or"|"not" {
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
     return TOKEN_RESERVED_WORD;
 }
@@ -104,16 +134,26 @@
     return TOKEN_ASSIGNMENT_OP;
 }
 
-";"|"("|")"|"{"|"}" {
+","|":"|";"|"("|")"|"{"|"}" {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DELIMITER, yytext);
     return * yytext;
 }
 
-":"|","|"{"|"}"|"["|"]" {
+"["|"]" {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DELIMITER, yytext);
     return TOKEN_DELIMITER;
+}
+
+"#"[^\n]* {
+    yylval.str = strdup(yytext);
+    return TOKEN_COMMENT_LINE;
+}
+
+"##"([^#]|\#[^#])*"##" {
+    yylval.str = strdup(yytext);
+    return TOKEN_COMMENT_BLOCK;
 }
 
 [ \t]+ {}
