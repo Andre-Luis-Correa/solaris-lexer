@@ -1,23 +1,34 @@
+# INCLUSAO DE BIBLIOTECAS
+
 use "solarisIo.sol"
 use "solarisLib.sol"
 use "directory/myLib.sol"
+
+##
+    comentario de bloco
+    onde pode ser incluido uma sequencia de caracteres
+##
+
+# DECLARACAO DE VARIAVEIS
 
 integer x;
 string name = "Bruna";
 string oldName = "Andre";
 string address;
 float y;
-
 integer num = 5 + 9;
 integer total = 0;
 
+# ATRIBUICOES
+
 y = (5 + 9) * (9 + (9/2) * 9) && 1;
 oldName = name;
-
 name = "Joao";
 x = 5;
 oldName = name;
 y = 0.939393;
+
+# OPERACOES CONDICIONAIS
 
 choose ( oldName == Name ) {
 }
@@ -32,8 +43,9 @@ choose ( oldName == Name ) {
     x = 5;
 }
 
-integer counter = 0;
+# LOOP 1: WHILE
 
+integer counter = 0;
 while (counter <= 8 && (counter != 9)) {
     counter = counter + 1;
 
@@ -41,6 +53,8 @@ while (counter <= 8 && (counter != 9)) {
 
     }
 }
+
+# LOOP 2: LOOP - UNTIL
 
 loop (integer i = 3) until ( i <= 5) {
     x = 90;
@@ -54,20 +68,21 @@ loop (integer i = 3) until ( i <= 5) {
     }
 }
 
-# Este e um exemplo de codigo correto em Solaris com tipos de variaveis inspirados em C
-
-##
-   Este e um comentario de bloco.
-   Pode incluir multiplas linhas e
-##
+# ESCRITA DE DADOS
 
 show "Ola Mundo!";
 show name;
 
+# LEITURA DE DADOS
+
 read name;
+
+# DELCARACAO DE FUNCAO
 
 function (integer): sumOfSquares receive (integer a, integer b) {
     integer sum = a * a + b * b;
+
+    # RETORNO DE FUNCAO
 
     return sum;
 }

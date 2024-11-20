@@ -24,18 +24,22 @@ int main() {
 
     // Etapa 1: Análise Léxica
     printf("Iniciando analise lexica:\n");
-    while (yylex() != 0);  // Chama yylex() até terminar
-    // Imprime os tokens após análise léxica
-    printf("Tokens Identificados:\n");
-    printTokens(reservedWordListHead, "Palavras Reservadas");
-    printTokens(otherTokensListHead, "Outros Tokens");
+    while (yylex() != 0);
+
+    if(errorFlag == 0) {
+        printf("Tokens Identificados:\n");
+        printTokens(reservedWordListHead, "Palavras Reservadas");
+        printTokens(otherTokensListHead, "Outros Tokens");
+    } else {
+        return 0;
+    }
 
     // Reinicia o arquivo para a análise sintática
     fseek(file, 0, SEEK_SET);
 
     // Etapa 2: Análise Sintática
     printf("Iniciando analise sintatica:\n");
-    if (yyparse() == 0 && errorFlag == 0) {
+    if (yyparse() == 0) {
         printf("Analise sintática bem-sucedida.\n");
         printSyntacticStructures(syntacticStructureListHead, "Estruturas Sintaticas Reconhecidas");
     } else {
