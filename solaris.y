@@ -763,12 +763,22 @@ function_parameter:
     TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s", $1, $2);
-        $$ = strdup(buffer);
+
+        tree function_parameter = createNode("function_parameter", buffer);
+        addChild(function_parameter, createNode("TOKEN_DATA_TYPE", $1));
+        addChild(function_parameter, createNode("TOKEN_IDENTIFIER", $2));
+        $$ = function_parameter;
     }
     | function_parameter ',' TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s, %s %s", $1, $3, $4);
-        $$ = strdup(buffer);
+        sprintf(buffer, "%s, %s %s", $1->value, $3, $4);
+
+        tree function_parameter = createNode("function_parameter", buffer);
+        addChild(function_parameter, $1));
+        addChild(function_parameter, createNode(",", $2));
+        addChild(function_parameter, createNode("TOKEN_DATA_TYPE", $3));
+        addChild(function_parameter, createNode("TOKEN_IDENTIFIER", $4));
+        $$ = function_parameter;
     }
     ;
 
@@ -778,24 +788,45 @@ function_return:
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
         $$ = strdup(buffer);
+
+        tree function_return = createNode("function_return", buffer);
+        addChild(function_return, createNode("TOKEN_FUNCTION_RETURN", $1));
+        addChild(function_return, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(function_return, createNode(";", ";\n"));
+        $$ = function_return;
     }
     | TOKEN_FUNCTION_RETURN TOKEN_STRING ';' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
-        $$ = strdup(buffer);
+
+        tree function_return = createNode("function_return", buffer);
+        addChild(function_return, createNode("TOKEN_FUNCTION_RETURN", $1));
+        addChild(function_return, createNode("TOKEN_STRING", $2));
+        addChild(function_return, createNode(";", ";\n"));
+        $$ = function_return;
     }
     | TOKEN_FUNCTION_RETURN TOKEN_INTEGER_NUMBER ';' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
-        $$ = strdup(buffer);
+
+        tree function_return = createNode("function_return", buffer);
+        addChild(function_return, createNode("TOKEN_FUNCTION_RETURN", $1));
+        addChild(function_return, createNode("TOKEN_INTEGER_NUMBER", $2));
+        addChild(function_return, createNode(";", ";\n"));
+        $$ = function_return;
     }
     | TOKEN_FUNCTION_RETURN TOKEN_FLOAT_NUMBER ';' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
-        $$ = strdup(buffer);
+
+        tree function_return = createNode("function_return", buffer);
+        addChild(function_return, createNode("TOKEN_FUNCTION_RETURN", $1));
+        addChild(function_return, createNode("TOKEN_FLOAT_NUMBER", $2));
+        addChild(function_return, createNode(";", ";\n"));
+        $$ = function_return;
     }
     ;
 
@@ -804,7 +835,12 @@ library_inclusion:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_LIBRARY_INCLUSION, buffer);
-        $$ = strdup(buffer);
+
+        tree library_inclusion = createNode("library_inclusion", buffer);
+        addChild(library_inclusion, createNode("TOKEN_USE", $1));
+        addChild(library_inclusion, createNode("TOKEN_STRING", $2));
+        addChild(library_inclusion, createNode(";", ";\n"));
+        $$ = library_inclusion;
     }
 
 %%
