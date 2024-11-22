@@ -75,11 +75,11 @@ const char* getSyntacticStructureTypeName(int type) {
 void printSyntacticStructures(const syntacticStructureList *head, const char *listName) {
     const syntacticStructureList *current = head;
     printf("\nEstruturas Sintaticas na lista %s:\n", listName);
-    printf("------------------------------\n");
-    printf("| %-20s %-10s |\n", "Tipo", "Valor");
-    printf("------------------------------\n");
+    printf("-------------------------------------------------------\n");
+    printf("| %-25s %-25s |\n", "Tipo", "Valor");
+    printf("-------------------------------------------------------\n");
     while (current != NULL) {
-        printf("| %-20s %-10s |\n", getSyntacticStructureTypeName(current->type), current->value);
+        printf("%-25s %-50s \n", getSyntacticStructureTypeName(current->type), current->value);
         current = current->next;
     }
 }

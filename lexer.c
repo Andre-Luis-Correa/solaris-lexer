@@ -98,11 +98,11 @@ const char* getTokenTypeName(int type) {
 void printTokens(const tokenList *head, const char *listName) {
     const tokenList *current = head;
     printf("\nTokens na lista %s:\n", listName);
-    printf("------------------------------\n");
-    printf("| %-15s %-10s |\n", "Tipo", "Valor");
-    printf("------------------------------\n");
+    printf("----------------------------------------\n");
+    printf("| %-20s %-15s |\n", "Tipo", "Valor");
+    printf("----------------------------------------\n");
     while (current != NULL) {
-        printf("%-15s %-20s\n", getTokenTypeName(current->type), current->value);
+        printf("%-20s %-30s\n", getTokenTypeName(current->type), current->value);
         current = current->next;
     }
 }

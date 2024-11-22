@@ -1,0 +1,25 @@
+program:  
+  variable_declaration: integer num = "ola";
+    TOKEN_DATA_TYPE: integer
+    assignment: num = "ola";
+      TOKEN_IDENTIFIER: num
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_STRING: "ola"
+      TOKEN_DELIMITER: ;
+
+  variable_declaration: integer num = "ola";
+    TOKEN_DATA_TYPE: integer
+    assignment: num = "ola";
+      TOKEN_IDENTIFIER: num
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_STRING: "ola"
+      TOKEN_DELIMITER: ;
+
+  variable_declaration: integer num = 56.848485454848484;
+    TOKEN_DATA_TYPE: integer
+    assignment: num = 56.848485454848484;
+      TOKEN_IDENTIFIER: num
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_FLOAT_NUMBER: 56.848485454848484
+      TOKEN_DELIMITER: ;
+
