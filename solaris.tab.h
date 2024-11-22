@@ -46,52 +46,49 @@ extern int yydebug;
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     TOKEN_IDENTIFIER = 258,
-     TOKEN_INTEGER_NUMBER = 259,
-     TOKEN_FLOAT_NUMBER = 260,
-     TOKEN_STRING = 261,
-     TOKEN_ARITHMETIC_OP = 262,
-     TOKEN_RELATIONAL_OP = 263,
-     TOKEN_LOGICAL_OP = 264,
-     TOKEN_DELIMITER = 265,
-     TOKEN_ASSIGNMENT_OP = 266,
-     TOKEN_CONDITIONAL_CHOOSE = 267,
-     TOKEN_CONDITIONAL_OTHERWISE = 268,
-     TOKEN_LOOP = 269,
-     TOKEN_LOOP_UNTIL = 270,
-     TOKEN_LOOP_WHILE = 271,
-     TOKEN_DATA_TYPE = 272,
-     TOKEN_DATA_TYPE_STRING = 273,
-     TOKEN_COMMENT_LINE = 274,
-     TOKEN_COMMENT_BLOCK = 275,
-     TOKEN_SHOW = 276,
-     TOKEN_READ = 277,
-     TOKEN_FUNCTION = 278,
-     TOKEN_FUNCTION_RECEIVE = 279,
-     TOKEN_FUNCTION_RETURN = 280,
-     TOKEN_USE = 281,
-     TOKEN_BOOLEAN = 282,
-     TOKEN_UNKNOWN = 283
+     TOKEN_RESERVED_WORD = 258,
+     TOKEN_IDENTIFIER = 259,
+     TOKEN_INTEGER_NUMBER = 260,
+     TOKEN_FLOAT_NUMBER = 261,
+     TOKEN_STRING = 262,
+     TOKEN_ARITHMETIC_OP = 263,
+     TOKEN_RELATIONAL_OP = 264,
+     TOKEN_LOGICAL_OP = 265,
+     TOKEN_DELIMITER = 266,
+     TOKEN_ASSIGNMENT_OP = 267,
+     TOKEN_CONDITIONAL_CHOOSE = 268,
+     TOKEN_CONDITIONAL_OTHERWISE = 269,
+     TOKEN_LOOP = 270,
+     TOKEN_LOOP_UNTIL = 271,
+     TOKEN_LOOP_WHILE = 272,
+     TOKEN_DATA_TYPE = 273,
+     TOKEN_DATA_TYPE_STRING = 274,
+     TOKEN_COMMENT_LINE = 275,
+     TOKEN_COMMENT_BLOCK = 276,
+     TOKEN_SHOW = 277,
+     TOKEN_READ = 278,
+     TOKEN_FUNCTION = 279,
+     TOKEN_FUNCTION_RECEIVE = 280,
+     TOKEN_FUNCTION_RETURN = 281,
+     TOKEN_USE = 282,
+     TOKEN_BOOLEAN = 283,
+     TOKEN_UNKNOWN = 284
    };
 #endif
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union /* Line 2058 of yacc.c  */
-#line 18 "solaris.y"
-tree_t/* Line 2058 of yacc.c  */
-#line 19 "solaris.y"
-str
+typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 18 "solaris.y"
+#line 16 "solaris.y"
+
+    char * str;
+    struct treeNode * synTree;
+
 
 /* Line 2058 of yacc.c  */
-#line 19 "solaris.y"
-
-
-/* Line 2058 of yacc.c  */
-#line 95 "solaris.tab.h"
+#line 92 "solaris.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

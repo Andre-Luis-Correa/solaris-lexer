@@ -11,16 +11,15 @@
     void yyerror(const char *s);
 
     char synErrorMessage[MAXBUFFER];
-    char * str;
-    tree_t *_C_treeRoot;
 %}
 
-%union tree_t {}
-%union str {}
+%union {
+    char * str;
+    struct treeNode * synTree;
+}
 
-%start program
-
-%token TOKEN_IDENTIFIER
+%token TOKEN_RESERVED_WORD
+%token <str> TOKEN_IDENTIFIER
 %token TOKEN_INTEGER_NUMBER
 %token TOKEN_FLOAT_NUMBER
 %token TOKEN_STRING
@@ -28,13 +27,13 @@
 %token TOKEN_RELATIONAL_OP
 %token TOKEN_LOGICAL_OP
 %token TOKEN_DELIMITER
-%token TOKEN_ASSIGNMENT_OP
+%token <str> TOKEN_ASSIGNMENT_OP
 %token  TOKEN_CONDITIONAL_CHOOSE
 %token  TOKEN_CONDITIONAL_OTHERWISE
 %token  TOKEN_LOOP
 %token  TOKEN_LOOP_UNTIL
 %token  TOKEN_LOOP_WHILE
-%token  TOKEN_DATA_TYPE
+%token <str> TOKEN_DATA_TYPE
 %token  TOKEN_DATA_TYPE_STRING
 %token  TOKEN_COMMENT_LINE
 %token  TOKEN_COMMENT_BLOCK
@@ -48,9 +47,9 @@
 %token TOKEN_BOOLEAN
 %token TOKEN_UNKNOWN
 
-%type <tree> program
-%type <tree> variable_declaration
-%type <tree> assignment
+%type<synTree> program
+%type<synTree> variable_declaration
+%type<synTree> assignment
 
 %left TOKEN_LOGICAL_OP
 %left TOKEN_RELATIONAL_OP
@@ -61,49 +60,54 @@
 
 program:
     program variable_declaration '\n' {
-        if (!tree) {
+        if (!synTree) {
             printf("Árvore criada em program variable_declaration!\n");
-            tree = createNode("program");
+            synTree = createNode("program");
         }
-        addChild(tree, createNode("FIM"));
+        addChild(synTree, $2);
     }
     | /* vazio */ {
-        if (!tree) {
+        if (!synTree) {
             printf("Árvore criada em empty!\n");
-            tree = createNode("program");  // Inicializa a raiz
+            synTree = createNode("program");  // Inicializa a raiz
         }
     }
     ;
 
 variable_declaration:
     TOKEN_DATA_TYPE assignment {
-        // Constrói a descrição para o nó
         char buffer[MAXBUFFER];
-        snprintf(buffer, MAXBUFFER, "");
+        sprintf(buffer, "%s %s", $1, $2->label);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
 
-        // Cria o nó da variável
-        treeNode *varDecl = createNode("variable_declaration");
-        addChild(varDecl, createNode("TOKEN_DATA_TYPE")); // Adiciona o tipo de dado
-        addChild(varDecl, $2);                            // Adiciona o nó assignment como filho
+        char * treeNodeDescription = buildTreeNodeDescription("variable_declaration", buffer);
+        tree variableDeclaratioan = createNode(treeNodeDescription);
+        free(treeNodeDescription);
 
-        $$ = varDecl; // Retorna o nó criado para a regra
+        addChild(variableDeclaratioan, createNode("TOKEN_DATA_TYPE")); // Adiciona o tipo de dado
+        addChild(variableDeclaratioan, $2);                            // Adiciona o nó assignment como filho
+
+        $$ = variableDeclaratioan; // Retorna o nó criado para a regra
     }
     ;
 
 assignment:
     TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
-        // Constrói a descrição para o nó
         char buffer[MAXBUFFER];
-        snprintf(buffer, MAXBUFFER, "");
+        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
 
-        // Cria o nó da atribuição
-        treeNode *assign = createNode("assignment");
-        addChild(assign, createNode("TOKEN_IDENTIFIER"));
-        addChild(assign, createNode("TOKEN_ASSIGNMENT_OP"));
-        addChild(assign, createNode("TOKEN_IDENTIFIER"));
-        addChild(assign, createNode("TOKEN_DELIMITER"));
+        char * treeNodeDescription = buildTreeNodeDescription("assignment", buffer);
+        tree assignment = createNode(treeNodeDescription);
+        free(treeNodeDescription);
 
-        $$ = assign; // Retorna o nó criado para a regra
+        tree assign = createNode("assignment");
+        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
+        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP"));
+        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
+        addChild(assignment, createNode("TOKEN_DELIMITER"));
+
+        $$ = assignment; // Retorna o nó criado para a regra
     }
     ;
 

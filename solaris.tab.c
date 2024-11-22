@@ -77,11 +77,9 @@
     void yyerror(const char *s);
 
     char synErrorMessage[MAXBUFFER];
-    char * str;
-    tree_t *_C_treeRoot;
 
 /* Line 371 of yacc.c  */
-#line 85 "solaris.tab.c"
+#line 83 "solaris.tab.c"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -117,52 +115,49 @@ extern int yydebug;
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     TOKEN_IDENTIFIER = 258,
-     TOKEN_INTEGER_NUMBER = 259,
-     TOKEN_FLOAT_NUMBER = 260,
-     TOKEN_STRING = 261,
-     TOKEN_ARITHMETIC_OP = 262,
-     TOKEN_RELATIONAL_OP = 263,
-     TOKEN_LOGICAL_OP = 264,
-     TOKEN_DELIMITER = 265,
-     TOKEN_ASSIGNMENT_OP = 266,
-     TOKEN_CONDITIONAL_CHOOSE = 267,
-     TOKEN_CONDITIONAL_OTHERWISE = 268,
-     TOKEN_LOOP = 269,
-     TOKEN_LOOP_UNTIL = 270,
-     TOKEN_LOOP_WHILE = 271,
-     TOKEN_DATA_TYPE = 272,
-     TOKEN_DATA_TYPE_STRING = 273,
-     TOKEN_COMMENT_LINE = 274,
-     TOKEN_COMMENT_BLOCK = 275,
-     TOKEN_SHOW = 276,
-     TOKEN_READ = 277,
-     TOKEN_FUNCTION = 278,
-     TOKEN_FUNCTION_RECEIVE = 279,
-     TOKEN_FUNCTION_RETURN = 280,
-     TOKEN_USE = 281,
-     TOKEN_BOOLEAN = 282,
-     TOKEN_UNKNOWN = 283
+     TOKEN_RESERVED_WORD = 258,
+     TOKEN_IDENTIFIER = 259,
+     TOKEN_INTEGER_NUMBER = 260,
+     TOKEN_FLOAT_NUMBER = 261,
+     TOKEN_STRING = 262,
+     TOKEN_ARITHMETIC_OP = 263,
+     TOKEN_RELATIONAL_OP = 264,
+     TOKEN_LOGICAL_OP = 265,
+     TOKEN_DELIMITER = 266,
+     TOKEN_ASSIGNMENT_OP = 267,
+     TOKEN_CONDITIONAL_CHOOSE = 268,
+     TOKEN_CONDITIONAL_OTHERWISE = 269,
+     TOKEN_LOOP = 270,
+     TOKEN_LOOP_UNTIL = 271,
+     TOKEN_LOOP_WHILE = 272,
+     TOKEN_DATA_TYPE = 273,
+     TOKEN_DATA_TYPE_STRING = 274,
+     TOKEN_COMMENT_LINE = 275,
+     TOKEN_COMMENT_BLOCK = 276,
+     TOKEN_SHOW = 277,
+     TOKEN_READ = 278,
+     TOKEN_FUNCTION = 279,
+     TOKEN_FUNCTION_RECEIVE = 280,
+     TOKEN_FUNCTION_RETURN = 281,
+     TOKEN_USE = 282,
+     TOKEN_BOOLEAN = 283,
+     TOKEN_UNKNOWN = 284
    };
 #endif
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union /* Line 387 of yacc.c  */
-#line 18 "solaris.y"
-tree_t/* Line 387 of yacc.c  */
-#line 19 "solaris.y"
-str
+typedef union YYSTYPE
 {
 /* Line 387 of yacc.c  */
-#line 18 "solaris.y"
+#line 16 "solaris.y"
+
+    char * str;
+    struct treeNode * synTree;
+
 
 /* Line 387 of yacc.c  */
-#line 19 "solaris.y"
-
-
-/* Line 387 of yacc.c  */
-#line 166 "solaris.tab.c"
+#line 161 "solaris.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -190,7 +185,7 @@ int yyparse ();
 /* Copy the second part of user declarations.  */
 
 /* Line 390 of yacc.c  */
-#line 194 "solaris.tab.c"
+#line 189 "solaris.tab.c"
 
 #ifdef short
 # undef short
@@ -410,10 +405,10 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   17
+#define YYLAST   18
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  31
+#define YYNTOKENS  32
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  4
 /* YYNRULES -- Number of rules.  */
@@ -423,7 +418,7 @@ union yyalloc
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   283
+#define YYMAXUTOK   284
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -432,11 +427,11 @@ union yyalloc
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      29,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      30,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,    30,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,    31,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -459,7 +454,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28
+      25,    26,    27,    28,    29
 };
 
 #if YYDEBUG
@@ -473,14 +468,14 @@ static const yytype_uint8 yyprhs[] =
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      32,     0,    -1,    32,    33,    29,    -1,    -1,    17,    34,
-      -1,     3,    11,     3,    30,    -1
+      33,     0,    -1,    33,    34,    30,    -1,    -1,    18,    35,
+      -1,     4,    12,     4,    31,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    63,    63,    70,    79,    94
+       0,    62,    62,    69,    78,    95
 };
 #endif
 
@@ -489,16 +484,17 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "TOKEN_IDENTIFIER",
-  "TOKEN_INTEGER_NUMBER", "TOKEN_FLOAT_NUMBER", "TOKEN_STRING",
-  "TOKEN_ARITHMETIC_OP", "TOKEN_RELATIONAL_OP", "TOKEN_LOGICAL_OP",
-  "TOKEN_DELIMITER", "TOKEN_ASSIGNMENT_OP", "TOKEN_CONDITIONAL_CHOOSE",
-  "TOKEN_CONDITIONAL_OTHERWISE", "TOKEN_LOOP", "TOKEN_LOOP_UNTIL",
-  "TOKEN_LOOP_WHILE", "TOKEN_DATA_TYPE", "TOKEN_DATA_TYPE_STRING",
-  "TOKEN_COMMENT_LINE", "TOKEN_COMMENT_BLOCK", "TOKEN_SHOW", "TOKEN_READ",
-  "TOKEN_FUNCTION", "TOKEN_FUNCTION_RECEIVE", "TOKEN_FUNCTION_RETURN",
-  "TOKEN_USE", "TOKEN_BOOLEAN", "TOKEN_UNKNOWN", "'\\n'", "';'", "$accept",
-  "program", "variable_declaration", "assignment", YY_NULL
+  "$end", "error", "$undefined", "TOKEN_RESERVED_WORD",
+  "TOKEN_IDENTIFIER", "TOKEN_INTEGER_NUMBER", "TOKEN_FLOAT_NUMBER",
+  "TOKEN_STRING", "TOKEN_ARITHMETIC_OP", "TOKEN_RELATIONAL_OP",
+  "TOKEN_LOGICAL_OP", "TOKEN_DELIMITER", "TOKEN_ASSIGNMENT_OP",
+  "TOKEN_CONDITIONAL_CHOOSE", "TOKEN_CONDITIONAL_OTHERWISE", "TOKEN_LOOP",
+  "TOKEN_LOOP_UNTIL", "TOKEN_LOOP_WHILE", "TOKEN_DATA_TYPE",
+  "TOKEN_DATA_TYPE_STRING", "TOKEN_COMMENT_LINE", "TOKEN_COMMENT_BLOCK",
+  "TOKEN_SHOW", "TOKEN_READ", "TOKEN_FUNCTION", "TOKEN_FUNCTION_RECEIVE",
+  "TOKEN_FUNCTION_RETURN", "TOKEN_USE", "TOKEN_BOOLEAN", "TOKEN_UNKNOWN",
+  "'\\n'", "';'", "$accept", "program", "variable_declaration",
+  "assignment", YY_NULL
 };
 #endif
 
@@ -509,15 +505,15 @@ static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   277,   278,   279,   280,   281,   282,   283,    10,
-      59
+     275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
+      10,    59
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    31,    32,    32,    33,    34
+       0,    32,    33,    33,    34,    35
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -543,17 +539,17 @@ static const yytype_int8 yydefgoto[] =
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -28
+#define YYPACT_NINF -29
 static const yytype_int8 yypact[] =
 {
-     -28,     0,   -28,    -2,   -27,    -8,   -28,   -28,     1,   -25,
-     -28
+     -29,     0,   -29,    -3,   -28,    -9,   -29,   -29,     1,   -27,
+     -29
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -28,   -28,   -28,   -28
+     -29,   -29,   -29,   -29
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -562,28 +558,28 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-       2,     5,     7,     8,     9,    10,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     3
+       2,     5,     7,     8,    10,     9,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     3
 };
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-28)))
+  (!!((Yystate) == (-29)))
 
 #define yytable_value_is_error(Yytable_value) \
   YYID (0)
 
 static const yytype_int8 yycheck[] =
 {
-       0,     3,    29,    11,     3,    30,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    17
+       0,     4,    30,    12,    31,     4,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    18
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    32,     0,    17,    33,     3,    34,    29,    11,     3,
-      30
+       0,    33,     0,    18,    34,     4,    35,    30,    12,     4,
+      31
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1385,66 +1381,71 @@ yyreduce:
     {
         case 2:
 /* Line 1792 of yacc.c  */
-#line 63 "solaris.y"
+#line 62 "solaris.y"
     {
-        if (!tree) {
+        if (!synTree) {
             printf("Árvore criada em program variable_declaration!\n");
-            tree = createNode("program");
+            synTree = createNode("program");
         }
-        addChild(tree, createNode("FIM"));
+        addChild(synTree, (yyvsp[(2) - (3)].synTree));
     }
     break;
 
   case 3:
 /* Line 1792 of yacc.c  */
-#line 70 "solaris.y"
+#line 69 "solaris.y"
     {
-        if (!tree) {
+        if (!synTree) {
             printf("Árvore criada em empty!\n");
-            tree = createNode("program");  // Inicializa a raiz
+            synTree = createNode("program");  // Inicializa a raiz
         }
     }
     break;
 
   case 4:
 /* Line 1792 of yacc.c  */
-#line 79 "solaris.y"
+#line 78 "solaris.y"
     {
-        // Constrói a descrição para o nó
         char buffer[MAXBUFFER];
-        snprintf(buffer, MAXBUFFER, "");
+        sprintf(buffer, "%s %s", (yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].synTree)->label);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
 
-        // Cria o nó da variável
-        treeNode *varDecl = createNode("variable_declaration");
-        addChild(varDecl, createNode("TOKEN_DATA_TYPE")); // Adiciona o tipo de dado
-        addChild(varDecl, (yyvsp[(2) - (2)].tree));                            // Adiciona o nó assignment como filho
+        char * treeNodeDescription = buildTreeNodeDescription("variable_declaration", buffer);
+        tree variableDeclaratioan = createNode(treeNodeDescription);
+        free(treeNodeDescription);
 
-        (yyval.tree) = varDecl; // Retorna o nó criado para a regra
+        addChild(variableDeclaratioan, createNode("TOKEN_DATA_TYPE")); // Adiciona o tipo de dado
+        addChild(variableDeclaratioan, (yyvsp[(2) - (2)].synTree));                            // Adiciona o nó assignment como filho
+
+        (yyval.synTree) = variableDeclaratioan; // Retorna o nó criado para a regra
     }
     break;
 
   case 5:
 /* Line 1792 of yacc.c  */
-#line 94 "solaris.y"
+#line 95 "solaris.y"
     {
-        // Constrói a descrição para o nó
         char buffer[MAXBUFFER];
-        snprintf(buffer, MAXBUFFER, "");
+        sprintf(buffer, "%s %s %s%c", (yyvsp[(1) - (4)].str), (yyvsp[(2) - (4)].str), (yyvsp[(3) - (4)].str), ';');
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
 
-        // Cria o nó da atribuição
-        treeNode *assign = createNode("assignment");
-        addChild(assign, createNode("TOKEN_IDENTIFIER"));
-        addChild(assign, createNode("TOKEN_ASSIGNMENT_OP"));
-        addChild(assign, createNode("TOKEN_IDENTIFIER"));
-        addChild(assign, createNode("TOKEN_DELIMITER"));
+        char * treeNodeDescription = buildTreeNodeDescription("assignment", buffer);
+        tree assignment = createNode(treeNodeDescription);
+        free(treeNodeDescription);
 
-        (yyval.tree) = assign; // Retorna o nó criado para a regra
+        tree assign = createNode("assignment");
+        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
+        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP"));
+        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
+        addChild(assignment, createNode("TOKEN_DELIMITER"));
+
+        (yyval.synTree) = assignment; // Retorna o nó criado para a regra
     }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 1448 "solaris.tab.c"
+#line 1449 "solaris.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1676,7 +1677,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 110 "solaris.y"
+#line 114 "solaris.y"
 
 
 void yyerror(const char *s) {
