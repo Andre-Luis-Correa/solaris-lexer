@@ -525,9 +525,10 @@ char *yytext;
 #line 2 "solaris.l"
     #include "lexer.h"
     #include "solaris.tab.h"
+    #include "tree.h"
 
     char lexErrorMessage[1000];
-#line 531 "lex.yy.c"
+#line 532 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -678,10 +679,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 10 "solaris.l"
+#line 11 "solaris.l"
 
 
-#line 685 "lex.yy.c"
+#line 686 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -774,7 +775,7 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 12 "solaris.l"
+#line 13 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -783,7 +784,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 18 "solaris.l"
+#line 19 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -792,7 +793,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 24 "solaris.l"
+#line 25 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -801,7 +802,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 30 "solaris.l"
+#line 31 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -810,7 +811,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 36 "solaris.l"
+#line 37 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -819,7 +820,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 42 "solaris.l"
+#line 43 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -828,7 +829,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 48 "solaris.l"
+#line 49 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -837,7 +838,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 54 "solaris.l"
+#line 55 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -846,7 +847,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 60 "solaris.l"
+#line 61 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -855,7 +856,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 66 "solaris.l"
+#line 67 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -864,7 +865,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 72 "solaris.l"
+#line 73 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
@@ -873,7 +874,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 78 "solaris.l"
+#line 79 "solaris.l"
 {
     processToken(LEX_TOKEN_RESERVED_WORD, yytext);
     return TOKEN_RESERVED_WORD;
@@ -881,7 +882,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 83 "solaris.l"
+#line 84 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DATA_TYPE, yytext);
@@ -890,7 +891,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 89 "solaris.l"
+#line 90 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DATA_TYPE, yytext);
@@ -899,7 +900,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 95 "solaris.l"
+#line 96 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_IDENTIFIER, yytext);
@@ -908,7 +909,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 101 "solaris.l"
+#line 102 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_FLOAT_NUMBER, yytext);
@@ -917,7 +918,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 107 "solaris.l"
+#line 108 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_INTEGER_NUMBER, yytext);
@@ -926,7 +927,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 113 "solaris.l"
+#line 114 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_STRING, yytext);
@@ -935,7 +936,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 119 "solaris.l"
+#line 120 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_ARITHMETIC_OP, yytext);
@@ -944,7 +945,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 125 "solaris.l"
+#line 126 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_RELATIONAL_OP, yytext);
@@ -953,7 +954,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 131 "solaris.l"
+#line 132 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_LOGICAL_OP, yytext);
@@ -962,7 +963,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 137 "solaris.l"
+#line 138 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_ASSIGNMENT_OP, yytext);
@@ -971,7 +972,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 143 "solaris.l"
+#line 144 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DELIMITER, yytext);
@@ -980,7 +981,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 149 "solaris.l"
+#line 150 "solaris.l"
 {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DELIMITER, yytext);
@@ -989,7 +990,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 155 "solaris.l"
+#line 156 "solaris.l"
 {
     yylval.str = strdup(yytext);
     return TOKEN_COMMENT_LINE;
@@ -997,7 +998,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 160 "solaris.l"
+#line 161 "solaris.l"
 {
     yylval.str = strdup(yytext);
     return TOKEN_COMMENT_BLOCK;
@@ -1005,18 +1006,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 165 "solaris.l"
+#line 166 "solaris.l"
 {}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 167 "solaris.l"
+#line 168 "solaris.l"
 {
     return *yytext;
 }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 171 "solaris.l"
+#line 172 "solaris.l"
 {
     yylineno = 0;
     return 0;
@@ -1025,7 +1026,7 @@ case YY_STATE_EOF(INITIAL):
 /* Tratamento de Erros Léxicos */
 case 29:
 YY_RULE_SETUP
-#line 177 "solaris.l"
+#line 178 "solaris.l"
 {
     int current_line = yylineno - 1;
     sprintf(lexErrorMessage, "String mal formada na linha %d: [ %s ]\n", current_line, yytext);
@@ -1035,7 +1036,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 184 "solaris.l"
+#line 185 "solaris.l"
 {
     int current_line = yylineno - 1;
     sprintf(lexErrorMessage, "Comentario de bloco nao fechado na linha %d\n", current_line);
@@ -1045,7 +1046,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 191 "solaris.l"
+#line 192 "solaris.l"
 {
     int current_line = yylineno;
     sprintf(lexErrorMessage, "Numero malformado na linha %d: [ %s ]\n", current_line, yytext);
@@ -1055,7 +1056,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 198 "solaris.l"
+#line 199 "solaris.l"
 {
     int current_line = yylineno;
     sprintf(lexErrorMessage, "Token nao reconhecido linha %d: [ %s ]\n", current_line, yytext);
@@ -1065,10 +1066,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 205 "solaris.l"
+#line 206 "solaris.l"
 ECHO;
 	YY_BREAK
-#line 1072 "lex.yy.c"
+#line 1073 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1950,7 +1951,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 205 "solaris.l"
+#line 206 "solaris.l"
 
 
 int yywrap(void) {

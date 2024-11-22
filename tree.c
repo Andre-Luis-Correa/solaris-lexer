@@ -1,10 +1,10 @@
 #include "tree.h"
 
-treeNode * tree = NULL;
+tree_t * tree = NULL;
 
 // Cria um nó da árvore
-treeNode *createNode(const char *label) {
-    treeNode *node = (treeNode *)malloc(sizeof(treeNode));
+tree_t *createNode(const char *label) {
+    tree_t *node = (tree_t *)malloc(sizeof(tree_t));
     if (!node) {
         fprintf(stderr, "Erro: Falha ao alocar memória para o nó\n");
         exit(EXIT_FAILURE);
@@ -16,13 +16,13 @@ treeNode *createNode(const char *label) {
 }
 
 // Adiciona um filho a um nó
-void addChild(treeNode *parent, treeNode *child) {
+void addChild(tree_t *parent, tree_t *child) {
     if (!parent || !child) {
         fprintf(stderr, "Erro: Ponteiro nulo em addChild\n");
         exit(EXIT_FAILURE);
     }
     parent->childCount++;
-    treeNode **temp = (treeNode **)realloc(parent->children, parent->childCount * sizeof(treeNode *));
+    tree_t **temp = (tree_t **)realloc(parent->children, parent->childCount * sizeof(tree_t *));
     if (!temp) {
         fprintf(stderr, "Erro: Falha ao alocar memória para os filhos\n");
         exit(EXIT_FAILURE);
@@ -32,7 +32,7 @@ void addChild(treeNode *parent, treeNode *child) {
 }
 
 // Grava a árvore no arquivo
-void writeTreeToFile(treeNode *root, FILE *file, int depth) {
+void writeTreeToFile(tree_t *root, FILE *file, int depth) {
     int i;
 
     for (i = 0; i < depth; i++) {
@@ -51,7 +51,7 @@ void writeTreeToFile(treeNode *root, FILE *file, int depth) {
 }
 
 // Libera a memória da árvore
-void freeTree(treeNode *root) {
+void freeTree(tree_t *root) {
     int i;
 
     for (i=0; i < root->childCount; i++) {

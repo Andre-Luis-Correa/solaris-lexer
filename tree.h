@@ -5,18 +5,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct treeNode {
+typedef struct tree_t {
     char *label;
-    struct treeNode **children;
+    struct tree_t **children;
     int childCount;
-} treeNode;
+} tree_t;
 
-extern treeNode * tree;
+extern tree_t * tree;
 
-treeNode * createNode(const char *label);
-void addChild(treeNode *parent, treeNode *child);
-void writeTreeToFile(treeNode *root, FILE *file, int depth);
-void freeTree(treeNode *root);
+tree_t * createNode(const char *label);
+void addChild(tree_t *parent, tree_t *child);
+void writeTreeToFile(tree_t *root, FILE *file, int depth);
+void freeTree(tree_t *root);
 char * buildTreeNodeDescription(const char *ruleName, const char *details);
 
 #endif // TREE_H

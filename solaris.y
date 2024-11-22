@@ -11,59 +11,46 @@
     void yyerror(const char *s);
 
     char synErrorMessage[MAXBUFFER];
+    char * str;
+    tree_t *_C_treeRoot;
 %}
 
-%union {
-    char *str;  // Para armazenar strings
-    int intval; // Para armazenar inteiros, se necessário
-}
+%union tree_t {}
+%union str {}
 
-%token TOKEN_RESERVED_WORD
-%token <str> TOKEN_IDENTIFIER
-%token <str> TOKEN_INTEGER_NUMBER
-%token <str> TOKEN_FLOAT_NUMBER
-%token <str> TOKEN_STRING
-%token <str> TOKEN_ARITHMETIC_OP
-%token <str> TOKEN_RELATIONAL_OP
-%token <str> TOKEN_LOGICAL_OP
-%token <str> TOKEN_DELIMITER
-%token <str> TOKEN_ASSIGNMENT_OP
-%token <str> TOKEN_CONDITIONAL_CHOOSE
-%token <str> TOKEN_CONDITIONAL_OTHERWISE
-%token <str> TOKEN_LOOP
-%token <str> TOKEN_LOOP_UNTIL
-%token <str> TOKEN_LOOP_WHILE
-%token <str> TOKEN_DATA_TYPE
-%token <str> TOKEN_DATA_TYPE_STRING
-%token <str> TOKEN_COMMENT_LINE
-%token <str> TOKEN_COMMENT_BLOCK
-%token <str> TOKEN_SHOW
-%token <str> TOKEN_READ
-%token <str> TOKEN_FUNCTION
-%token <str> TOKEN_FUNCTION_RECEIVE
-%token <str> TOKEN_FUNCTION_RETURN
-%token <str> TOKEN_USE
+%start program
+
+%token TOKEN_IDENTIFIER
+%token TOKEN_INTEGER_NUMBER
+%token TOKEN_FLOAT_NUMBER
+%token TOKEN_STRING
+%token TOKEN_ARITHMETIC_OP
+%token TOKEN_RELATIONAL_OP
+%token TOKEN_LOGICAL_OP
+%token TOKEN_DELIMITER
+%token TOKEN_ASSIGNMENT_OP
+%token  TOKEN_CONDITIONAL_CHOOSE
+%token  TOKEN_CONDITIONAL_OTHERWISE
+%token  TOKEN_LOOP
+%token  TOKEN_LOOP_UNTIL
+%token  TOKEN_LOOP_WHILE
+%token  TOKEN_DATA_TYPE
+%token  TOKEN_DATA_TYPE_STRING
+%token  TOKEN_COMMENT_LINE
+%token  TOKEN_COMMENT_BLOCK
+%token  TOKEN_SHOW
+%token  TOKEN_READ
+%token  TOKEN_FUNCTION
+%token  TOKEN_FUNCTION_RECEIVE
+%token  TOKEN_FUNCTION_RETURN
+%token  TOKEN_USE
 
 %token TOKEN_BOOLEAN
 %token TOKEN_UNKNOWN
 
-%type <str> program
-%type <str> variable_declaration
-%type <str> assignment
-%type <str> expression
-%type <str> conditional
-%type <str> possible_content
-%type <str> loop
-%type <str> loop_while
-%type <str> loop_start
-%type <str> loop_condition
-%type <str> comment
-%type <str> write_data
-%type <str> read_data
-%type <str> function_declaration
-%type <str> function_return
-%type <str> function_parameter
-%type <str> library_inclusion
+%type <tree> program
+%type <tree> variable_declaration
+%type <tree> assignment
 
 %left TOKEN_LOGICAL_OP
 %left TOKEN_RELATIONAL_OP
@@ -80,18 +67,6 @@ program:
         }
         addChild(tree, createNode("FIM"));
     }
-    | program assignment '\n'
-    | program expression '\n'
-    | program conditional '\n'
-    | program loop '\n'
-    | program loop_while '\n'
-    | program comment '\n'
-    | program write_data '\n'
-    | program read_data '\n'
-    | program function_declaration '\n'
-    | program function_return '\n'
-    | program library_inclusion '\n'
-    | program '\n'
     | /* vazio */ {
         if (!tree) {
             printf("Árvore criada em empty!\n");
@@ -101,481 +76,36 @@ program:
     ;
 
 variable_declaration:
-    TOKEN_DATA_TYPE TOKEN_IDENTIFIER ';' {
+    TOKEN_DATA_TYPE assignment {
+        // Constrói a descrição para o nó
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s%c", $1, $2, ';');
-        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
-        $$ = strdup(buffer);
+        snprintf(buffer, MAXBUFFER, "");
 
-        char * treeNodeDescription = buildTreeNodeDescription("variable_declaration", buffer);
-        treeNode *varDecl = createNode(treeNodeDescription);
-        addChild(varDecl, createNode("TOKEN_DATA_TYPE"));
-        addChild(varDecl, createNode("TOKEN_IDENTIFIER"));
-        addChild(varDecl, createNode(";"));
-        addChild(tree, varDecl);
-    }
-    | TOKEN_DATA_TYPE assignment {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", $1, $2);
-        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
-        $$ = strdup(buffer);
+        // Cria o nó da variável
+        treeNode *varDecl = createNode("variable_declaration");
+        addChild(varDecl, createNode("TOKEN_DATA_TYPE")); // Adiciona o tipo de dado
+        addChild(varDecl, $2);                            // Adiciona o nó assignment como filho
 
-        char * treeNodeDescription = buildTreeNodeDescription("variable_declaration", buffer);
-        treeNode *varDecl = createNode(treeNodeDescription);
-        free(treeNodeDescription);
-
-        addChild(varDecl, createNode("TOKEN_DATA_TYPE"));
-        addChild(varDecl, createNode("assignment"));
-        addChild(varDecl, createNode(";"));
-        addChild(tree, varDecl);
-    }
-    | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_STRING_DECLARATION, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
-        processSyntacticStructure(SYN_STRING_DECLARATION, buffer);
-        $$ = strdup(buffer);
-    }
-    /* Tratamento de erro */
-    | TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
-        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_DATA_TYPE {
-        sprintf(synErrorMessage, "Erro: Declaracao de variavel incompleta na linha %d\n", yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER {
-        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING {
-        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
+        $$ = varDecl; // Retorna o nó criado para a regra
     }
     ;
 
 assignment:
     TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
+        // Constrói a descrição para o nó
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
+        snprintf(buffer, MAXBUFFER, "");
 
-        char * treeNodeDescription = buildTreeNodeDescription("assignment", buffer);
-        treeNode * assignment = createNode(treeNodeDescription);
-        free(treeNodeDescription);
+        // Cria o nó da atribuição
+        treeNode *assign = createNode("assignment");
+        addChild(assign, createNode("TOKEN_IDENTIFIER"));
+        addChild(assign, createNode("TOKEN_ASSIGNMENT_OP"));
+        addChild(assign, createNode("TOKEN_IDENTIFIER"));
+        addChild(assign, createNode("TOKEN_DELIMITER"));
 
-        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
-        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP"));
-        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
-        addChild(assignment, createNode(";"));
-        addChild(tree, assignment);
-    }
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
-    }
-    /* Tratamento de erro */
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a atribuicao [ %s ] na linha %d\n", buffer, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a atribuicao [ %s ] na linha %d\n", buffer, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a atribuicao [ %s ] na linha %d\n", buffer, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a atribuicao [ %s ] na linha %d\n", buffer, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a atribuicao [ %s ] na linha %d\n", buffer, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", $1, $2);
-        sprintf(synErrorMessage, "Erro: Atribuicao incompleta [ %s ] na linha %d\n", buffer, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
+        $$ = assign; // Retorna o nó criado para a regra
     }
     ;
-
-expression:
-    expression TOKEN_ARITHMETIC_OP expression {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        processSyntacticStructure(SYN_ARITHMETIC_OPERATION, buffer);
-        $$ = strdup(buffer);
-    }
-    | expression TOKEN_RELATIONAL_OP expression {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        processSyntacticStructure(SYN_RELATIONAL_OPERATION, buffer);
-        $$ = strdup(buffer);
-    }
-    | expression TOKEN_LOGICAL_OP expression {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        $$ = strdup(buffer);
-    }
-    | '(' expression ')' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%c %s %c", '(', $2, ')');
-        $$ = strdup(buffer);
-    }
-    | TOKEN_IDENTIFIER {
-        $$ = strdup($1);
-    }
-    | TOKEN_INTEGER_NUMBER {
-        $$ = strdup($1);
-    }
-    | TOKEN_FLOAT_NUMBER {
-        $$ = strdup($1);
-    }
-    /* Tratamento de erro */
-    | expression TOKEN_ARITHMETIC_OP {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", $1, $2);
-        sprintf(synErrorMessage, "Erro: Operacao incompleta apos operador '%s' na linha %d\n", $2, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | '(' ')' {
-        sprintf(synErrorMessage, "Erro: Operacao incompleta entre parenteses na linha %d\n", yylineno + 1);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | '(' expression {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "( %s", $2);
-        sprintf(synErrorMessage, "Erro: Operacao com fechamento de parenteses incompleto '%s' na linha %d\n", buffer, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_ARITHMETIC_OP expression {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", $1, $2);
-        sprintf(synErrorMessage, "Erro: Operacao incompleta '%s' na linha %d\n", buffer, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_ARITHMETIC_OP {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s", $1);
-        sprintf(synErrorMessage, "Erro: Operacao '%s' sem operandos na linha %d\n", buffer, yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    ;
-
-conditional:
-    TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content '}' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %c %s %c %c %s %c", $1, '(', $3, ')', '{', $6, '}');
-        processSyntacticStructure(SYN_CONDITIONAL_CHOOSE, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content '}' TOKEN_CONDITIONAL_OTHERWISE '{' possible_content '}' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %c %s %c %c %s %c %s %c %s %c", $1, '(', $3, ')', '{', $6, '}', $8, '{', $10, '}');
-        processSyntacticStructure(SYN_CONDITIONAL_CHOOSE, buffer);
-        $$ = strdup(buffer);
-    }
-    /* Tratamento de erro */
-    | TOKEN_CONDITIONAL_CHOOSE '(' expression {
-        sprintf(synErrorMessage, "Erro: Falta de fechamento de parenteses no condicional na linha %d\n", yylineno + 1);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_CONDITIONAL_CHOOSE '(' ')' {
-        sprintf(synErrorMessage, "Erro: Condicional sem expressao na linha %d\n", yylineno +1 );
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' {
-        sprintf(synErrorMessage, "Erro: Falta de abertura de bloco '{' no condicional na linha %d\n", yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content '}' TOKEN_CONDITIONAL_OTHERWISE {
-        sprintf(synErrorMessage, "Erro: Bloco 'otherwise' incompleto na linha %d\n", yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    /* Tratamento de erro */
-    | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content {
-        sprintf(synErrorMessage, "Erro: Falta de fechamento de bloco '}' no condicional na linha %d\n", yylineno);
-        processSyntacticStructure(SYN_ERROR, synErrorMessage);
-        exit(EXIT_FAILURE);
-    }
-    ;
-
-possible_content:
-    /* vazio */ {
-        $$ = strdup("");
-    }
-    | possible_content '\n' {
-        $$ = strdup("\n");
-    }
-    | possible_content variable_declaration {
-        $$ = strdup($2);
-    }
-    | possible_content assignment {
-        $$ = strdup($2);
-    }
-    | possible_content conditional {
-        $$ = strdup($2);
-    }
-    | possible_content loop {
-        $$ = strdup($2);
-    }
-    | possible_content loop_while {
-        $$ = strdup($2);
-    }
-    | possible_content comment {
-        $$ = strdup($2);
-    }
-    | possible_content read_data {
-        $$ = strdup($2);
-    }
-    | possible_content write_data {
-        $$ = strdup($2);
-    }
-    ;
-
-loop:
-    TOKEN_LOOP '(' loop_start ')' TOKEN_LOOP_UNTIL '(' loop_condition ')' '{' possible_content '}' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s ( %s ) %s ( %s ) { %s }", $1, $3, $5, $7, $10);
-        processSyntacticStructure(SYN_LOOP, buffer);
-        $$ = strdup(buffer);
-    }
-    ;
-
-loop_while:
-    TOKEN_LOOP_WHILE '(' loop_condition ')' '{' possible_content '}' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s ( %s ) { %s }", $1, $3, $6);
-        processSyntacticStructure(SYN_LOOP_WHILE, buffer);
-        $$ = strdup(buffer);
-    }
-    ;
-
-loop_start:
-    TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_DATA_TYPE TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s %s", $1, $2, $3, $4);
-        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
-        $$ = strdup(buffer);
-    }
-    ;
-
-loop_condition:
-    loop_condition TOKEN_RELATIONAL_OP loop_condition {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        processSyntacticStructure(SYN_RELATIONAL_OPERATION, buffer);
-        $$ = strdup(buffer);
-    }
-    | loop_condition TOKEN_LOGICAL_OP loop_condition {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        $$ = strdup(buffer);
-    }
-    | '(' loop_condition ')' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%c %s %c", '(', $2, ')');
-        $$ = strdup(buffer);
-    }
-    | TOKEN_IDENTIFIER {
-        $$ = strdup($1);
-    }
-    | TOKEN_INTEGER_NUMBER {
-        $$ = strdup($1);
-    }
-    | TOKEN_FLOAT_NUMBER {
-        $$ = strdup($1);
-    }
-    ;
-
-comment:
-    TOKEN_COMMENT_LINE {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s", $1);
-        processSyntacticStructure(SYN_COMMENT_LINE, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_COMMENT_BLOCK {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s", $1);
-        processSyntacticStructure(SYN_COMMENT_BLOCK, buffer);
-        $$ = strdup(buffer);
-    }
-    ;
-
-write_data:
-    TOKEN_SHOW TOKEN_IDENTIFIER ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_WRITE_DATA, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_SHOW TOKEN_STRING ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_WRITE_DATA, buffer);
-        $$ = strdup(buffer);
-    }
-    ;
-
-read_data:
-    TOKEN_READ TOKEN_IDENTIFIER ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_READ_DATA, buffer);
-        $$ = strdup(buffer);
-    }
-    ;
-
-function_declaration:
-    TOKEN_FUNCTION '(' TOKEN_DATA_TYPE ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '}' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s; }", $1, $3, $6, $7, $9, $12);
-        processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s; }", $1, $3, $6, $7, $9, $12);
-        processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
-        $$ = strdup(buffer);
-    }
-    ;
-
-function_parameter:
-    TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", $1, $2);
-        $$ = strdup(buffer);
-    }
-    | function_parameter ',' TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s, %s %s", $1, $3, $4);
-        $$ = strdup(buffer);
-    }
-    ;
-
-function_return:
-    TOKEN_FUNCTION_RETURN TOKEN_IDENTIFIER ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_FUNCTION_RETURN TOKEN_STRING ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_FUNCTION_RETURN TOKEN_INTEGER_NUMBER ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
-        $$ = strdup(buffer);
-    }
-    | TOKEN_FUNCTION_RETURN TOKEN_FLOAT_NUMBER ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
-        $$ = strdup(buffer);
-    }
-    ;
-
-library_inclusion:
-    TOKEN_USE TOKEN_STRING {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_LIBRARY_INCLUSION, buffer);
-        $$ = strdup(buffer);
-    }
 
 %%
 

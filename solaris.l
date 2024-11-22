@@ -1,6 +1,7 @@
 %{
     #include "lexer.h"
     #include "solaris.tab.h"
+    #include "tree.h"
 
     char lexErrorMessage[1000];
 %}
