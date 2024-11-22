@@ -3,13 +3,14 @@
 tree synTree = NULL;
 
 // Cria um nó da árvore
-tree createNode(const char *label) {
+tree createNode(const char *label, const char *value) {
     tree node = (tree)malloc(sizeof(TREE_NODE));
     if (!node) {
         fprintf(stderr, "Erro: Falha ao alocar memória para o nó\n");
         exit(EXIT_FAILURE);
     }
     node->label = strdup(label);
+    node->value = strdup(value);
     if (!node->label) {
         fprintf(stderr, "Erro: Falha ao alocar memória para o rótulo do nó\n");
         exit(EXIT_FAILURE);
@@ -51,9 +52,8 @@ void writeTreeToFile(tree root, FILE *file, int depth) {
         fprintf(file, "  ");
     }
 
-    // Imprime o rótulo do nó
-    if (strstr(root->label, "FIM")) {
-        fprintf(file, "\n");
+    if (root->value) {
+        fprintf(file, "%s: %s\n", root->label, root->value);
     } else {
         fprintf(file, "%s\n", root->label);
     }

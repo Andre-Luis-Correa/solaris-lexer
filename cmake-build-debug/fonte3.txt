@@ -1,1 +1,2 @@
 integer num = number;
+integer number = newNumber;

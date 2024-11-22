@@ -475,7 +475,7 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    62,    62,    69,    78,    95
+       0,    62,    62,    68,    77,    90
 };
 #endif
 
@@ -1384,8 +1384,7 @@ yyreduce:
 #line 62 "solaris.y"
     {
         if (!synTree) {
-            printf("Árvore criada em program variable_declaration!\n");
-            synTree = createNode("program");
+            synTree = createNode("program", (yyvsp[(2) - (3)].synTree)->value);
         }
         addChild(synTree, (yyvsp[(2) - (3)].synTree));
     }
@@ -1393,59 +1392,51 @@ yyreduce:
 
   case 3:
 /* Line 1792 of yacc.c  */
-#line 69 "solaris.y"
+#line 68 "solaris.y"
     {
         if (!synTree) {
             printf("Árvore criada em empty!\n");
-            synTree = createNode("program");  // Inicializa a raiz
+            synTree = createNode("program", "empty");  // Inicializa a raiz
         }
     }
     break;
 
   case 4:
 /* Line 1792 of yacc.c  */
-#line 78 "solaris.y"
+#line 77 "solaris.y"
     {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", (yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].synTree)->label);
+        sprintf(buffer, "%s %s", (yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].synTree)->value);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
 
-        char * treeNodeDescription = buildTreeNodeDescription("variable_declaration", buffer);
-        tree variableDeclaratioan = createNode(treeNodeDescription);
-        free(treeNodeDescription);
-
-        addChild(variableDeclaratioan, createNode("TOKEN_DATA_TYPE")); // Adiciona o tipo de dado
-        addChild(variableDeclaratioan, (yyvsp[(2) - (2)].synTree));                            // Adiciona o nó assignment como filho
-
-        (yyval.synTree) = variableDeclaratioan; // Retorna o nó criado para a regra
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE", (yyvsp[(1) - (2)].str)));
+        addChild(variableDeclaration, (yyvsp[(2) - (2)].synTree));
+        (yyval.synTree) = variableDeclaration;
     }
     break;
 
   case 5:
 /* Line 1792 of yacc.c  */
-#line 95 "solaris.y"
+#line 90 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s%c", (yyvsp[(1) - (4)].str), (yyvsp[(2) - (4)].str), (yyvsp[(3) - (4)].str), ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
 
-        char * treeNodeDescription = buildTreeNodeDescription("assignment", buffer);
-        tree assignment = createNode(treeNodeDescription);
-        free(treeNodeDescription);
+        tree assignment = createNode("assignment", buffer);
+        addChild(assignment, createNode("TOKEN_IDENTIFIER", (yyvsp[(1) - (4)].str)));
+        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP", (yyvsp[(2) - (4)].str)));
+        addChild(assignment, createNode("TOKEN_IDENTIFIER", (yyvsp[(3) - (4)].str)));
+        addChild(assignment, createNode("TOKEN_DELIMITER", ";\n"));
 
-        tree assign = createNode("assignment");
-        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
-        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP"));
-        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
-        addChild(assignment, createNode("TOKEN_DELIMITER"));
-
-        (yyval.synTree) = assignment; // Retorna o nó criado para a regra
+        (yyval.synTree) = assignment;
     }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 1449 "solaris.tab.c"
+#line 1440 "solaris.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1677,7 +1668,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 114 "solaris.y"
+#line 105 "solaris.y"
 
 
 void yyerror(const char *s) {

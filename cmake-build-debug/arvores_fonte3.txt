@@ -1,8 +1,17 @@
-program
-  variable_declaration : [ integer assignment : [ num = number; ] ]
-    TOKEN_DATA_TYPE
-    assignment : [ num = number; ]
-      TOKEN_IDENTIFIER
-      TOKEN_ASSIGNMENT_OP
-      TOKEN_IDENTIFIER
-      TOKEN_DELIMITER
+program: empty
+  variable_declaration: integer num = number;
+    TOKEN_DATA_TYPE: integer
+    assignment: num = number;
+      TOKEN_IDENTIFIER: num
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_IDENTIFIER: number
+      TOKEN_DELIMITER: ;
+
+  variable_declaration: integer number = newNumber;
+    TOKEN_DATA_TYPE: integer
+    assignment: number = newNumber;
+      TOKEN_IDENTIFIER: number
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_IDENTIFIER: newNumber
+      TOKEN_DELIMITER: ;
+

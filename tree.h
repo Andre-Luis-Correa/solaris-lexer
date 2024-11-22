@@ -7,6 +7,7 @@
 
 struct treeNode {
     char *label;
+    char *value;
     struct treeNode **children;
     int childCount;
 };
@@ -15,7 +16,7 @@ typedef struct treeNode TREE_NODE;
 typedef TREE_NODE * tree;
 extern tree synTree;
 
-tree createNode(const char *label);
+tree createNode(const char *label, const char *value);
 void addChild(tree parent, tree child) ;
 void writeTreeToFile(tree root, FILE *file, int depth);
 void freeTree(tree root);
