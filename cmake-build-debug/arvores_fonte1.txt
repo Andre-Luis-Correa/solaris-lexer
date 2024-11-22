@@ -167,7 +167,9 @@ program:
     ): )
     {: {
     possible_content:  
+      \n: \n
     }: }
+
   conditional: choose ( oldName == Name ) {   } otherwise {   }
     TOKEN_CONDITIONAL_CHOOSE: choose
     (: (
@@ -180,11 +182,56 @@ program:
     ): )
     {: {
     possible_content:  
+      \n: \n
+      conditional: choose ( x >= y ) {   } otherwise {   }
+        TOKEN_CONDITIONAL_CHOOSE: choose
+        (: (
+        expression: x >= y
+          expression: x
+            TOKEN_IDENTIFIER: x
+          TOKEN_ASSIGNMENT_OP: >=
+          expression: y
+            TOKEN_IDENTIFIER: y
+        ): )
+        {: {
+        possible_content:  
+          \n: \n
+          assignment: x = y;
+            TOKEN_IDENTIFIER: x
+            TOKEN_ASSIGNMENT_OP: =
+            TOKEN_IDENTIFIER: y
+            TOKEN_DELIMITER: ;
+
+          \n: \n
+        }: }
+        TOKEN_CONDITIONAL_OTHERWISE: otherwise
+        {: {
+        possible_content:  
+          \n: \n
+          assignment: y = x;
+            TOKEN_IDENTIFIER: y
+            TOKEN_ASSIGNMENT_OP: =
+            TOKEN_IDENTIFIER: x
+            TOKEN_DELIMITER: ;
+
+          \n: \n
+        }: }
+
+      \n: \n
     }: }
     TOKEN_CONDITIONAL_OTHERWISE: otherwise
     {: {
     possible_content:  
+      \n: \n
+      assignment: x = 5;
+        TOKEN_IDENTIFIER: x
+        TOKEN_ASSIGNMENT_OP: =
+        TOKEN_INTEGER_NUMBER: 5
+        TOKEN_DELIMITER: ;
+
+      \n: \n
     }: }
+
   comment: # LOOP 1: WHILE
     TOKEN_COMMENT_LINE: # LOOP 1: WHILE
 
@@ -219,7 +266,39 @@ program:
     ): )
     {: {
     possible_content:  
+      \n: \n
+      assignment: counter = counter + 1;
+        TOKEN_IDENTIFIER: counter
+        TOKEN_ASSIGNMENT_OP: =
+        expression: counter + 1
+          expression: counter
+            TOKEN_IDENTIFIER: counter
+          TOKEN_ASSIGNMENT_OP: +
+          expression: 1
+            TOKEN_INTEGER_NUMBER: 1
+        TOKEN_DELIMITER: ;
+
+      \n: \n
+      \n: \n
+      conditional: choose ( counter == 8 ) {   }
+        TOKEN_CONDITIONAL_CHOOSE: choose
+        (: (
+        expression: counter == 8
+          expression: counter
+            TOKEN_IDENTIFIER: counter
+          TOKEN_ASSIGNMENT_OP: ==
+          expression: 8
+            TOKEN_INTEGER_NUMBER: 8
+        ): )
+        {: {
+        possible_content:  
+          \n: \n
+          \n: \n
+        }: }
+
+      \n: \n
     }: }
+
   comment: # LOOP 2: LOOP - UNTIL
     TOKEN_COMMENT_LINE: # LOOP 2: LOOP - UNTIL
 
@@ -243,7 +322,80 @@ program:
     ): )
     {: {
     possible_content:  
+      \n: \n
+      assignment: x = 90;
+        TOKEN_IDENTIFIER: x
+        TOKEN_ASSIGNMENT_OP: =
+        TOKEN_INTEGER_NUMBER: 90
+        TOKEN_DELIMITER: ;
+
+      \n: \n
+      \n: \n
+      loop: loop ( integer i = 3 ) until ( i <= 5 ) {   }
+        TOKEN_LOOP: loop
+        (: (
+        loop_start: integer i = 3
+          TOKEN_DATA_TYPE: integer
+          TOKEN_IDENTIFIER: i
+          TOKEN_ASSIGNMENT_OP: =
+          TOKEN_INTEGER_NUMBER: 3
+        ): )
+        TOKEN_LOOP_UNTIL: until
+        (: (
+        loop_condition: i <= 5
+          loop_condition: i
+            TOKEN_IDENTIFIER: i
+          TOKEN_RELATIONAL_OP: <=
+          loop_condition: 5
+            TOKEN_INTEGER_NUMBER: 5
+        ): )
+        {: {
+        possible_content:  
+          \n: \n
+          assignment: x = 90;
+            TOKEN_IDENTIFIER: x
+            TOKEN_ASSIGNMENT_OP: =
+            TOKEN_INTEGER_NUMBER: 90
+            TOKEN_DELIMITER: ;
+
+          \n: \n
+        }: }
+
+      \n: \n
+      \n: \n
+      loop: loop ( integer i = 3 ) until ( i <= 5 ) {   }
+        TOKEN_LOOP: loop
+        (: (
+        loop_start: integer i = 3
+          TOKEN_DATA_TYPE: integer
+          TOKEN_IDENTIFIER: i
+          TOKEN_ASSIGNMENT_OP: =
+          TOKEN_INTEGER_NUMBER: 3
+        ): )
+        TOKEN_LOOP_UNTIL: until
+        (: (
+        loop_condition: i <= 5
+          loop_condition: i
+            TOKEN_IDENTIFIER: i
+          TOKEN_RELATIONAL_OP: <=
+          loop_condition: 5
+            TOKEN_INTEGER_NUMBER: 5
+        ): )
+        {: {
+        possible_content:  
+          \n: \n
+          assignment: x = 90;
+            TOKEN_IDENTIFIER: x
+            TOKEN_ASSIGNMENT_OP: =
+            TOKEN_INTEGER_NUMBER: 90
+            TOKEN_DELIMITER: ;
+
+          \n: \n
+        }: }
+
+      \n: \n
     }: }
+
   comment: # ESCRITA DE DADOS
     TOKEN_COMMENT_LINE: # ESCRITA DE DADOS
 
@@ -287,6 +439,35 @@ program:
     ): )
     {: {
     possible_content:  
+      \n: \n
+      variable_declaration: integer sum = a * a + b * b;
+        TOKEN_DATA_TYPE: integer
+        assignment: sum = a * a + b * b;
+          TOKEN_IDENTIFIER: sum
+          TOKEN_ASSIGNMENT_OP: =
+          expression: a * a + b * b
+            expression: a * a + b
+              expression: a * a
+                expression: a
+                  TOKEN_IDENTIFIER: a
+                TOKEN_ASSIGNMENT_OP: *
+                expression: a
+                  TOKEN_IDENTIFIER: a
+              TOKEN_ASSIGNMENT_OP: +
+              expression: b
+                TOKEN_IDENTIFIER: b
+            TOKEN_ASSIGNMENT_OP: *
+            expression: b
+              TOKEN_IDENTIFIER: b
+          TOKEN_DELIMITER: ;
+
+      \n: \n
+      \n: \n
+      comment: # RETORNO DE FUNCAO
+        TOKEN_COMMENT_LINE: # RETORNO DE FUNCAO
+
+      \n: \n
+      \n: \n
     function_return: return sum;
       TOKEN_FUNCTION_RETURN: return
       TOKEN_IDENTIFIER: sum

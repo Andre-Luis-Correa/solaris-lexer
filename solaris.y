@@ -431,7 +431,7 @@ conditional:
         addChild(conditional, createNode(")", ")"));
         addChild(conditional, createNode("{", "{"));
         addChild(conditional, $6);
-        addChild(conditional, createNode("}", "}"));
+        addChild(conditional, createNode("}", "}\n"));
         $$ = conditional;
     }
     | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content '}' TOKEN_CONDITIONAL_OTHERWISE '{' possible_content '}' {
@@ -450,7 +450,7 @@ conditional:
         addChild(conditional, createNode("TOKEN_CONDITIONAL_OTHERWISE", $8));
         addChild(conditional, createNode("{", "{"));
         addChild(conditional, $10);
-        addChild(conditional, createNode("}", "}"));
+        addChild(conditional, createNode("}", "}\n"));
         $$ = conditional;
     }
     /* Tratamento de erro */
@@ -488,52 +488,43 @@ conditional:
 possible_content:
     /* vazio */ {
         tree possible_content = createNode("possible_content", " ");
-        addChild(possible_content, createNode("empty", " "));
         $$ = possible_content;
     }
     | possible_content '\n' {
-        tree contentNode = createNode("possible_content", $1->value);
-        $$ = contentNode;
+        addChild($1, createNode("\\n", "\\n"));
+        $$ = $1;
     }
     | possible_content variable_declaration {
-        tree contentNode = createNode("possible_content", $1->value);
-        addChild(contentNode, $2);
-        $$ = contentNode;
+        addChild($1, $2);
+        $$ = $1;
     }
     | possible_content assignment {
-        tree contentNode = createNode("possible_content", $1->value);
-        addChild(contentNode, $2);
-        $$ = contentNode;
+        addChild($1, $2);
+        $$ = $1;
     }
     | possible_content conditional {
-        tree contentNode = createNode("possible_content", $1->value);
-        addChild(contentNode, $2);
-        $$ = contentNode;
+        addChild($1, $2);
+        $$ = $1;
     }
     | possible_content loop {
-        tree contentNode = createNode("possible_content", $1->value);
-        addChild(contentNode, $2);
-        $$ = contentNode;
+        addChild($1, $2);
+        $$ = $1;
     }
     | possible_content loop_while {
-        tree contentNode = createNode("possible_content", $1->value);
-        addChild(contentNode, $2);
-        $$ = contentNode;
+        addChild($1, $2);
+        $$ = $1;
     }
     | possible_content comment {
-        tree contentNode = createNode("possible_content", $1->value);
-        addChild(contentNode, $2);
-        $$ = contentNode;
+        addChild($1, $2);
+        $$ = $1;
     }
     | possible_content read_data {
-        tree contentNode = createNode("possible_content", $1->value);
-        addChild(contentNode, $2);
-        $$ = contentNode;
+        addChild($1, $2);
+        $$ = $1;
     }
     | possible_content write_data {
-        tree contentNode = createNode("possible_content", $1->value);
-        addChild(contentNode, $2);
-        $$ = contentNode;
+        addChild($1, $2);
+        $$ = $1;
     }
     ;
 
@@ -554,7 +545,7 @@ loop:
         addChild(loop, createNode(")", ")"));
         addChild(loop, createNode("{", "{"));
         addChild(loop, $10);
-        addChild(loop, createNode("}", "}"));
+        addChild(loop, createNode("}", "}\n"));
         $$ = loop;
     }
     ;
@@ -572,7 +563,7 @@ loop_while:
         addChild(loop_while, createNode(")", ")"));
         addChild(loop_while, createNode("{", "{"));
         addChild(loop_while, $6);
-        addChild(loop_while, createNode("}", "}"));
+        addChild(loop_while, createNode("}", "}\n"));
         $$ = loop_while;
     }
     ;
