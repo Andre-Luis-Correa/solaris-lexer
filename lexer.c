@@ -130,3 +130,16 @@ void processToken(int type, const char *text) {
         }
     }
 }
+
+// Imprime as listas de tokens reservados e outros tokens em formato organizado.
+// Pré-condições:
+//   - 'reservedWordTokens' deve ser o ponteiro para a lista de tokens reservados ou NULL.
+//   - 'otherTokens' deve ser o ponteiro para a lista de outros tokens ou NULL.
+// Pós-condições:
+//   - Todos os tokens das listas são impressos no console em formato tabular ou estruturado.
+void printTokenLists(const tokenList *reservedWordTokens, const tokenList *otherTokens) {
+    printf("\n\nTokens Identificados:\n");
+    printTokens(reservedWordTokens, "Palavras Reservadas");
+    printTokens(otherTokens, "Outros Tokens");
+}
+

@@ -31,10 +31,14 @@ typedef struct token {
     struct token *next;     // Ponteiro para o próximo token na lista
 } tokenList;
 
-extern int errorFlag;
 // Declarações das variáveis globais como extern
-extern tokenList *reservedWordListHead;  // Cabeça da lista de palavras reservadas
-extern tokenList *otherTokensListHead;   // Cabeça da lista de outros tokens
+extern int errorFlag;
+
+// Cabeça da lista de palavras reservadas
+extern tokenList *reservedWordListHead;
+
+// Cabeça da lista de outros tokens
+extern tokenList *otherTokensListHead;
 
 // Cria um novo token e inicializa seus valores.
 // Pré-condições: 'value' deve ser uma string válida.
@@ -69,5 +73,13 @@ void printTokens(const tokenList *head, const char *listName);
 //   - O token é adicionado à lista de palavras reservadas se 'type' for RESERVED_WORD.
 //   - Caso contrário, o token é adicionado à lista de outros tokens.
 void processToken(int type, const char *text);
+
+// Imprime as listas de tokens reservados e outros tokens em formato organizado.
+// Pré-condições:
+//   - 'reservedWordTokens' deve ser o ponteiro para a lista de tokens reservados ou NULL.
+//   - 'otherTokens' deve ser o ponteiro para a lista de outros tokens ou NULL.
+// Pós-condições:
+//   - Todos os tokens das listas são impressos no console em formato tabular ou estruturado.
+void printTokenLists(const tokenList *reservedWordTokens, const tokenList *otherTokens);
 
 #endif // LEXER_H

@@ -1,8 +1,11 @@
 #include "tree.h"
+#include "file.h"
 
 tree synTree = NULL;
 
-// Cria um nó da árvore
+// Cria e inicializa um nó da árvore com um rótulo e um valor associados.
+// Pré-condições: 'label' e 'value' devem ser strings válidas ou NULL.
+// Pós-condições: Retorna um ponteiro para o nó criado.
 tree createNode(const char *label, const char *value) {
     tree node = (tree)malloc(sizeof(TREE_NODE));
     if (!node) {
@@ -20,7 +23,9 @@ tree createNode(const char *label, const char *value) {
     return node;
 }
 
-// Adiciona um filho a um nó
+// Adiciona um nó filho a um nó pai existente na árvore.
+// Pré-condições: 'parent' e 'child' devem ser ponteiros válidos para nós.
+// Pós-condições: O nó 'child' será adicionado à lista de filhos de 'parent'.
 void addChild(tree parent, tree child) {
     if (!parent || !child) {
         fprintf(stderr, "Erro: Ponteiro nulo em addChild\n");
@@ -38,7 +43,9 @@ void addChild(tree parent, tree child) {
     parent->children[parent->childCount - 1] = child;
 }
 
-// Grava a árvore no arquivo
+// Escreve a árvore de sintaxe em um arquivo, com indentação para representar a hierarquia.
+// Pré-condições: 'root' deve ser um ponteiro válido para a raiz da árvore, e 'file' deve estar aberto para escrita.
+// Pós-condições: A árvore será escrita no arquivo em um formato legível.
 void writeTreeToFile(tree root, FILE *file, int depth) {
     int i;
 
@@ -64,7 +71,9 @@ void writeTreeToFile(tree root, FILE *file, int depth) {
     }
 }
 
-// Libera a memória da árvore
+// Libera a memória associada a uma árvore, incluindo todos os seus nós filhos.
+// Pré-condições: 'root' deve ser um ponteiro válido para a raiz da árvore ou NULL.
+// Pós-condições: A memória de todos os nós será liberada.
 void freeTree(tree root) {
     if (!root) return;
 
@@ -81,26 +90,21 @@ void freeTree(tree root) {
     free(root);
 }
 
-// Constrói uma descrição para um nó da árvore
-char *buildTreeNodeDescription(const char *ruleName, const char *details) {
-    char treeNodeDescription[1000];
-    snprintf(treeNodeDescription, sizeof(treeNodeDescription), "%s : [ %s ]", ruleName, details);
+// Escreve a árvore de sintaxe em um arquivo de texto, criando ou sobrescrevendo o arquivo.
+// Pré-condições: 'fileName' deve ser o caminho válido para um arquivo, e 'txtTree' deve ser um ponteiro válido para a árvore.
+// Pós-condições: A árvore será salva no arquivo de texto especificado.
+void writeTreeToTxtFile(char * fileName, tree txtTree) {
+    char outputFileName[256];
+    snprintf(outputFileName, sizeof(outputFileName), "arvores_%s.txt", fileName);
 
-    char *result = strdup(treeNodeDescription);
-    if (!result) {
-        fprintf(stderr, "Erro: Falha ao alocar memória para a descrição do nó\n");
-        exit(EXIT_FAILURE);
-    }
-    return result;
-}
+    FILE * outputFile = openFile(outputFileName, "w");
 
-void createProgramTree(tree child) {
-    if (!synTree) {
-        if(child) {
-            synTree = createNode("program", child->value);
-            addChild(synTree, child);
-        } else {
-            synTree = createNode("program", " ");
-        }
+    if (txtTree) {
+        writeTreeToFile(txtTree, outputFile, 0);
+    } else {
+        printf("Nenhuma árvore sintática gerada.\n");
     }
+
+    fclose(outputFile);
+    printf("\n\nArvore sintatica salva com sucesso em %s.\n\n", outputFileName);
 }

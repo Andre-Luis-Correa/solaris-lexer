@@ -74,7 +74,6 @@
 
 program:
     program variable_declaration '\n' {
-        printf("\n\nEntrou em program -> variable_declaration com value %s\n\n", $2->value);
         if (!synTree) synTree = createNode("program", $2->value);
         addChild(synTree, $2);
     }
