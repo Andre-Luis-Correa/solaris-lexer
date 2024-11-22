@@ -31,7 +31,7 @@ int main() {
 
     if (yyparse() == 0) {
         printSyntacticStructuresList(syntacticStructureListHead);
-        writeTreeToTxtFile(fileName, synTree);
+        writeTreeToTxtFile(inputFileName, synTree);
     } else {
         fclose(file);
         return 0;
