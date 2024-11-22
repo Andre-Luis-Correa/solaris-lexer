@@ -341,13 +341,13 @@ expression:
     }
     | '(' expression ')' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s;", $1, $2->value, $3);
+        sprintf(buffer, "( %s )", $2->value);
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
 
         tree expression = createNode("expression", buffer);
-        addChild(expression, createNode("(", $1));
+        addChild(expression, createNode("(", "("));
         addChild(expression, $2);
-        addChild(expression, createNode(")", $3));
+        addChild(expression, createNode(")", ")"));
         $$ = expression;
     }
     | TOKEN_IDENTIFIER {
@@ -413,12 +413,12 @@ conditional:
 
         tree conditional = createNode("conditional", buffer);
         addChild(conditional, createNode("TOKEN_CONDITIONAL_CHOOSE", $1));
-        addChild(conditional, createNode("(", $2));
+        addChild(conditional, createNode("(", "("));
         addChild(conditional, $3);
-        addChild(conditional, createNode(")", $4));
-        addChild(conditional, createNode("{", $5));
+        addChild(conditional, createNode(")", ")"));
+        addChild(conditional, createNode("{", "{"));
         addChild(conditional, $6);
-        addChild(conditional, createNode("}", $7));
+        addChild(conditional, createNode("}", "}"));
         $$ = conditional;
     }
     | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content '}' TOKEN_CONDITIONAL_OTHERWISE '{' possible_content '}' {
@@ -428,16 +428,16 @@ conditional:
 
         tree conditional = createNode("conditional", buffer);
         addChild(conditional, createNode("TOKEN_CONDITIONAL_CHOOSE", $1));
-        addChild(conditional, createNode("(", $2));
+        addChild(conditional, createNode("(", "("));
         addChild(conditional, $3);
-        addChild(conditional, createNode(")", $4));
-        addChild(conditional, createNode("{", $5));
+        addChild(conditional, createNode(")", ")"));
+        addChild(conditional, createNode("{", "{"));
         addChild(conditional, $6);
-        addChild(conditional, createNode("}", $7));
+        addChild(conditional, createNode("}", "}"));
         addChild(conditional, createNode("TOKEN_CONDITIONAL_OTHERWISE", $8));
-        addChild(conditional, createNode("{", $9));
+        addChild(conditional, createNode("{", "{"));
         addChild(conditional, $10);
-        addChild(conditional, createNode("}", $11));
+        addChild(conditional, createNode("}", "}"));
         $$ = conditional;
     }
     /* Tratamento de erro */
@@ -532,16 +532,16 @@ loop:
 
         tree loop = createNode("loop", buffer);
         addChild(loop, createNode("TOKEN_LOOP", $1));
-        addChild(loop, createNode("(", $2));
+        addChild(loop, createNode("(", "("));
         addChild(loop, $3);
-        addChild(loop, createNode(")", $4));
+        addChild(loop, createNode(")", ")"));
         addChild(loop, createNode("TOKEN_LOOP_UNTIL", $5));
-        addChild(loop, createNode("(", $6));
+        addChild(loop, createNode("(", "("));
         addChild(loop, $7);
-        addChild(loop, createNode(")", $8));
-        addChild(loop, createNode("{", $9));
+        addChild(loop, createNode(")", ")"));
+        addChild(loop, createNode("{", "{"));
         addChild(loop, $10);
-        addChild(loop, createNode("}", $11));
+        addChild(loop, createNode("}", "}"));
         $$ = loop;
     }
     ;
@@ -554,12 +554,12 @@ loop_while:
 
         tree loop_while = createNode("loop_while", buffer);
         addChild(loop, createNode("TOKEN_LOOP_WHILE", $1));
-        addChild(loop, createNode("(", $2));
+        addChild(loop, createNode("(", "("));
         addChild(loop, $3);
-        addChild(loop, createNode(")", $4));
-        addChild(loop, createNode("{", $5));
+        addChild(loop, createNode(")", ")"));
+        addChild(loop, createNode("{", "{"));
         addChild(loop, $6);
-        addChild(loop, createNode("}", $7));
+        addChild(loop, createNode("}", "}"));
         $$ = loop;
     }
     ;
