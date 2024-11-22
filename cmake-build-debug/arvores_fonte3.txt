@@ -1,0 +1,21 @@
+program
+  variable_declaration : [ integer number; ]
+    TOKEN_DATA_TYPE
+    TOKEN_IDENTIFIER
+    ;
+  
+  variable_declaration : [ float floatNumber; ]
+    TOKEN_DATA_TYPE
+    TOKEN_IDENTIFIER
+    ;
+  
+  assignment : [ num = number; ]
+    TOKEN_IDENTIFIER
+    TOKEN_ASSIGNMENT_OP
+    TOKEN_IDENTIFIER
+    ;
+  variable_declaration : [ integer num = number; ]
+    TOKEN_DATA_TYPE
+    assignment
+    ;
+  

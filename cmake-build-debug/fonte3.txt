@@ -1,0 +1,5 @@
+integer number;
+
+float floatNumber;
+
+integer num = number;
