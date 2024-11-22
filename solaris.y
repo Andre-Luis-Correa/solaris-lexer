@@ -14,8 +14,8 @@
 %}
 
 %union {
-    char *str;  // Para armazenar strings
-    int intval; // Para armazenar inteiros, se necessário
+    char * str;
+    struct treeNode * synTree;
 }
 
 %token TOKEN_RESERVED_WORD
@@ -47,23 +47,23 @@
 %token TOKEN_BOOLEAN
 %token TOKEN_UNKNOWN
 
-%type <str> program
-%type <str> variable_declaration
-%type <str> assignment
-%type <str> expression
-%type <str> conditional
-%type <str> possible_content
-%type <str> loop
-%type <str> loop_while
-%type <str> loop_start
-%type <str> loop_condition
-%type <str> comment
-%type <str> write_data
-%type <str> read_data
-%type <str> function_declaration
-%type <str> function_return
-%type <str> function_parameter
-%type <str> library_inclusion
+%type <synTree> program
+%type <synTree> variable_declaration
+%type <synTree> assignment
+%type <synTree> expression
+%type <synTree> conditional
+%type <synTree> possible_content
+%type <synTree> loop
+%type <synTree> loop_while
+%type <synTree> loop_start
+%type <synTree> loop_condition
+%type <synTree> comment
+%type <synTree> write_data
+%type <synTree> read_data
+%type <synTree> function_declaration
+%type <synTree> function_return
+%type <synTree> function_parameter
+%type <synTree> library_inclusion
 
 %left TOKEN_LOGICAL_OP
 %left TOKEN_RELATIONAL_OP
@@ -74,72 +74,94 @@
 
 program:
     program variable_declaration '\n' {
-        if (!tree) {
-            printf("Árvore criada em program variable_declaration!\n");
-            tree = createNode("program");
-        }
-        addChild(tree, createNode("FIM"));
+        createProgramTree($2);
     }
-    | program assignment '\n'
-    | program expression '\n'
-    | program conditional '\n'
-    | program loop '\n'
-    | program loop_while '\n'
-    | program comment '\n'
-    | program write_data '\n'
-    | program read_data '\n'
-    | program function_declaration '\n'
-    | program function_return '\n'
-    | program library_inclusion '\n'
-    | program '\n'
+    | program assignment '\n' {
+        createProgramTree($2);
+    }
+    | program expression '\n' {
+        createProgramTree($2);
+    }
+    | program conditional '\n' {
+        createProgramTree($2);
+    }
+    | program loop '\n' {
+        createProgramTree($2);
+    }
+    | program loop_while '\n' {
+        createProgramTree($2);
+    }
+    | program comment '\n' {
+        createProgramTree($2);
+    }
+    | program write_data '\n' {
+        createProgramTree($2);
+    }
+    | program read_data '\n' {
+        createProgramTree($2);
+    }
+    | program function_declaration '\n' {
+        createProgramTree($2);
+    }
+    | program function_return '\n' {
+        createProgramTree($2);
+    }
+    | program library_inclusion '\n' {
+        createProgramTree($2);
+    }
+    | program '\n' {
+        createProgramTree(NULL);
+    }
     | /* vazio */ {
-        if (!tree) {
-            printf("Árvore criada em empty!\n");
-            tree = createNode("program");  // Inicializa a raiz
-        }
+        createProgramTree(NULL);
     }
     ;
 
 variable_declaration:
     TOKEN_DATA_TYPE TOKEN_IDENTIFIER ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s%c", $1, $2, ';');
+        sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
-        $$ = strdup(buffer);
 
-        char * treeNodeDescription = buildTreeNodeDescription("variable_declaration", buffer);
-        treeNode *varDecl = createNode(treeNodeDescription);
-        addChild(varDecl, createNode("TOKEN_DATA_TYPE"));
-        addChild(varDecl, createNode("TOKEN_IDENTIFIER"));
-        addChild(varDecl, createNode(";"));
-        addChild(tree, varDecl);
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE", $1));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(variableDeclaration, ";\n");
+        $$ = variableDeclaration;
     }
     | TOKEN_DATA_TYPE assignment {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", $1, $2);
+        sprintf(buffer, "%s %s", $1, $2->value);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
-        $$ = strdup(buffer);
 
-        char * treeNodeDescription = buildTreeNodeDescription("variable_declaration", buffer);
-        treeNode *varDecl = createNode(treeNodeDescription);
-        free(treeNodeDescription);
-
-        addChild(varDecl, createNode("TOKEN_DATA_TYPE"));
-        addChild(varDecl, createNode("assignment"));
-        addChild(varDecl, createNode(";"));
-        addChild(tree, varDecl);
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE", $1));
+        addChild(variableDeclaration, $2);
+        $$ = variableDeclaration;
     }
     | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER ';' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_STRING_DECLARATION, buffer);
-        $$ = strdup(buffer);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_STRING", $1));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(variableDeclaration, ";\n");
+        $$ = variableDeclaration;
     }
     | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
-        processSyntacticStructure(SYN_STRING_DECLARATION, buffer);
-        $$ = strdup(buffer);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_STRING", $1));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(variableDeclaration, createNode("TOKEN_ASSIGNMENT_OP", $3));
+        addChild(variableDeclaration, createNode("TOKEN_STRING", $4));
+        addChild(variableDeclaration, ";\n");
+        $$ = variableDeclaration;
     }
     /* Tratamento de erro */
     | TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
@@ -170,43 +192,68 @@ variable_declaration:
 assignment:
     TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
+        sprintf(buffer, "%s %s %s;", $1, $2, $3);
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
 
-        char * treeNodeDescription = buildTreeNodeDescription("assignment", buffer);
-        treeNode * assignment = createNode(treeNodeDescription);
-        free(treeNodeDescription);
+        tree assignment = createNode("assignment", buffer);
+        addChild(assignment, createNode("TOKEN_IDENTIFIER", $1));
+        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP", $2));
+        addChild(assignment, createNode("TOKEN_IDENTIFIER", $3));
+        addChild(assignment, createNode("TOKEN_DELIMITER", ";\n"));
 
-        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
-        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP"));
-        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
-        addChild(assignment, createNode(";"));
-        addChild(tree, assignment);
+        $$ = assignment;
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
+        sprintf(buffer, "%s %s %s;", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
+
+        tree assignment = createNode("assignment", buffer);
+        addChild(assignment, createNode("TOKEN_IDENTIFIER", $1));
+        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP", $2));
+        addChild(assignment, createNode("TOKEN_STRING", $3));
+        addChild(assignment, createNode("TOKEN_DELIMITER", ";\n"));
+
+        $$ = assignment;
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
+        sprintf(buffer, "%s %s %s;", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
+
+        tree assignment = createNode("assignment", buffer);
+        addChild(assignment, createNode("TOKEN_IDENTIFIER", $1));
+        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP", $2));
+        addChild(assignment, createNode("TOKEN_INTEGER_NUMBER", $3));
+        addChild(assignment, createNode("TOKEN_DELIMITER", ";\n"));
+
+        $$ = assignment;
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
+        sprintf(buffer, "%s %s %s;", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
+
+        tree assignment = createNode("assignment", buffer);
+        addChild(assignment, createNode("TOKEN_IDENTIFIER", $1));
+        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP", $2));
+        addChild(assignment, createNode("TOKEN_FLOAT_NUMBER", $3));
+        addChild(assignment, createNode("TOKEN_DELIMITER", ";\n"));
+
+        $$ = assignment;
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression ';' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
+        sprintf(buffer, "%s %s %s;", $1, $2, $3->value, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
+
+        tree assignment = createNode("assignment", buffer);
+        addChild(assignment, createNode("TOKEN_IDENTIFIER", $1));
+        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP", $2));
+        addChild(assignment, $3);
+        addChild(assignment, createNode("TOKEN_DELIMITER", ";\n"));
+
+        $$ = assignment;
     }
     /* Tratamento de erro */
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER {
@@ -261,34 +308,62 @@ assignment:
 expression:
     expression TOKEN_ARITHMETIC_OP expression {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        processSyntacticStructure(SYN_ARITHMETIC_OPERATION, buffer);
-        $$ = strdup(buffer);
+        sprintf(buffer, "%s %s %s", $1->value, $2, $3->value);
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+
+        tree expression = createNode("expression", buffer);
+        addChild(expression, $1);
+        addChild(expression, createNode("TOKEN_ASSIGNMENT_OP", $2));
+        addChild(expression, $3);
+        $$ = expression;
     }
     | expression TOKEN_RELATIONAL_OP expression {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        processSyntacticStructure(SYN_RELATIONAL_OPERATION, buffer);
-        $$ = strdup(buffer);
+        sprintf(buffer, "%s %s %s", $1->value, $2, $3->value);
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+
+        tree expression = createNode("expression", buffer);
+        addChild(expression, $1);
+        addChild(expression, createNode("TOKEN_ASSIGNMENT_OP", $2));
+        addChild(expression, $3);
+        $$ = expression;
     }
     | expression TOKEN_LOGICAL_OP expression {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
-        $$ = strdup(buffer);
+        sprintf(buffer, "%s %s %s", $1->value, $2, $3->value);
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+
+        tree expression = createNode("expression", buffer);
+        addChild(expression, $1);
+        addChild(expression, createNode("TOKEN_ASSIGNMENT_OP", $2));
+        addChild(expression, $3);
+        $$ = expression;
     }
     | '(' expression ')' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%c %s %c", '(', $2, ')');
-        $$ = strdup(buffer);
+        sprintf(buffer, "%s %s %s;", $1, $2->value, $3);
+        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+
+        tree expression = createNode("expression", buffer);
+        addChild(expression, createNode("(", $1));
+        addChild(expression, $2);
+        addChild(expression, createNode(")", $3));
+        $$ = expression;
     }
     | TOKEN_IDENTIFIER {
-        $$ = strdup($1);
+        tree expression = createNode("expression", $1);
+        addChild(expression, createNode("TOKEN_IDENTIFIER", $1));
+        $$ = expression;
     }
     | TOKEN_INTEGER_NUMBER {
-        $$ = strdup($1);
+        tree expression = createNode("expression", $1);
+        addChild(expression, createNode("TOKEN_INTEGER_NUMBER", $1));
+        $$ = expression;
     }
     | TOKEN_FLOAT_NUMBER {
-        $$ = strdup($1);
+        tree expression = createNode("expression", $1);
+        addChild(expression, createNode("TOKEN_FLOAT_NUMBER", $1));
+        $$ = expression;
     }
     /* Tratamento de erro */
     | expression TOKEN_ARITHMETIC_OP {
@@ -335,13 +410,35 @@ conditional:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %c %s %c %c %s %c", $1, '(', $3, ')', '{', $6, '}');
         processSyntacticStructure(SYN_CONDITIONAL_CHOOSE, buffer);
-        $$ = strdup(buffer);
+
+        tree conditional = createNode("conditional", buffer);
+        addChild(conditional, createNode("TOKEN_CONDITIONAL_CHOOSE", $1));
+        addChild(conditional, createNode("(", $2));
+        addChild(conditional, $3);
+        addChild(conditional, createNode(")", $4));
+        addChild(conditional, createNode("{", $5));
+        addChild(conditional, $6);
+        addChild(conditional, createNode("}", $7));
+        $$ = conditional;
     }
     | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content '}' TOKEN_CONDITIONAL_OTHERWISE '{' possible_content '}' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %c %s %c %c %s %c %s %c %s %c", $1, '(', $3, ')', '{', $6, '}', $8, '{', $10, '}');
         processSyntacticStructure(SYN_CONDITIONAL_CHOOSE, buffer);
-        $$ = strdup(buffer);
+
+        tree conditional = createNode("conditional", buffer);
+        addChild(conditional, createNode("TOKEN_CONDITIONAL_CHOOSE", $1));
+        addChild(conditional, createNode("(", $2));
+        addChild(conditional, $3);
+        addChild(conditional, createNode(")", $4));
+        addChild(conditional, createNode("{", $5));
+        addChild(conditional, $6);
+        addChild(conditional, createNode("}", $7));
+        addChild(conditional, createNode("TOKEN_CONDITIONAL_OTHERWISE", $8));
+        addChild(conditional, createNode("{", $9));
+        addChild(conditional, $10);
+        addChild(conditional, createNode("}", $11));
+        $$ = conditional;
     }
     /* Tratamento de erro */
     | TOKEN_CONDITIONAL_CHOOSE '(' expression {
@@ -377,34 +474,53 @@ conditional:
 
 possible_content:
     /* vazio */ {
-        $$ = strdup("");
+        tree possible_content = createNode("possible_content", " ");
+        addChild(possible_content, createNode("empty", " "));
+        $$ = possible_content;
     }
     | possible_content '\n' {
-        $$ = strdup("\n");
+        tree contentNode = createNode("possible_content", $1->value);
+        $$ = contentNode;
     }
     | possible_content variable_declaration {
-        $$ = strdup($2);
+        tree contentNode = createNode("possible_content", $1->value);
+        addChild(contentNode, $2);
+        $$ = contentNode;
     }
     | possible_content assignment {
-        $$ = strdup($2);
+        tree contentNode = createNode("possible_content", $1->value);
+        addChild(contentNode, $2);
+        $$ = contentNode;
     }
     | possible_content conditional {
-        $$ = strdup($2);
+        tree contentNode = createNode("possible_content", $1->value);
+        addChild(contentNode, $2);
+        $$ = contentNode;
     }
     | possible_content loop {
-        $$ = strdup($2);
+        tree contentNode = createNode("possible_content", $1->value);
+        addChild(contentNode, $2);
+        $$ = contentNode;
     }
     | possible_content loop_while {
-        $$ = strdup($2);
+        tree contentNode = createNode("possible_content", $1->value);
+        addChild(contentNode, $2);
+        $$ = contentNode;
     }
     | possible_content comment {
-        $$ = strdup($2);
+        tree contentNode = createNode("possible_content", $1->value);
+        addChild(contentNode, $2);
+        $$ = contentNode;
     }
     | possible_content read_data {
-        $$ = strdup($2);
+        tree contentNode = createNode("possible_content", $1->value);
+        addChild(contentNode, $2);
+        $$ = contentNode;
     }
     | possible_content write_data {
-        $$ = strdup($2);
+        tree contentNode = createNode("possible_content", $1->value);
+        addChild(contentNode, $2);
+        $$ = contentNode;
     }
     ;
 
@@ -413,7 +529,20 @@ loop:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s ( %s ) %s ( %s ) { %s }", $1, $3, $5, $7, $10);
         processSyntacticStructure(SYN_LOOP, buffer);
-        $$ = strdup(buffer);
+
+        tree loop = createNode("loop", buffer);
+        addChild(loop, createNode("TOKEN_LOOP", $1));
+        addChild(loop, createNode("(", $2));
+        addChild(loop, $3);
+        addChild(loop, createNode(")", $4));
+        addChild(loop, createNode("TOKEN_LOOP_UNTIL", $5));
+        addChild(loop, createNode("(", $6));
+        addChild(loop, $7);
+        addChild(loop, createNode(")", $8));
+        addChild(loop, createNode("{", $9));
+        addChild(loop, $10);
+        addChild(loop, createNode("}", $11));
+        $$ = loop;
     }
     ;
 
@@ -422,7 +551,16 @@ loop_while:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s ( %s ) { %s }", $1, $3, $6);
         processSyntacticStructure(SYN_LOOP_WHILE, buffer);
-        $$ = strdup(buffer);
+
+        tree loop_while = createNode("loop_while", buffer);
+        addChild(loop, createNode("TOKEN_LOOP_WHILE", $1));
+        addChild(loop, createNode("(", $2));
+        addChild(loop, $3);
+        addChild(loop, createNode(")", $4));
+        addChild(loop, createNode("{", $5));
+        addChild(loop, $6);
+        addChild(loop, createNode("}", $7));
+        $$ = loop;
     }
     ;
 
@@ -431,19 +569,35 @@ loop_start:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", $1, $2, $3);
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
+
+        tree loop_start = createNode("loop_start", buffer);
+        addChild(loop_start, createNode("TOKEN_IDENTIFIER", $1));
+        addChild(loop_start, createNode("TOKEN_ASSIGNMENT_OP", $2));
+        addChild(loop_start, createNode("TOKEN_INTEGER_NUMBER", $3));
+        $$ = loop_start;
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", $1, $2, $3);
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
-        $$ = strdup(buffer);
+
+        tree loop_start = createNode("loop_start", buffer);
+        addChild(loop_start, createNode("TOKEN_IDENTIFIER", $1));
+        addChild(loop_start, createNode("TOKEN_ASSIGNMENT_OP", $2));
+        addChild(loop_start, createNode("TOKEN_IDENTIFIER", $3));
+        $$ = loop_start;
     }
     | TOKEN_DATA_TYPE TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s %s", $1, $2, $3, $4);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
-        $$ = strdup(buffer);
+
+        tree loop_start = createNode("loop_start", buffer);
+        addChild(loop_start, createNode("TOKEN_DATA_TYPE", $1));
+        addChild(loop_start, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(loop_start, createNode("TOKEN_ASSIGNMENT_OP", $3));
+        addChild(loop_start, createNode("TOKEN_INTEGER_NUMBER", $4));
+        $$ = loop_start;
     }
     ;
 
@@ -452,26 +606,48 @@ loop_condition:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", $1, $2, $3);
         processSyntacticStructure(SYN_RELATIONAL_OPERATION, buffer);
-        $$ = strdup(buffer);
+
+        tree loop_condition = createNode("loop_condition", buffer);
+        addChild(loop_condition,$1);
+        addChild(loop_condition, createNode("TOKEN_RELATIONAL_OP", $2));
+        addChild(loop_condition, $3);
+        $$ = loop_condition;
     }
     | loop_condition TOKEN_LOGICAL_OP loop_condition {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", $1, $2, $3);
-        $$ = strdup(buffer);
+        processSyntacticStructure(SYN_LOGICAL_OPERATION, buffer);
+
+        tree loop_condition = createNode("loop_condition", buffer);
+        addChild(loop_condition,$1);
+        addChild(loop_condition, createNode("TOKEN_LOGICAL_OP", $2));
+        addChild(loop_condition, $3);
+        $$ = loop_condition;
     }
     | '(' loop_condition ')' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%c %s %c", '(', $2, ')');
-        $$ = strdup(buffer);
+
+        tree loop_condition = createNode("loop_condition", buffer);
+        addChild(loop_condition, createNode("(", $1));
+        addChild(loop_condition, $2);
+        addChild(loop_condition, createNode(")", $3));
+        $$ = loop_condition;
     }
     | TOKEN_IDENTIFIER {
-        $$ = strdup($1);
+        tree loop_condition = createNode("loop_condition", $1);
+        addChild(loop_condition, createNode("TOKEN_IDENTIFIER", $1));
+        $$ = loop_condition;
     }
     | TOKEN_INTEGER_NUMBER {
-        $$ = strdup($1);
+        tree loop_condition = createNode("loop_condition", $1);
+        addChild(loop_condition, createNode("TOKEN_INTEGER_NUMBER", $1));
+        $$ = loop_condition;
     }
     | TOKEN_FLOAT_NUMBER {
-        $$ = strdup($1);
+        tree loop_condition = createNode("loop_condition", $1);
+        addChild(loop_condition, createNode("TOKEN_FLOAT_NUMBER", $1));
+        $$ = loop_condition;
     }
     ;
 
@@ -480,13 +656,19 @@ comment:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s", $1);
         processSyntacticStructure(SYN_COMMENT_LINE, buffer);
-        $$ = strdup(buffer);
+
+        tree comment = createNode("comment", buffer);
+        addChild(comment, createNode("TOKEN_COMMENT_LINE", $1));
+        $$ = comment;
     }
     | TOKEN_COMMENT_BLOCK {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s", $1);
         processSyntacticStructure(SYN_COMMENT_BLOCK, buffer);
-        $$ = strdup(buffer);
+
+        tree comment = createNode("comment", buffer);
+        addChild(comment, createNode("TOKEN_COMMENT_BLOCK", $1));
+        $$ = comment;
     }
     ;
 
@@ -496,12 +678,23 @@ write_data:
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_WRITE_DATA, buffer);
         $$ = strdup(buffer);
+
+        tree write_data = createNode("write_data", buffer);
+        addChild(write_data, createNode("TOKEN_SHOW", $1));
+        addChild(write_data, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(write_data, createNode(";", ";\n"));
+        $$ = write_data;
     }
     | TOKEN_SHOW TOKEN_STRING ';' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_WRITE_DATA, buffer);
-        $$ = strdup(buffer);
+
+        tree write_data = createNode("write_data", buffer);
+        addChild(write_data, createNode("TOKEN_SHOW", $1));
+        addChild(write_data, createNode("TOKEN_STRING", $2));
+        addChild(write_data, createNode(";", ";\n"));
+        $$ = write_data;
     }
     ;
 
@@ -510,7 +703,12 @@ read_data:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_READ_DATA, buffer);
-        $$ = strdup(buffer);
+
+        tree read_data = createNode("read_data", buffer);
+        addChild(read_data, createNode("TOKEN_READ", $1));
+        addChild(read_data, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(read_data, createNode(";", ";\n"));
+        $$ = read_data;
     }
     ;
 
