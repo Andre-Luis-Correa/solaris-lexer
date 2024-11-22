@@ -408,7 +408,7 @@ expression:
 conditional:
     TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content '}' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %c %s %c %c %s %c", $1, '(', $3, ')', '{', $6, '}');
+        sprintf(buffer, "%s %c %s %c %c %s %c", $1, '(', $3->value, ')', '{', $6->value, '}');
         processSyntacticStructure(SYN_CONDITIONAL_CHOOSE, buffer);
 
         tree conditional = createNode("conditional", buffer);
@@ -423,7 +423,7 @@ conditional:
     }
     | TOKEN_CONDITIONAL_CHOOSE '(' expression ')' '{' possible_content '}' TOKEN_CONDITIONAL_OTHERWISE '{' possible_content '}' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %c %s %c %c %s %c %s %c %s %c", $1, '(', $3, ')', '{', $6, '}', $8, '{', $10, '}');
+        sprintf(buffer, "%s %c %s %c %c %s %c %s %c %s %c", $1, '(', $3->value, ')', '{', $6->value, '}', $8, '{', $10->value, '}');
         processSyntacticStructure(SYN_CONDITIONAL_CHOOSE, buffer);
 
         tree conditional = createNode("conditional", buffer);
@@ -527,7 +527,7 @@ possible_content:
 loop:
     TOKEN_LOOP '(' loop_start ')' TOKEN_LOOP_UNTIL '(' loop_condition ')' '{' possible_content '}' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s ( %s ) %s ( %s ) { %s }", $1, $3, $5, $7, $10);
+        sprintf(buffer, "%s ( %s ) %s ( %s ) { %s }", $1, $3->value, $5, $7->value, $10->value);
         processSyntacticStructure(SYN_LOOP, buffer);
 
         tree loop = createNode("loop", buffer);
@@ -549,7 +549,7 @@ loop:
 loop_while:
     TOKEN_LOOP_WHILE '(' loop_condition ')' '{' possible_content '}' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s ( %s ) { %s }", $1, $3, $6);
+        sprintf(buffer, "%s ( %s ) { %s }", $1, $3->value, $6->value);
         processSyntacticStructure(SYN_LOOP_WHILE, buffer);
 
         tree loop_while = createNode("loop_while", buffer);
@@ -604,7 +604,7 @@ loop_start:
 loop_condition:
     loop_condition TOKEN_RELATIONAL_OP loop_condition {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
+        sprintf(buffer, "%s %s %s", $1->value, $2, $3->value);
         processSyntacticStructure(SYN_RELATIONAL_OPERATION, buffer);
 
         tree loop_condition = createNode("loop_condition", buffer);
@@ -615,18 +615,18 @@ loop_condition:
     }
     | loop_condition TOKEN_LOGICAL_OP loop_condition {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s %s", $1, $2, $3);
+        sprintf(buffer, "%s %s %s", $1->value, $2, $3->value);
         processSyntacticStructure(SYN_LOGICAL_OPERATION, buffer);
 
         tree loop_condition = createNode("loop_condition", buffer);
-        addChild(loop_condition,$1);
+        addChild(loop_condition, $1);
         addChild(loop_condition, createNode("TOKEN_LOGICAL_OP", $2));
         addChild(loop_condition, $3);
         $$ = loop_condition;
     }
     | '(' loop_condition ')' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%c %s %c", '(', $2, ')');
+        sprintf(buffer, "%c %s %c", '(', $2->value, ')');
 
         tree loop_condition = createNode("loop_condition", buffer);
         addChild(loop_condition, createNode("(", $1));
@@ -715,15 +715,47 @@ read_data:
 function_declaration:
     TOKEN_FUNCTION '(' TOKEN_DATA_TYPE ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '}' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s; }", $1, $3, $6, $7, $9, $12);
+        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s %s }", $1, $3, $6, $7, $9->value, $12->value, $13->value);
         processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
-        $$ = strdup(buffer);
+
+        tree function_declaration = createNode("function_declaration", buffer);
+        addChild(function_declaration, createNode("TOKEN_FUNCTION", $1));
+        addChild(function_declaration, createNode("(", $2));
+        addChild(function_declaration, createNode("TOKEN_DATA_TYPE", $3));
+        addChild(function_declaration, createNode(")", $4));
+        addChild(function_declaration, createNode(":", $5));
+        addChild(function_declaration, createNode("TOKEN_IDENTIFIER", $6));
+        addChild(function_declaration, createNode("TOKEN_FUNCTION_RECEIVE", $7));
+        addChild(function_declaration, createNode("(", $8));
+        addChild(function_declaration, $9);
+        addChild(function_declaration, createNode(")", $10));
+        addChild(function_declaration, createNode("{", $11));
+        addChild(function_declaration, $12);
+        addChild(function_declaration, $13);
+        addChild(function_declaration, createNode("}", $14));
+        $$ = function_declaration;
     }
     | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s; }", $1, $3, $6, $7, $9, $12);
+        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s %s }", $1, $3, $6, $7, $9->value, $12->value, $13->value);
         processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
-        $$ = strdup(buffer);
+
+        tree function_declaration = createNode("function_declaration", buffer);
+        addChild(function_declaration, createNode("TOKEN_FUNCTION", $1));
+        addChild(function_declaration, createNode("(", $2));
+        addChild(function_declaration, createNode("TOKEN_DATA_TYPE", $3));
+        addChild(function_declaration, createNode(")", $4));
+        addChild(function_declaration, createNode(":", $5));
+        addChild(function_declaration, createNode("TOKEN_IDENTIFIER", $6));
+        addChild(function_declaration, createNode("TOKEN_FUNCTION_RECEIVE", $7));
+        addChild(function_declaration, createNode("(", $8));
+        addChild(function_declaration, $9);
+        addChild(function_declaration, createNode(")", $10));
+        addChild(function_declaration, createNode("{", $11));
+        addChild(function_declaration, $12);
+        addChild(function_declaration, $13);
+        addChild(function_declaration, createNode("}", $15));
+        $$ = function_declaration;
     }
     ;
 
