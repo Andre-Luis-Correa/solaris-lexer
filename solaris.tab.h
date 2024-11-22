@@ -81,7 +81,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 14 "solaris.y"
+#line 16 "solaris.y"
 
     char *str;  // Para armazenar strings
     int intval; // Para armazenar inteiros, se necessário

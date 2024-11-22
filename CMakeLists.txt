@@ -11,4 +11,8 @@ add_executable(untitled1
         solaris.tab.c
         syntacticAnalysis.h
         syntacticAnalysis.c
+        tree.h
+        tree.c
+        file.h
+        file.c
 )

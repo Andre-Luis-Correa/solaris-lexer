@@ -1,55 +1,65 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lexer.h"
-#include "solaris.tab.h"
+#include "file.h"
+#include "tree.h"
 #include "syntacticAnalysis.h"
+#include "solaris.tab.h"
 
-// Variáveis externas
 extern FILE *yyin;
 extern int yylex();
 
 int main() {
-    char filename[256];
+    char inputFileName[256];
+    char fileName[256];
 
-    printf("--> Digite o nome do arquivo para analise lexica e sintatica:  ");
-    scanf("%[^\n]", filename);
+    printf("\n\n--> Digite o nome do arquivo para analise LEXICA e SINTATICA sem extensao (.txt): ");
+    scanf("%[^\n]%", inputFileName);
+    sprintf(fileName, "%s.txt", inputFileName);
 
-    FILE *file = fopen(filename, "r");
-    if (!file) {
-        perror("Erro ao abrir o arquivo");
-        exit(1);
-    }
-
+    FILE *file = openFile(fileName, "r");
     yyin = file;
 
-    // Etapa 1: Análise Léxica
-    printf("Iniciando analise lexica:\n");
     while (yylex() != 0);
-
-    if(errorFlag == 0) {
-        printf("Tokens Identificados:\n");
+    if (errorFlag == 0) {
+        printf("\n\nTokens Identificados:\n");
         printTokens(reservedWordListHead, "Palavras Reservadas");
         printTokens(otherTokensListHead, "Outros Tokens");
     } else {
+        fclose(file);
         return 0;
     }
 
-    // Reinicia o arquivo para a análise sintática
     fseek(file, 0, SEEK_SET);
 
-    // Etapa 2: Análise Sintática
-    printf("Iniciando analise sintatica:\n");
     if (yyparse() == 0) {
-        printf("Analise sintática bem-sucedida.\n");
+        printf("\n\nEstruturas Sintaticas Identificadas:\n");
         printSyntacticStructures(syntacticStructureListHead, "Estruturas Sintaticas Reconhecidas");
+
+        char outputFileName[256];
+        snprintf(outputFileName, sizeof(outputFileName), "arvores_%s.txt", inputFileName);
+
+        FILE * outputFile = openFile(outputFileName, "w");
+
+        if (tree) {
+            writeTreeToFile(tree, outputFile, 0);
+        } else {
+            printf("Nenhuma árvore sintática gerada.\n");
+        }
+
+        fclose(outputFile);
+        printf("\n\nArvore sintatica salva com sucesso em %s.\n\n", outputFileName);
+
     } else {
-        printf("Erros encontrados durante a analise sintatica.\n");
+        fclose(file);
+        return 0;
     }
 
-    // Libera os recursos
-    freeTokenList(reservedWordListHead);
-    freeTokenList(otherTokensListHead);
-    fclose(file);
+    if(reservedWordListHead) freeTokenList(reservedWordListHead);
+    if(otherTokensListHead) freeTokenList(otherTokensListHead);
+    if(syntacticStructureListHead) freeSyntacticStructureList(syntacticStructureListHead);
+    if(tree) freeTree(tree);
 
+    fclose(file);
     return 0;
 }

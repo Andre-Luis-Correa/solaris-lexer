@@ -1,6 +1,8 @@
 %{
     #include <stdio.h>
     #include "syntacticAnalysis.h"
+    #include "tree.h"
+
     #define MAXBUFFER 1000
 
     int yylex(void);
@@ -45,6 +47,7 @@
 %token TOKEN_BOOLEAN
 %token TOKEN_UNKNOWN
 
+%type <str> program
 %type <str> variable_declaration
 %type <str> assignment
 %type <str> expression
@@ -70,7 +73,13 @@
 %%
 
 program:
-    program variable_declaration '\n'
+    program variable_declaration '\n' {
+        if (!tree) {
+            printf("Árvore criada em program variable_declaration!\n");
+            tree = createNode("program");
+        }
+        addChild(tree, createNode("FIM"));
+    }
     | program assignment '\n'
     | program expression '\n'
     | program conditional '\n'
@@ -83,7 +92,12 @@ program:
     | program function_return '\n'
     | program library_inclusion '\n'
     | program '\n'
-    |
+    | /* vazio */ {
+        if (!tree) {
+            printf("Árvore criada em empty!\n");
+            tree = createNode("program");  // Inicializa a raiz
+        }
+    }
     ;
 
 variable_declaration:
@@ -92,12 +106,28 @@ variable_declaration:
         sprintf(buffer, "%s %s%c", $1, $2, ';');
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
         $$ = strdup(buffer);
+
+        char * treeNodeDescription = buildTreeNodeDescription("variable_declaration", buffer);
+        treeNode *varDecl = createNode(treeNodeDescription);
+        addChild(varDecl, createNode("TOKEN_DATA_TYPE"));
+        addChild(varDecl, createNode("TOKEN_IDENTIFIER"));
+        addChild(varDecl, createNode(";"));
+        addChild(tree, varDecl);
     }
     | TOKEN_DATA_TYPE assignment {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s", $1, $2);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
         $$ = strdup(buffer);
+
+        char * treeNodeDescription = buildTreeNodeDescription("variable_declaration", buffer);
+        treeNode *varDecl = createNode(treeNodeDescription);
+        free(treeNodeDescription);
+
+        addChild(varDecl, createNode("TOKEN_DATA_TYPE"));
+        addChild(varDecl, createNode("assignment"));
+        addChild(varDecl, createNode(";"));
+        addChild(tree, varDecl);
     }
     | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER ';' {
         char buffer[MAXBUFFER];
@@ -143,6 +173,16 @@ assignment:
         sprintf(buffer, "%s %s %s%c", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
         $$ = strdup(buffer);
+
+        char * treeNodeDescription = buildTreeNodeDescription("assignment", buffer);
+        treeNode * assignment = createNode(treeNodeDescription);
+        free(treeNodeDescription);
+
+        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
+        addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP"));
+        addChild(assignment, createNode("TOKEN_IDENTIFIER"));
+        addChild(assignment, createNode(";"));
+        addChild(tree, assignment);
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
         char buffer[MAXBUFFER];
