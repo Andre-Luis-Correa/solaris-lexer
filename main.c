@@ -41,8 +41,8 @@ int main() {
 
         FILE * outputFile = openFile(outputFileName, "w");
 
-        if (tree) {
-            writeTreeToFile(tree, outputFile, 0);
+        if (synTree) {
+            writeTreeToFile(synTree, outputFile, 0);
         } else {
             printf("Nenhuma árvore sintática gerada.\n");
         }
@@ -58,7 +58,7 @@ int main() {
     if(reservedWordListHead) freeTokenList(reservedWordListHead);
     if(otherTokensListHead) freeTokenList(otherTokensListHead);
     if(syntacticStructureListHead) freeSyntacticStructureList(syntacticStructureListHead);
-    if(tree) freeTree(tree);
+    if(synTree) freeTree(synTree);
 
     fclose(file);
     return 0;

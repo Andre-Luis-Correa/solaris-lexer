@@ -1,0 +1,295 @@
+program:  
+  comment: # INCLUSAO DE BIBLIOTECAS
+    TOKEN_COMMENT_LINE: # INCLUSAO DE BIBLIOTECAS
+
+  library_inclusion: use "solarisIo.sol";
+    TOKEN_USE: use
+    TOKEN_STRING: "solarisIo.sol"
+    ;: ;
+
+  library_inclusion: use "solarisLib.sol";
+    TOKEN_USE: use
+    TOKEN_STRING: "solarisLib.sol"
+    ;: ;
+
+  library_inclusion: use "directory/myLib.sol";
+    TOKEN_USE: use
+    TOKEN_STRING: "directory/myLib.sol"
+    ;: ;
+
+  comment: ##
+    comentario de bloco
+    onde pode ser incluido uma sequencia de caracteres
+##
+    TOKEN_COMMENT_BLOCK: ##
+    comentario de bloco
+    onde pode ser incluido uma sequencia de caracteres
+##
+
+  comment: # DECLARACAO DE VARIAVEIS
+    TOKEN_COMMENT_LINE: # DECLARACAO DE VARIAVEIS
+
+  variable_declaration: integer x;
+    TOKEN_DATA_TYPE: integer
+    TOKEN_IDENTIFIER: x
+    ;: ;
+
+  variable_declaration: string name = "Bruna";
+    TOKEN_DATA_TYPE_STRING: string
+    TOKEN_IDENTIFIER: name
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_STRING: "Bruna"
+    ;: ;
+
+  variable_declaration: string oldName = "Andre";
+    TOKEN_DATA_TYPE_STRING: string
+    TOKEN_IDENTIFIER: oldName
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_STRING: "Andre"
+    ;: ;
+
+  variable_declaration: string address;
+    TOKEN_DATA_TYPE_STRING: string
+    TOKEN_IDENTIFIER: address
+    ;: ;
+
+  variable_declaration: float y;
+    TOKEN_DATA_TYPE: float
+    TOKEN_IDENTIFIER: y
+    ;: ;
+
+  variable_declaration: integer num = 5 + 9;
+    TOKEN_DATA_TYPE: integer
+    assignment: num = 5 + 9;
+      TOKEN_IDENTIFIER: num
+      TOKEN_ASSIGNMENT_OP: =
+      expression: 5 + 9
+        expression: 5
+          TOKEN_INTEGER_NUMBER: 5
+        TOKEN_ASSIGNMENT_OP: +
+        expression: 9
+          TOKEN_INTEGER_NUMBER: 9
+      TOKEN_DELIMITER: ;
+
+  variable_declaration: integer total = 0;
+    TOKEN_DATA_TYPE: integer
+    assignment: total = 0;
+      TOKEN_IDENTIFIER: total
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_INTEGER_NUMBER: 0
+      TOKEN_DELIMITER: ;
+
+  comment: # ATRIBUICOES
+    TOKEN_COMMENT_LINE: # ATRIBUICOES
+
+  assignment: y = ( 5 + 9 ) * ( 9 + ( 9 / 2 ) * 9 ) && 1;
+    TOKEN_IDENTIFIER: y
+    TOKEN_ASSIGNMENT_OP: =
+    expression: ( 5 + 9 ) * ( 9 + ( 9 / 2 ) * 9 ) && 1
+      expression: ( 5 + 9 ) * ( 9 + ( 9 / 2 ) * 9 )
+        expression: ( 5 + 9 )
+          (: (
+          expression: 5 + 9
+            expression: 5
+              TOKEN_INTEGER_NUMBER: 5
+            TOKEN_ASSIGNMENT_OP: +
+            expression: 9
+              TOKEN_INTEGER_NUMBER: 9
+          ): )
+        TOKEN_ASSIGNMENT_OP: *
+        expression: ( 9 + ( 9 / 2 ) * 9 )
+          (: (
+          expression: 9 + ( 9 / 2 ) * 9
+            expression: 9 + ( 9 / 2 )
+              expression: 9
+                TOKEN_INTEGER_NUMBER: 9
+              TOKEN_ASSIGNMENT_OP: +
+              expression: ( 9 / 2 )
+                (: (
+                expression: 9 / 2
+                  expression: 9
+                    TOKEN_INTEGER_NUMBER: 9
+                  TOKEN_ASSIGNMENT_OP: /
+                  expression: 2
+                    TOKEN_INTEGER_NUMBER: 2
+                ): )
+            TOKEN_ASSIGNMENT_OP: *
+            expression: 9
+              TOKEN_INTEGER_NUMBER: 9
+          ): )
+      TOKEN_ASSIGNMENT_OP: &&
+      expression: 1
+        TOKEN_INTEGER_NUMBER: 1
+    TOKEN_DELIMITER: ;
+
+  assignment: oldName = name;
+    TOKEN_IDENTIFIER: oldName
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_IDENTIFIER: name
+    TOKEN_DELIMITER: ;
+
+  assignment: name = "Joao";
+    TOKEN_IDENTIFIER: name
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_STRING: "Joao"
+    TOKEN_DELIMITER: ;
+
+  assignment: x = 5;
+    TOKEN_IDENTIFIER: x
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_INTEGER_NUMBER: 5
+    TOKEN_DELIMITER: ;
+
+  assignment: oldName = name;
+    TOKEN_IDENTIFIER: oldName
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_IDENTIFIER: name
+    TOKEN_DELIMITER: ;
+
+  assignment: y = 0.939393;
+    TOKEN_IDENTIFIER: y
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_FLOAT_NUMBER: 0.939393
+    TOKEN_DELIMITER: ;
+
+  comment: # OPERACOES CONDICIONAIS
+    TOKEN_COMMENT_LINE: # OPERACOES CONDICIONAIS
+
+  conditional: choose ( oldName == Name ) {   }
+    TOKEN_CONDITIONAL_CHOOSE: choose
+    (: (
+    expression: oldName == Name
+      expression: oldName
+        TOKEN_IDENTIFIER: oldName
+      TOKEN_ASSIGNMENT_OP: ==
+      expression: Name
+        TOKEN_IDENTIFIER: Name
+    ): )
+    {: {
+    possible_content:  
+    }: }
+  conditional: choose ( oldName == Name ) {   } otherwise {   }
+    TOKEN_CONDITIONAL_CHOOSE: choose
+    (: (
+    expression: oldName == Name
+      expression: oldName
+        TOKEN_IDENTIFIER: oldName
+      TOKEN_ASSIGNMENT_OP: ==
+      expression: Name
+        TOKEN_IDENTIFIER: Name
+    ): )
+    {: {
+    possible_content:  
+    }: }
+    TOKEN_CONDITIONAL_OTHERWISE: otherwise
+    {: {
+    possible_content:  
+    }: }
+  comment: # LOOP 1: WHILE
+    TOKEN_COMMENT_LINE: # LOOP 1: WHILE
+
+  variable_declaration: integer counter = 0;
+    TOKEN_DATA_TYPE: integer
+    assignment: counter = 0;
+      TOKEN_IDENTIFIER: counter
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_INTEGER_NUMBER: 0
+      TOKEN_DELIMITER: ;
+
+  loop_while: while ( counter <= 8 && ( counter != 9 ) ) {   }
+    TOKEN_LOOP_WHILE: while
+    (: (
+    loop_condition: counter <= 8 && ( counter != 9 )
+      loop_condition: counter <= 8
+        loop_condition: counter
+          TOKEN_IDENTIFIER: counter
+        TOKEN_RELATIONAL_OP: <=
+        loop_condition: 8
+          TOKEN_INTEGER_NUMBER: 8
+      TOKEN_LOGICAL_OP: &&
+      loop_condition: ( counter != 9 )
+        (: (
+        loop_condition: counter != 9
+          loop_condition: counter
+            TOKEN_IDENTIFIER: counter
+          TOKEN_RELATIONAL_OP: !=
+          loop_condition: 9
+            TOKEN_INTEGER_NUMBER: 9
+        ): )
+    ): )
+    {: {
+    possible_content:  
+    }: }
+  comment: # LOOP 2: LOOP - UNTIL
+    TOKEN_COMMENT_LINE: # LOOP 2: LOOP - UNTIL
+
+  loop: loop ( integer i = 3 ) until ( i <= 5 ) {   }
+    TOKEN_LOOP: loop
+    (: (
+    loop_start: integer i = 3
+      TOKEN_DATA_TYPE: integer
+      TOKEN_IDENTIFIER: i
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_INTEGER_NUMBER: 3
+    ): )
+    TOKEN_LOOP_UNTIL: until
+    (: (
+    loop_condition: i <= 5
+      loop_condition: i
+        TOKEN_IDENTIFIER: i
+      TOKEN_RELATIONAL_OP: <=
+      loop_condition: 5
+        TOKEN_INTEGER_NUMBER: 5
+    ): )
+    {: {
+    possible_content:  
+    }: }
+  comment: # ESCRITA DE DADOS
+    TOKEN_COMMENT_LINE: # ESCRITA DE DADOS
+
+  write_data: show "Ola Mundo!";
+    TOKEN_SHOW: show
+    TOKEN_STRING: "Ola Mundo!"
+    ;: ;
+
+  write_data: show name;
+    TOKEN_SHOW: show
+    TOKEN_IDENTIFIER: name
+    ;: ;
+
+  comment: # LEITURA DE DADOS
+    TOKEN_COMMENT_LINE: # LEITURA DE DADOS
+
+  read_data: read name;
+    TOKEN_READ: read
+    TOKEN_IDENTIFIER: name
+    ;: ;
+
+  comment: # DELCARACAO DE FUNCAO
+    TOKEN_COMMENT_LINE: # DELCARACAO DE FUNCAO
+
+  function_declaration: function ( integer ) : sumOfSquares receive ( integer a, integer b ) {   return sum; }
+    TOKEN_FUNCTION: function
+    (: (
+    TOKEN_DATA_TYPE: integer
+    ): )
+    :: :
+    TOKEN_IDENTIFIER: sumOfSquares
+    TOKEN_FUNCTION_RECEIVE: receive
+    (: (
+    function_parameter: integer a, integer b
+      function_parameter: integer a
+        TOKEN_DATA_TYPE: integer
+        TOKEN_IDENTIFIER: a
+      ,: ,
+      TOKEN_DATA_TYPE: integer
+      TOKEN_IDENTIFIER: b
+    ): )
+    {: {
+    possible_content:  
+    function_return: return sum;
+      TOKEN_FUNCTION_RETURN: return
+      TOKEN_IDENTIFIER: sum
+      ;: ;
+
+    }: }

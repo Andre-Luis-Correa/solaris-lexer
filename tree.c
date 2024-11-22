@@ -98,9 +98,9 @@ void createProgramTree(tree child) {
     if (!synTree) {
         if(child) {
             synTree = createNode("program", child->value);
+            addChild(synTree, child);
         } else {
             synTree = createNode("program", " ");
         }
     }
-    addChild(synTree, child);
 }

@@ -83,8 +83,8 @@ typedef union YYSTYPE
 /* Line 2058 of yacc.c  */
 #line 16 "solaris.y"
 
-    char *str;  // Para armazenar strings
-    int intval; // Para armazenar inteiros, se necessário
+    char * str;
+    struct treeNode * synTree;
 
 
 /* Line 2058 of yacc.c  */

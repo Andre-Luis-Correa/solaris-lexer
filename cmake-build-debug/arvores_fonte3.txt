@@ -1,21 +1,25 @@
-program
-  variable_declaration : [ integer number; ]
-    TOKEN_DATA_TYPE
-    TOKEN_IDENTIFIER
-    ;
-  
-  variable_declaration : [ float floatNumber; ]
-    TOKEN_DATA_TYPE
-    TOKEN_IDENTIFIER
-    ;
-  
-  assignment : [ num = number; ]
-    TOKEN_IDENTIFIER
-    TOKEN_ASSIGNMENT_OP
-    TOKEN_IDENTIFIER
-    ;
-  variable_declaration : [ integer num = number; ]
-    TOKEN_DATA_TYPE
-    assignment
-    ;
-  
+program:  
+  variable_declaration: integer num = "ola";
+    TOKEN_DATA_TYPE: integer
+    assignment: num = "ola";
+      TOKEN_IDENTIFIER: num
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_STRING: "ola"
+      TOKEN_DELIMITER: ;
+
+  variable_declaration: integer num = "ola";
+    TOKEN_DATA_TYPE: integer
+    assignment: num = "ola";
+      TOKEN_IDENTIFIER: num
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_STRING: "ola"
+      TOKEN_DELIMITER: ;
+
+  variable_declaration: integer num = 56.848485454848484;
+    TOKEN_DATA_TYPE: integer
+    assignment: num = 56.848485454848484;
+      TOKEN_IDENTIFIER: num
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_FLOAT_NUMBER: 56.848485454848484
+      TOKEN_DELIMITER: ;
+

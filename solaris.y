@@ -74,46 +74,59 @@
 
 program:
     program variable_declaration '\n' {
-        createProgramTree($2);
+        printf("\n\nEntrou em program -> variable_declaration com value %s\n\n", $2->value);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program assignment '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program expression '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program conditional '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program loop '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program loop_while '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program comment '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program write_data '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program read_data '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program function_declaration '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program function_return '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program library_inclusion '\n' {
-        createProgramTree($2);
+        if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
     }
     | program '\n' {
-        createProgramTree(NULL);
+
     }
     | /* vazio */ {
-        createProgramTree(NULL);
+        if (!synTree) synTree = createNode("program", " ");
     }
     ;
 
@@ -126,7 +139,7 @@ variable_declaration:
         tree variableDeclaration = createNode("variable_declaration", buffer);
         addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE", $1));
         addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
-        addChild(variableDeclaration, ";\n");
+        addChild(variableDeclaration, createNode(";", ";\n"));
         $$ = variableDeclaration;
     }
     | TOKEN_DATA_TYPE assignment {
@@ -147,7 +160,7 @@ variable_declaration:
         tree variableDeclaration = createNode("variable_declaration", buffer);
         addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_STRING", $1));
         addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
-        addChild(variableDeclaration, ";\n");
+        addChild(variableDeclaration, createNode(";", ";\n"));
         $$ = variableDeclaration;
     }
     | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
@@ -160,7 +173,7 @@ variable_declaration:
         addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
         addChild(variableDeclaration, createNode("TOKEN_ASSIGNMENT_OP", $3));
         addChild(variableDeclaration, createNode("TOKEN_STRING", $4));
-        addChild(variableDeclaration, ";\n");
+        addChild(variableDeclaration, createNode(";", ";\n"));
         $$ = variableDeclaration;
     }
     /* Tratamento de erro */
@@ -553,14 +566,14 @@ loop_while:
         processSyntacticStructure(SYN_LOOP_WHILE, buffer);
 
         tree loop_while = createNode("loop_while", buffer);
-        addChild(loop, createNode("TOKEN_LOOP_WHILE", $1));
-        addChild(loop, createNode("(", "("));
-        addChild(loop, $3);
-        addChild(loop, createNode(")", ")"));
-        addChild(loop, createNode("{", "{"));
-        addChild(loop, $6);
-        addChild(loop, createNode("}", "}"));
-        $$ = loop;
+        addChild(loop_while, createNode("TOKEN_LOOP_WHILE", $1));
+        addChild(loop_while, createNode("(", "("));
+        addChild(loop_while, $3);
+        addChild(loop_while, createNode(")", ")"));
+        addChild(loop_while, createNode("{", "{"));
+        addChild(loop_while, $6);
+        addChild(loop_while, createNode("}", "}"));
+        $$ = loop_while;
     }
     ;
 
@@ -629,9 +642,9 @@ loop_condition:
         sprintf(buffer, "%c %s %c", '(', $2->value, ')');
 
         tree loop_condition = createNode("loop_condition", buffer);
-        addChild(loop_condition, createNode("(", $1));
+        addChild(loop_condition, createNode("(", "("));
         addChild(loop_condition, $2);
-        addChild(loop_condition, createNode(")", $3));
+        addChild(loop_condition, createNode(")", ")"));
         $$ = loop_condition;
     }
     | TOKEN_IDENTIFIER {
@@ -658,7 +671,7 @@ comment:
         processSyntacticStructure(SYN_COMMENT_LINE, buffer);
 
         tree comment = createNode("comment", buffer);
-        addChild(comment, createNode("TOKEN_COMMENT_LINE", $1));
+        addChild(comment, createNode("TOKEN_COMMENT_LINE", strcat($1, "\n")));
         $$ = comment;
     }
     | TOKEN_COMMENT_BLOCK {
@@ -667,7 +680,7 @@ comment:
         processSyntacticStructure(SYN_COMMENT_BLOCK, buffer);
 
         tree comment = createNode("comment", buffer);
-        addChild(comment, createNode("TOKEN_COMMENT_BLOCK", $1));
+        addChild(comment, createNode("TOKEN_COMMENT_BLOCK", strcat($1, "\n")));
         $$ = comment;
     }
     ;
@@ -677,7 +690,6 @@ write_data:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_WRITE_DATA, buffer);
-        $$ = strdup(buffer);
 
         tree write_data = createNode("write_data", buffer);
         addChild(write_data, createNode("TOKEN_SHOW", $1));
@@ -720,19 +732,19 @@ function_declaration:
 
         tree function_declaration = createNode("function_declaration", buffer);
         addChild(function_declaration, createNode("TOKEN_FUNCTION", $1));
-        addChild(function_declaration, createNode("(", $2));
+        addChild(function_declaration, createNode("(", "("));
         addChild(function_declaration, createNode("TOKEN_DATA_TYPE", $3));
-        addChild(function_declaration, createNode(")", $4));
-        addChild(function_declaration, createNode(":", $5));
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode(":", ":"));
         addChild(function_declaration, createNode("TOKEN_IDENTIFIER", $6));
         addChild(function_declaration, createNode("TOKEN_FUNCTION_RECEIVE", $7));
-        addChild(function_declaration, createNode("(", $8));
+        addChild(function_declaration, createNode("(", "("));
         addChild(function_declaration, $9);
-        addChild(function_declaration, createNode(")", $10));
-        addChild(function_declaration, createNode("{", $11));
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode("{", "{"));
         addChild(function_declaration, $12);
         addChild(function_declaration, $13);
-        addChild(function_declaration, createNode("}", $14));
+        addChild(function_declaration, createNode("}", "}"));
         $$ = function_declaration;
     }
     | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
@@ -742,19 +754,19 @@ function_declaration:
 
         tree function_declaration = createNode("function_declaration", buffer);
         addChild(function_declaration, createNode("TOKEN_FUNCTION", $1));
-        addChild(function_declaration, createNode("(", $2));
+        addChild(function_declaration, createNode("(", "("));
         addChild(function_declaration, createNode("TOKEN_DATA_TYPE", $3));
-        addChild(function_declaration, createNode(")", $4));
-        addChild(function_declaration, createNode(":", $5));
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode(":", ":"));
         addChild(function_declaration, createNode("TOKEN_IDENTIFIER", $6));
         addChild(function_declaration, createNode("TOKEN_FUNCTION_RECEIVE", $7));
-        addChild(function_declaration, createNode("(", $8));
+        addChild(function_declaration, createNode("(", "("));
         addChild(function_declaration, $9);
-        addChild(function_declaration, createNode(")", $10));
-        addChild(function_declaration, createNode("{", $11));
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode("{", "{"));
         addChild(function_declaration, $12);
         addChild(function_declaration, $13);
-        addChild(function_declaration, createNode("}", $15));
+        addChild(function_declaration, createNode("}", "}"));
         $$ = function_declaration;
     }
     ;
@@ -774,8 +786,8 @@ function_parameter:
         sprintf(buffer, "%s, %s %s", $1->value, $3, $4);
 
         tree function_parameter = createNode("function_parameter", buffer);
-        addChild(function_parameter, $1));
-        addChild(function_parameter, createNode(",", $2));
+        addChild(function_parameter, $1);
+        addChild(function_parameter, createNode(",", ","));
         addChild(function_parameter, createNode("TOKEN_DATA_TYPE", $3));
         addChild(function_parameter, createNode("TOKEN_IDENTIFIER", $4));
         $$ = function_parameter;
@@ -787,7 +799,6 @@ function_return:
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
-        $$ = strdup(buffer);
 
         tree function_return = createNode("function_return", buffer);
         addChild(function_return, createNode("TOKEN_FUNCTION_RETURN", $1));

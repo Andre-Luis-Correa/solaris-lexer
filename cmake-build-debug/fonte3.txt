@@ -1,5 +1,5 @@
-integer number;
+integer num = "ola";
 
-float floatNumber;
+integer num = "ola";
 
-integer num = number;
+integer num = 56.848485454848484;
