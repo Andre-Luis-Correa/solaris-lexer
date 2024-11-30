@@ -394,7 +394,7 @@ expression:
     /* Tratamento de erro */
     | '(' expression {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "( %s", $2);
+        sprintf(buffer, "( %s", $2->value);
         sprintf(synErrorMessage, "Erro: Operacao com fechamento de parenteses incompleto '%s' na linha %d\n", buffer, yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
         exit(EXIT_FAILURE);
@@ -402,7 +402,7 @@ expression:
     /* Tratamento de erro */
     | TOKEN_ARITHMETIC_OP expression {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", $1, $2);
+        sprintf(buffer, "%s %s", $1, $2->value);
         sprintf(synErrorMessage, "Erro: Operacao incompleta '%s' na linha %d\n", buffer, yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
         exit(EXIT_FAILURE);

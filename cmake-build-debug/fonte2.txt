@@ -1,15 +1,7 @@
-# INCLUSAO DE BIBLIOTECAS
-
-use "solarisIo.sol"
-use "solarisLib.sol"
-use "directory/myLib.sol"
-
 ##
     comentario de bloco
     onde pode ser incluido uma sequencia de caracteres
 ##
-
-# DECLARACAO DE VARIAVEIS
 
 # ERRO SINTÁTICO: DECLARACAO DE VARIAVEL INCOMPLETA
 
@@ -18,16 +10,6 @@ use "directory/myLib.sol"
 # string newName
 # string newName = "Roberto"
 # integer intNumber = 5 && (9/1000)
-
-integer x = 0.9896511;
-string name = "Bruna";
-string oldName = "Andre";
-string address;
-float y;
-integer num;
-integer total = 0;
-
-# ATRIBUICOES
 
 # ERRO SINTÁTICO: ATRIBUICAO COM FALTA DE ;
 
@@ -40,20 +22,13 @@ integer total = 0;
 
 # variable =
 
-y = (5 + 9) * (9 + (9/2) * 9) && 1;
-oldName = name;
-name = "Joao";
-x = 5;
-oldName = name;
-y = 0.48445;
-
 # ERRO SINTATICO: OPERACAO INCOMPLETA
 
 # x +
 
 # ERRO SINTATICO: PARENTHESES DESBALANCEADOS
 
-# (y + 3
+(y + 3
 # z * (2 + 1
 
 # ERRO SINTATICO: OPERACAO COM TOKEN INVALIDO
@@ -82,62 +57,3 @@ y = 0.48445;
 # choose (x == 5)
 
 # choose (x == 5) { } otherwise
-
-choose (x == 5) {
-
-choose ( oldName == Name ) {
-}
-
-choose ( oldName == Name ) {
-    choose ( x >= y ) {
-        x = y;
-    } otherwise {
-        y = x;
-    }
-} otherwise {
-    x = 5;
-}
-
-# LOOP 1: WHILE
-
-integer counter = 0;
-while (counter <= 8 && (counter != 9)) {
-    counter = counter + 1;
-
-    choose (counter == 8) {
-
-    }
-}
-
-# LOOP 2: LOOP - UNTIL
-
-loop (integer i = 3) until ( i <= 5) {
-    x = 90;
-
-    loop (integer i = 3) until ( i <= 5) {
-        x = 90;
-    }
-
-    loop (integer i = 3) until ( i <= 5) {
-        x = 90;
-    }
-}
-
-# ESCRITA DE DADOS
-
-show "Ola Mundo!";
-show name;
-
-# LEITURA DE DADOS
-
-read name;
-
-# DECLARACAO DE FUNCAO
-
-function (integer): sumOfSquares receive (integer a, integer b) {
-    integer sum = a * a + b * b;
-
-    # RETORNO DE FUNCAO
-
-    return sum;
-}

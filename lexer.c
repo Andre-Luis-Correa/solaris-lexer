@@ -117,8 +117,10 @@ void printTokens(const tokenList *head, const char *listName) {
 //   - Caso contrário, o token é adicionado à lista de outros tokens.
 void processToken(int type, const char *text) {
     if (type != LEX_TOKEN_WHITESPACE && type != LEX_TOKEN_NEWLINE) {
-        if (type == LEX_TOKEN_RESERVED_WORD || type == LEX_TOKEN_DATA_TYPE || type == LEX_TOKEN_ARITHMETIC_OP || type == LEX_TOKEN_RELATIONAL_OP ||
-            type == LEX_TOKEN_ASSIGNMENT_OP || type == LEX_TOKEN_DELIMITER) {
+        if (type == LEX_TOKEN_RESERVED_WORD || type == LEX_TOKEN_DATA_TYPE||
+            type == LEX_TOKEN_ARITHMETIC_OP || type == LEX_TOKEN_RELATIONAL_OP ||
+            type == LEX_TOKEN_ASSIGNMENT_OP || type == LEX_TOKEN_DELIMITER ||
+            type == LEX_TOKEN_LOGICAL_OP) {
             addToken(&reservedWordListHead, type, text);  // Adiciona à lista de palavras reservadas
 
         } else if (type == LEX_TOKEN_UNKNOWN) {
@@ -139,7 +141,7 @@ void processToken(int type, const char *text) {
 //   - Todos os tokens das listas são impressos no console em formato tabular ou estruturado.
 void printTokenLists(const tokenList *reservedWordTokens, const tokenList *otherTokens) {
     printf("\n\nTokens Identificados:\n");
-    printTokens(reservedWordTokens, "Palavras Reservadas");
-    printTokens(otherTokens, "Outros Tokens");
+    printTokens(reservedWordTokens, "Tabela de Palavras Reservadas");
+    printTokens(otherTokens, "Tabela de Símbolos");
 }
 
