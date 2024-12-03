@@ -65,6 +65,7 @@ const char* getSyntacticStructureTypeName(int type) {
         case SYN_COMMENT_LINE:                 return "COMMENT_LINE";
         case SYN_COMMENT_BLOCK:                return "COMMENT_BLOCK";
         case SYN_FUNCTION_RETURN:              return "FUNCTION_RETURN";
+        case SYN_OPERATION:                    return "OPERATION";
         default:                               return "INVALID";
     }
 }

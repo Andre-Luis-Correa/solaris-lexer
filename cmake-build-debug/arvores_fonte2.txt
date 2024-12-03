@@ -1,0 +1,113 @@
+program:  
+  comment: # ERRO LEXICO: OPERACAO COM TOKEN INVALIDO
+    TOKEN_COMMENT_LINE: # ERRO LEXICO: OPERACAO COM TOKEN INVALIDO
+
+  comment: # x + @ 5
+    TOKEN_COMMENT_LINE: # x + @ 5
+
+  comment: # ERRO LEXICO: STRING MAL FORMADA
+    TOKEN_COMMENT_LINE: # ERRO LEXICO: STRING MAL FORMADA
+
+  variable_declaration: string test = "ola";
+    TOKEN_DATA_TYPE_STRING: string
+    TOKEN_IDENTIFIER: test
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_STRING: "ola"
+    ;: ;
+
+  comment: # ERRO LEXICO: COMENTARIO DE BLOCO SEM FECHAMENTO
+    TOKEN_COMMENT_LINE: # ERRO LEXICO: COMENTARIO DE BLOCO SEM FECHAMENTO
+
+  comment: ##
+    comentario de bloco
+    onde pode ser incluido uma sequencia de caracteres
+##
+    TOKEN_COMMENT_BLOCK: ##
+    comentario de bloco
+    onde pode ser incluido uma sequencia de caracteres
+##
+
+  comment: # ERRO SINTÁTICO: DECLARACAO DE VARIAVEL INCOMPLETA
+    TOKEN_COMMENT_LINE: # ERRO SINTÁTICO: DECLARACAO DE VARIAVEL INCOMPLETA
+
+  comment: # integer number
+    TOKEN_COMMENT_LINE: # integer number
+
+  comment: # integer
+    TOKEN_COMMENT_LINE: # integer
+
+  comment: # string newName
+    TOKEN_COMMENT_LINE: # string newName
+
+  comment: # string newName = "Roberto"
+    TOKEN_COMMENT_LINE: # string newName = "Roberto"
+
+  comment: # integer intNumber = 5 && (9/1000)
+    TOKEN_COMMENT_LINE: # integer intNumber = 5 && (9/1000)
+
+  comment: # ERRO SINTÁTICO: ATRIBUICAO COM FALTA DE ;
+    TOKEN_COMMENT_LINE: # ERRO SINTÁTICO: ATRIBUICAO COM FALTA DE ;
+
+  comment: # x = 5
+    TOKEN_COMMENT_LINE: # x = 5
+
+  comment: # y = 3.14
+    TOKEN_COMMENT_LINE: # y = 3.14
+
+  comment: # name = "Bruna"
+    TOKEN_COMMENT_LINE: # name = "Bruna"
+
+  comment: # oldName = name
+    TOKEN_COMMENT_LINE: # oldName = name
+
+  comment: # ERRO SINTÁTICO: ATRIBUICAO INCOMPLETA
+    TOKEN_COMMENT_LINE: # ERRO SINTÁTICO: ATRIBUICAO INCOMPLETA
+
+  comment: # variable =
+    TOKEN_COMMENT_LINE: # variable =
+
+  comment: # ERRO SINTATICO: OPERACAO INCOMPLETA
+    TOKEN_COMMENT_LINE: # ERRO SINTATICO: OPERACAO INCOMPLETA
+
+  comment: # x +
+    TOKEN_COMMENT_LINE: # x +
+
+  comment: # ERRO SINTATICO: PARENTHESES DESBALANCEADOS
+    TOKEN_COMMENT_LINE: # ERRO SINTATICO: PARENTHESES DESBALANCEADOS
+
+  comment: # (y + 3
+    TOKEN_COMMENT_LINE: # (y + 3
+
+  comment: # z * (2 + 1
+    TOKEN_COMMENT_LINE: # z * (2 + 1
+
+  comment: # ERRO SINTATICO: EXPRESSAO VAZIA NOS PARENTHESES
+    TOKEN_COMMENT_LINE: # ERRO SINTATICO: EXPRESSAO VAZIA NOS PARENTHESES
+
+  comment: # ()
+    TOKEN_COMMENT_LINE: # ()
+
+  comment: # b + ()
+    TOKEN_COMMENT_LINE: # b + ()
+
+  comment: # ERRO SINTATICO: OPERADOR ISOLADO
+    TOKEN_COMMENT_LINE: # ERRO SINTATICO: OPERADOR ISOLADO
+
+  comment: # +
+    TOKEN_COMMENT_LINE: # +
+
+  comment: # ERRO SINTATICO: EXPRESSAO INCOMPLETA DENTRO DO CONDICIONAL
+    TOKEN_COMMENT_LINE: # ERRO SINTATICO: EXPRESSAO INCOMPLETA DENTRO DO CONDICIONAL
+
+  comment: # choose (x > 5 { }
+    TOKEN_COMMENT_LINE: # choose (x > 5 { }
+
+  comment: # choose () { }
+    TOKEN_COMMENT_LINE: # choose () { }
+
+  comment: # choose (x == 5)
+    TOKEN_COMMENT_LINE: # choose (x == 5)
+
+  comment: # choose (x == 5) { } otherwise
+    TOKEN_COMMENT_LINE: # choose (x == 5) { } otherwise
+

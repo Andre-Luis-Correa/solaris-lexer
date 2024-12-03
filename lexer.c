@@ -142,6 +142,6 @@ void processToken(int type, const char *text) {
 void printTokenLists(const tokenList *reservedWordTokens, const tokenList *otherTokens) {
     printf("\n\nTokens Identificados:\n");
     printTokens(reservedWordTokens, "Tabela de Palavras Reservadas");
-    printTokens(otherTokens, "Tabela de Símbolos");
+    printTokens(otherTokens, "Tabela de Simbolos");
 }
 

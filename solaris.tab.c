@@ -1941,7 +1941,7 @@ yyreduce:
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].synTree)->value, (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].synTree)->value);
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        processSyntacticStructure(SYN_ARITHMETIC_OPERATION, buffer);
 
         tree expression = createNode("expression", buffer);
         addChild(expression, (yyvsp[(1) - (3)].synTree));
@@ -1957,7 +1957,7 @@ yyreduce:
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].synTree)->value, (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].synTree)->value);
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        processSyntacticStructure(SYN_RELATIONAL_OPERATION, buffer);
 
         tree expression = createNode("expression", buffer);
         addChild(expression, (yyvsp[(1) - (3)].synTree));
@@ -1973,7 +1973,7 @@ yyreduce:
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].synTree)->value, (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].synTree)->value);
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        processSyntacticStructure(SYN_LOGICAL_OPERATION, buffer);
 
         tree expression = createNode("expression", buffer);
         addChild(expression, (yyvsp[(1) - (3)].synTree));
@@ -1989,7 +1989,7 @@ yyreduce:
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "( %s )", (yyvsp[(2) - (3)].synTree)->value);
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        processSyntacticStructure(SYN_OPERATION, buffer);
 
         tree expression = createNode("expression", buffer);
         addChild(expression, createNode("(", "("));
@@ -2056,7 +2056,7 @@ yyreduce:
 #line 395 "solaris.y"
     {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "( %s", (yyvsp[(2) - (2)].synTree));
+        sprintf(buffer, "( %s", (yyvsp[(2) - (2)].synTree)->value);
         sprintf(synErrorMessage, "Erro: Operacao com fechamento de parenteses incompleto '%s' na linha %d\n", buffer, yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
         exit(EXIT_FAILURE);
@@ -2068,7 +2068,7 @@ yyreduce:
 #line 403 "solaris.y"
     {
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", (yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].synTree));
+        sprintf(buffer, "%s %s", (yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].synTree)->value);
         sprintf(synErrorMessage, "Erro: Operacao incompleta '%s' na linha %d\n", buffer, yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
         exit(EXIT_FAILURE);

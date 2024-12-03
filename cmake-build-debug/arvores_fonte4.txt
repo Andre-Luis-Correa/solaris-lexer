@@ -1,0 +1,31 @@
+program:  
+  comment: # Exemplo de código em Solaris
+    TOKEN_COMMENT_LINE: # Exemplo de código em Solaris
+
+  variable_declaration: integer x = 5 + 5;
+    TOKEN_DATA_TYPE: integer
+    assignment: x = 5 + 5;
+      TOKEN_IDENTIFIER: x
+      TOKEN_ASSIGNMENT_OP: =
+      expression: 5 + 5
+        expression: 5
+          TOKEN_INTEGER_NUMBER: 5
+        TOKEN_ASSIGNMENT_OP: +
+        expression: 5
+          TOKEN_INTEGER_NUMBER: 5
+      TOKEN_DELIMITER: ;
+
+  conditional: choose ( 1 && 1 ) {   }
+    TOKEN_CONDITIONAL_CHOOSE: choose
+    (: (
+    expression: 1 && 1
+      expression: 1
+        TOKEN_INTEGER_NUMBER: 1
+      TOKEN_ASSIGNMENT_OP: &&
+      expression: 1
+        TOKEN_INTEGER_NUMBER: 1
+    ): )
+    {: {
+    possible_content:  
+    }: }
+

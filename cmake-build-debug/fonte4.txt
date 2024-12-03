@@ -1,0 +1,5 @@
+# Exemplo de código em Solaris
+
+integer x = 5 + 5;
+
+choose (1 && 1) {}

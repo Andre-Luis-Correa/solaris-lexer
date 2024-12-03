@@ -1,3 +1,13 @@
+# ERRO LEXICO: OPERACAO COM TOKEN INVALIDO
+
+# x + @ 5
+
+# ERRO LEXICO: STRING MAL FORMADA
+
+string test = "ola";
+
+# ERRO LEXICO: COMENTARIO DE BLOCO SEM FECHAMENTO
+
 ##
     comentario de bloco
     onde pode ser incluido uma sequencia de caracteres
@@ -28,12 +38,8 @@
 
 # ERRO SINTATICO: PARENTHESES DESBALANCEADOS
 
-(y + 3
+# (y + 3
 # z * (2 + 1
-
-# ERRO SINTATICO: OPERACAO COM TOKEN INVALIDO
-
-# x + @ 5
 
 # ERRO SINTATICO: EXPRESSAO VAZIA NOS PARENTHESES
 
@@ -44,11 +50,8 @@
 
 # +
 
-# OPERACOES CONDICIONAIS
-
 # ERRO SINTATICO: EXPRESSAO INCOMPLETA DENTRO DO CONDICIONAL
 
-# choose (x + ) { }
 
 # choose (x > 5 { }
 

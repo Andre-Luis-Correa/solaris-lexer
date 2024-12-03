@@ -13,7 +13,7 @@ int main() {
     char fileName[256];
 
     printf("\n\n--> Digite o nome do arquivo para analise LEXICA e SINTATICA sem extensao (.txt): ");
-    scanf("%[^\n]%", inputFileName);
+    scanf("%[^\n]%*c", inputFileName);
     sprintf(fileName, "%s.txt", inputFileName);
 
     FILE *file = openFile(fileName, "r");

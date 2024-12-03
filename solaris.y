@@ -321,7 +321,7 @@ expression:
     expression TOKEN_ARITHMETIC_OP expression {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", $1->value, $2, $3->value);
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        processSyntacticStructure(SYN_ARITHMETIC_OPERATION, buffer);
 
         tree expression = createNode("expression", buffer);
         addChild(expression, $1);
@@ -332,7 +332,7 @@ expression:
     | expression TOKEN_RELATIONAL_OP expression {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", $1->value, $2, $3->value);
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        processSyntacticStructure(SYN_RELATIONAL_OPERATION, buffer);
 
         tree expression = createNode("expression", buffer);
         addChild(expression, $1);
@@ -343,7 +343,7 @@ expression:
     | expression TOKEN_LOGICAL_OP expression {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", $1->value, $2, $3->value);
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        processSyntacticStructure(SYN_LOGICAL_OPERATION, buffer);
 
         tree expression = createNode("expression", buffer);
         addChild(expression, $1);
@@ -354,7 +354,7 @@ expression:
     | '(' expression ')' {
         char buffer[MAXBUFFER];
         sprintf(buffer, "( %s )", $2->value);
-        processSyntacticStructure(SYN_ASSIGNMENT, buffer);
+        processSyntacticStructure(SYN_OPERATION, buffer);
 
         tree expression = createNode("expression", buffer);
         addChild(expression, createNode("(", "("));

@@ -24,6 +24,7 @@
 #define SYN_COMMENT_BLOCK                16  // Comentário de bloco.
 #define SYN_FUNCTION_RETURN              17  // Retorno de função.
 #define SYN_ERROR                        18  // Indica um erro sintático.
+#define SYN_OPERATION                    19  // Indica uma operação
 
 // Estrutura para armazenar uma estrutura sintática reconhecida.
 typedef struct syntacticStructure {
