@@ -1,0 +1,14 @@
+program:  
+  variable_declaration: string oldName;
+    TOKEN_DATA_TYPE_STRING: string
+    TOKEN_IDENTIFIER: oldName
+    ;: ;
+
+  comment: # string oldName;
+    TOKEN_COMMENT_LINE: # string oldName;
+
+  variable_declaration: string x;
+    TOKEN_DATA_TYPE_STRING: string
+    TOKEN_IDENTIFIER: x
+    ;: ;
+

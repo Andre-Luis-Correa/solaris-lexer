@@ -74,7 +74,7 @@ void processSemanticStructure(const char *str, int lexTokenType, category catego
 void check_declaration_exists(const char *str) {
     int isDeclared = findSymbol(symbolTableList, str);
     if(isDeclared) {
-        fprintf(stderr, "\nERRO SEMANTICO -> A variavel %s já foi declarada anteriormente\n", str);
+        fprintf(stderr, "\nERRO SEMANTICO -> A variavel %s ja foi declarada anteriormente\n", str);
         exit(EXIT_FAILURE);
     }
 }

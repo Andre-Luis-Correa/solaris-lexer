@@ -39,3 +39,13 @@
 10	199	7628943630511621	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
 16	232	7628943630870422	CMakeFiles/untitled1.dir/solaris.tab.c.obj	eecb5a0f5327f6cf
 232	410	7628943632547151	untitled1.exe	e46eb4d34f00ab6f
+12	157	7628946796212212	CMakeFiles/untitled1.dir/syntacticAnalysis.c.obj	db08228bee8f0681
+4	161	7628946796245702	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+28	181	7628946796451765	CMakeFiles/untitled1.dir/semanticAnalysis.c.obj	696f34487f4ad290
+21	256	7628946797191492	CMakeFiles/untitled1.dir/solaris.tab.c.obj	eecb5a0f5327f6cf
+257	455	7628946799110387	untitled1.exe	e46eb4d34f00ab6f
+2	114	7628965665622730	CMakeFiles/untitled1.dir/main.c.obj	ee43bc4ec3e63f03
+19	122	7628965665685338	CMakeFiles/untitled1.dir/semanticAnalysis.c.obj	696f34487f4ad290
+9	173	7628965666205344	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
+14	186	7628965666345358	CMakeFiles/untitled1.dir/solaris.tab.c.obj	eecb5a0f5327f6cf
+186	322	7628965667665664	untitled1.exe	e46eb4d34f00ab6f
