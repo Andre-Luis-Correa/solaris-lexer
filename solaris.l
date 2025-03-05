@@ -86,10 +86,28 @@
     return TOKEN_DATA_TYPE_STRING;
 }
 
-"integer"|"float"|"double"|"char"|"boolean" {
+"integer" {
     yylval.str = strdup(yytext);
     processToken(LEX_TOKEN_DATA_TYPE, yytext);
-    return TOKEN_DATA_TYPE;
+    return TOKEN_DATA_TYPE_INTEGER;
+}
+
+"float" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    return TOKEN_DATA_TYPE_FLOAT;
+}
+
+"double" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    return TOKEN_DATA_TYPE_DOUBLE;
+}
+
+"boolean" {
+    yylval.str = strdup(yytext);
+    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    return TOKEN_DATA_TYPE_BOOLEAN;
 }
 
 [a-zA-Z_][a-zA-Z0-9_]* {

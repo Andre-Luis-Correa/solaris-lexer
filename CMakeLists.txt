@@ -15,4 +15,6 @@ add_executable(untitled1
         tree.c
         file.h
         file.c
+        semanticAnalysis.h
+        semanticAnalysis.c
 )

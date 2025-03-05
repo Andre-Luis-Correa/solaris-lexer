@@ -1,6 +1,7 @@
 %{
     #include <stdio.h>
     #include "syntacticAnalysis.h"
+    #include "semanticAnalysis.h"
     #include "tree.h"
 
     #define MAXBUFFER 1000
@@ -35,6 +36,10 @@
 %token <str> TOKEN_LOOP_WHILE
 %token <str> TOKEN_DATA_TYPE
 %token <str> TOKEN_DATA_TYPE_STRING
+%token <str> TOKEN_DATA_TYPE_INTEGER
+%token <str> TOKEN_DATA_TYPE_FLOAT
+%token <str> TOKEN_DATA_TYPE_DOUBLE
+%token <str> TOKEN_DATA_TYPE_BOOLEAN
 %token <str> TOKEN_COMMENT_LINE
 %token <str> TOKEN_COMMENT_BLOCK
 %token <str> TOKEN_SHOW
@@ -152,6 +157,9 @@ variable_declaration:
         $$ = variableDeclaration;
     }
     | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER ';' {
+        check_declaration_exists($2);
+        processSemanticStructure($2, TOKEN_IDENTIFIER, VARIABLE, TOKEN_DATA_TYPE_STRING, 0, 0.0, NULL);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);

@@ -53,7 +53,7 @@ string test = "ola";
 # ERRO SINTATICO: EXPRESSAO INCOMPLETA DENTRO DO CONDICIONAL
 
 
-# choose (x > 5 { }
+# choose x > 5) { }
 
 # choose () { }
 

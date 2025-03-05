@@ -33,9 +33,6 @@ typedef struct syntacticStructure {
     struct syntacticStructure *next;     // Ponteiro para o próximo elemento na lista.
 } syntacticStructureList;
 
-// Variável global para indicar a presença de erros.
-extern int errorFlag;
-
 // Ponteiro global para a cabeça da lista de estruturas sintáticas.
 extern syntacticStructureList *syntacticStructureListHead;
 

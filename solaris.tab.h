@@ -63,16 +63,20 @@ extern int yydebug;
      TOKEN_LOOP_WHILE = 272,
      TOKEN_DATA_TYPE = 273,
      TOKEN_DATA_TYPE_STRING = 274,
-     TOKEN_COMMENT_LINE = 275,
-     TOKEN_COMMENT_BLOCK = 276,
-     TOKEN_SHOW = 277,
-     TOKEN_READ = 278,
-     TOKEN_FUNCTION = 279,
-     TOKEN_FUNCTION_RECEIVE = 280,
-     TOKEN_FUNCTION_RETURN = 281,
-     TOKEN_USE = 282,
-     TOKEN_BOOLEAN = 283,
-     TOKEN_UNKNOWN = 284
+     TOKEN_DATA_TYPE_INTEGER = 275,
+     TOKEN_DATA_TYPE_FLOAT = 276,
+     TOKEN_DATA_TYPE_DOUBLE = 277,
+     TOKEN_DATA_TYPE_BOOLEAN = 278,
+     TOKEN_COMMENT_LINE = 279,
+     TOKEN_COMMENT_BLOCK = 280,
+     TOKEN_SHOW = 281,
+     TOKEN_READ = 282,
+     TOKEN_FUNCTION = 283,
+     TOKEN_FUNCTION_RECEIVE = 284,
+     TOKEN_FUNCTION_RETURN = 285,
+     TOKEN_USE = 286,
+     TOKEN_BOOLEAN = 287,
+     TOKEN_UNKNOWN = 288
    };
 #endif
 
@@ -81,14 +85,14 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 16 "solaris.y"
+#line 17 "solaris.y"
 
     char * str;
     struct treeNode * synTree;
 
 
 /* Line 2058 of yacc.c  */
-#line 92 "solaris.tab.h"
+#line 96 "solaris.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
