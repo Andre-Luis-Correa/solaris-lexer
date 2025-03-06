@@ -5,7 +5,7 @@
 
 void checkDeclarationExists(const char *str) {
     tokenList const * symbol = findSymbol(symbolTable, str);
-    if(symbol) {
+    if(symbol && symbol->category != UNDEFINED && symbol->dataType != TYPE_UNDEFINED) {
         fprintf(stderr, "\nERRO SEMANTICO -> A variavel %s ja foi declarada anteriormente\n", str);
         exit(EXIT_FAILURE);
     }
@@ -13,7 +13,7 @@ void checkDeclarationExists(const char *str) {
 
 void checkDeclarationNotExists(const char *str) {
     tokenList const * symbol = findSymbol(symbolTable, str);
-    if(!symbol) {
+    if(symbol && symbol->category == UNDEFINED && symbol->dataType == TYPE_UNDEFINED) {
         fprintf(stderr, "\nERRO SEMANTICO -> A variavel %s nao foi declarada anteriormente\n", str);
         exit(EXIT_FAILURE);
     }

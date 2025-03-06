@@ -31,6 +31,7 @@ int main() {
 
     if (yyparse() == 0) {
         printSyntacticStructuresList(syntacticStructureListHead);
+        printTokens(symbolTable, "Tabela de Simbolos");
         writeTreeToTxtFile(inputFileName, synTree);
     } else {
         fclose(file);

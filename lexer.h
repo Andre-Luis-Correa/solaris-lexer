@@ -98,10 +98,16 @@ void freeTokenList(tokenList *head);
 // Pós-condições: Retorna a string correspondente ao tipo de token.
 const char* getTokenTypeName(int type);
 
+char* getCategoryName(category cat);
+
+char* getDataTypeName(dataType type);
+
+char* getTokenValue(tokenList *token);
+
 // Imprime todos os tokens da lista fornecida.
 // Pré-condições: 'head' deve ser o ponteiro para a cabeça da lista de tokens.
 // Pós-condições: Todos os tokens da lista são impressos no console.
-void printTokens(const tokenList *head, const char *listName);
+void printTokens(tokenList *head, const char *listName);
 
 // Função auxiliar para armazenar o token na lista apropriada
 // Pré-condições:

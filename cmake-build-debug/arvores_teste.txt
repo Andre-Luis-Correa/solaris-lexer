@@ -4,11 +4,23 @@ program:
     TOKEN_IDENTIFIER: oldName
     ;: ;
 
-  comment: # string oldName;
-    TOKEN_COMMENT_LINE: # string oldName;
-
-  variable_declaration: string x;
+  variable_declaration: string x = "u";
     TOKEN_DATA_TYPE_STRING: string
     TOKEN_IDENTIFIER: x
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_STRING: "u"
     ;: ;
+
+  variable_declaration: integer z;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: z
+    ;: ;
+
+  variable_declaration: integer y = z;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    assignment: y = z;
+      TOKEN_IDENTIFIER: y
+      TOKEN_ASSIGNMENT_OP: =
+      TOKEN_IDENTIFIER: z
+      TOKEN_DELIMITER: ;
 

@@ -1,2 +1,4 @@
 string oldName;
-string x;
+string x = "u";
+integer z;
+integer y = z;

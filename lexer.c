@@ -110,19 +110,67 @@ const char* getTokenTypeName(int type) {
     }
 }
 
+char* getCategoryName(category cat) {
+    switch (cat) {
+        case VARIABLE: return "VARIABLE";
+        case FUNCTION: return "FUNCTION";
+        default: return "UNDEFINED";
+    }
+}
+
+char* getDataTypeName(dataType type) {
+    switch (type) {
+        case TYPE_INTEGER: return "INTEGER";
+        case TYPE_FLOAT: return "FLOAT";
+        case TYPE_STRING: return "STRING";
+        case TYPE_IDENTIFIER: return "IDENTIFIER";
+        default: return "UNDEFINED";
+    }
+}
+
+char* getTokenValue(tokenList *token) {
+    if (token->hasValue) {
+        switch (token->dataType) {
+            case TYPE_INTEGER: {
+                char buffer[20];
+                snprintf(buffer, sizeof(buffer), "%d", token->value.intValue);
+                return buffer;
+            }
+            case TYPE_FLOAT: {
+                static char buffer[20];
+                snprintf(buffer, sizeof(buffer), "%.2f", token->value.floatValue);
+                return buffer;
+            }
+            case TYPE_STRING:
+                return token->value.stringValue ? token->value.stringValue : "NULL";
+            case TYPE_IDENTIFIER:
+                return token->value.identifierValue ? token->value.identifierValue : "NULL";
+            default:
+                return "N/A";
+        }
+    }
+    return "N/A";
+}
+
 // Imprime todos os tokens da lista fornecida.
 // Pré-condições: 'head' deve ser o ponteiro para a cabeça da lista de tokens.
 // Pós-condições: Todos os tokens da lista são impressos no console.
-void printTokens(const tokenList *head, const char *listName) {
-    const tokenList *current = head;
+void printTokens(tokenList *head, const char *listName) {
+    tokenList *current = head;
     printf("\nTokens na lista %s:\n", listName);
-    printf("----------------------------------------\n");
-    printf("| %-20s %-15s |\n", "Tipo", "Valor");
-    printf("----------------------------------------\n");
+    printf("--------------------------------------------------------------------------------------------------------------------\n");
+    printf("| %-25s | %-25s | %-15s | %-15s | %-20s |\n", "Tipo", "Cadeia", "Categoria", "DataType", "Valor");
+    printf("--------------------------------------------------------------------------------------------------------------------\n");
     while (current != NULL) {
-        printf("%-20s %-30s\n", getTokenTypeName(current->lexTokenType), current->str);
+        printf("| %-25s | %-25s | %-15s | %-15s | %-20s |\n",
+               getTokenTypeName(current->lexTokenType),
+               current->str ? current->str : "NULL",
+               getCategoryName(current->category),
+               getDataTypeName(current->dataType),
+               getTokenValue(current));
         current = current->next;
     }
+    printf("--------------------------------------------------------------------------------------------------------------------\n");
 }
 
 // Função auxiliar para armazenar o token na lista apropriada
@@ -223,11 +271,14 @@ void updateSymbolCategoryAndDataType(const char *str, category category, dataTyp
 
 void updateSymbolValue(const char *str, const char *value, dataType dataType) {
     tokenList *current = symbolTable;
-    current->hasValue = 1;
 
     while (current != NULL) {
         if (strcmp(current->str, str) == 0) {
-
+            if (value != NULL) {
+                current->hasValue = 1;
+            } else {
+                current->hasValue = 0;
+            }
             char *endptr;
             switch (dataType) {
                 case TYPE_INTEGER:
@@ -259,6 +310,6 @@ void updateSymbolValue(const char *str, const char *value, dataType dataType) {
 }
 
 dataType getSymbolDataType(const char *str) {
-    tokenList * symbol = findSymbol(symbolTable, str);
+    tokenList const * symbol = findSymbol(symbolTable, str);
     return symbol->dataType;
 }
