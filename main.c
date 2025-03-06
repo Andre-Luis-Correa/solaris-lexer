@@ -21,7 +21,7 @@ int main() {
 
     while (yylex() != 0);
     if (errorFlag == 0) {
-        printTokenLists(reservedWordListHead, otherTokensListHead);
+        printTokenLists(reservedWordListHead, symbolTable);
     } else {
         fclose(file);
         return 0;
@@ -38,7 +38,7 @@ int main() {
     }
 
     if(reservedWordListHead) freeTokenList(reservedWordListHead);
-    if(otherTokensListHead) freeTokenList(otherTokensListHead);
+    if(symbolTable) freeTokenList(symbolTable);
     if(syntacticStructureListHead) freeSyntacticStructureList(syntacticStructureListHead);
     if(synTree) freeTree(synTree);
 

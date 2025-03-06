@@ -85,7 +85,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 17 "solaris.y"
+#line 18 "solaris.y"
 
     char * str;
     struct treeNode * synTree;

@@ -1,3 +1,2 @@
 string oldName;
-string oldName;
 string x;

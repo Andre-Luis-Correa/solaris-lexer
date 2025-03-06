@@ -1,5 +1,6 @@
 %{
     #include <stdio.h>
+    #include "lexer.h"
     #include "syntacticAnalysis.h"
     #include "semanticAnalysis.h"
     #include "tree.h"
@@ -135,30 +136,65 @@ program:
     ;
 
 variable_declaration:
-    TOKEN_DATA_TYPE TOKEN_IDENTIFIER ';' {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s;", $1, $2);
-        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+    TOKEN_DATA_TYPE_INTEGER assignment {
+        checkDeclarationExists($2->children[0]->value);
+        checkTypesOfAssignment(TYPE_INTEGER, $2->children[2]->value);
+        updateSymbolCategoryAndDataType($2->children[0]->value, VARIABLE, TYPE_INTEGER);
 
-        tree variableDeclaration = createNode("variable_declaration", buffer);
-        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE", $1));
-        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
-        addChild(variableDeclaration, createNode(";", ";\n"));
-        $$ = variableDeclaration;
-    }
-    | TOKEN_DATA_TYPE assignment {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s", $1, $2->value);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
 
         tree variableDeclaration = createNode("variable_declaration", buffer);
-        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE", $1));
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_INTEGER", $1));
         addChild(variableDeclaration, $2);
         $$ = variableDeclaration;
     }
+    | TOKEN_DATA_TYPE_FLOAT assignment {
+        checkDeclarationExists($2->children[0]->value);
+        checkTypesOfAssignment(TYPE_FLOAT, $2->children[2]->value);
+        updateSymbolCategoryAndDataType($2->children[0]->value, VARIABLE, TYPE_FLOAT);
+
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s", $1, $2->value);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_FLOAT", $1));
+        addChild(variableDeclaration, $2);
+        $$ = variableDeclaration;
+    }
+    | TOKEN_DATA_TYPE_INTEGER TOKEN_IDENTIFIER ';' {
+        checkDeclarationExists($2);
+        updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_INTEGER);
+
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_INTEGER", $1));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(variableDeclaration, createNode(";", ";\n"));
+        $$ = variableDeclaration;
+    }
+    | TOKEN_DATA_TYPE_FLOAT TOKEN_IDENTIFIER ';' {
+        checkDeclarationExists($2);
+        updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_FLOAT);
+
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s;", $1, $2);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_FLOAT", $1));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(variableDeclaration, createNode(";", ";\n"));
+        $$ = variableDeclaration;
+    }
     | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER ';' {
-        check_declaration_exists($2);
-        processSemanticStructure($2, TOKEN_IDENTIFIER, VARIABLE, TOKEN_DATA_TYPE_STRING, 0, 0.0, NULL);
+        checkDeclarationExists($2);
+        updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_STRING);
 
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
@@ -171,6 +207,10 @@ variable_declaration:
         $$ = variableDeclaration;
     }
     | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
+        checkDeclarationExists($2);
+        updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_STRING);
+        updateSymbolValue($2, $4, TYPE_STRING);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
@@ -211,6 +251,10 @@ variable_declaration:
 
 assignment:
     TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
+        checkDeclarationNotExists($3);
+        dataType dataType = getSymbolDataType($3);
+        updateSymbolValue($1, $3, dataType);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s;", $1, $2, $3);
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);

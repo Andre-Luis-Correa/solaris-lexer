@@ -11,67 +11,67 @@
 
 "choose" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_CONDITIONAL_CHOOSE, yytext);
     return TOKEN_CONDITIONAL_CHOOSE;
 }
 
 "otherwise" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_CONDITIONAL_OTHERWISE, yytext);
     return TOKEN_CONDITIONAL_OTHERWISE;
 }
 
 "loop" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_LOOP, yytext);
     return TOKEN_LOOP;
 }
 
 "until" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_LOOP_UNTIL, yytext);
     return TOKEN_LOOP_UNTIL;
 }
 
 "while" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_LOOP_WHILE, yytext);
     return TOKEN_LOOP_WHILE;
 }
 
 "show" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_SHOW, yytext);
     return TOKEN_SHOW;
 }
 
 "read" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_READ, yytext);
     return TOKEN_READ;
 }
 
 "function" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_FUNCTION, yytext);
     return TOKEN_FUNCTION;
 }
 
 "return" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_FUNCTION_RETURN, yytext);
     return TOKEN_FUNCTION_RETURN;
 }
 
 "receive" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_FUNCTION_RECEIVE, yytext);
     return TOKEN_FUNCTION_RECEIVE;
 }
 
 "use" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_USE, yytext);
     return TOKEN_USE;
 }
 
@@ -82,31 +82,31 @@
 
 "string" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    processToken(LEX_TOKEN_DATA_TYPE_STRING, yytext);
     return TOKEN_DATA_TYPE_STRING;
 }
 
 "integer" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    processToken(LEX_TOKEN_DATA_TYPE_INTEGER, yytext);
     return TOKEN_DATA_TYPE_INTEGER;
 }
 
 "float" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    processToken(LEX_TOKEN_DATA_TYPE_FLOAT, yytext);
     return TOKEN_DATA_TYPE_FLOAT;
 }
 
 "double" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    processToken(LEX_TOKEN_DATA_TYPE_DOUBLE, yytext);
     return TOKEN_DATA_TYPE_DOUBLE;
 }
 
 "boolean" {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    processToken(LEX_TOKEN_DATA_TYPE_BOOLEAN, yytext);
     return TOKEN_DATA_TYPE_BOOLEAN;
 }
 

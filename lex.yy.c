@@ -775,7 +775,7 @@ YY_RULE_SETUP
 #line 12 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_CONDITIONAL_CHOOSE, yytext);
     return TOKEN_CONDITIONAL_CHOOSE;
 }
 	YY_BREAK
@@ -784,7 +784,7 @@ YY_RULE_SETUP
 #line 18 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_CONDITIONAL_OTHERWISE, yytext);
     return TOKEN_CONDITIONAL_OTHERWISE;
 }
 	YY_BREAK
@@ -793,7 +793,7 @@ YY_RULE_SETUP
 #line 24 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_LOOP, yytext);
     return TOKEN_LOOP;
 }
 	YY_BREAK
@@ -802,7 +802,7 @@ YY_RULE_SETUP
 #line 30 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_LOOP_UNTIL, yytext);
     return TOKEN_LOOP_UNTIL;
 }
 	YY_BREAK
@@ -811,7 +811,7 @@ YY_RULE_SETUP
 #line 36 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_LOOP_WHILE, yytext);
     return TOKEN_LOOP_WHILE;
 }
 	YY_BREAK
@@ -820,7 +820,7 @@ YY_RULE_SETUP
 #line 42 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_SHOW, yytext);
     return TOKEN_SHOW;
 }
 	YY_BREAK
@@ -829,7 +829,7 @@ YY_RULE_SETUP
 #line 48 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_READ, yytext);
     return TOKEN_READ;
 }
 	YY_BREAK
@@ -838,7 +838,7 @@ YY_RULE_SETUP
 #line 54 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_FUNCTION, yytext);
     return TOKEN_FUNCTION;
 }
 	YY_BREAK
@@ -847,7 +847,7 @@ YY_RULE_SETUP
 #line 60 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_FUNCTION_RETURN, yytext);
     return TOKEN_FUNCTION_RETURN;
 }
 	YY_BREAK
@@ -856,7 +856,7 @@ YY_RULE_SETUP
 #line 66 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_FUNCTION_RECEIVE, yytext);
     return TOKEN_FUNCTION_RECEIVE;
 }
 	YY_BREAK
@@ -865,7 +865,7 @@ YY_RULE_SETUP
 #line 72 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_RESERVED_WORD, yytext);
+    processToken(LEX_TOKEN_USE, yytext);
     return TOKEN_USE;
 }
 	YY_BREAK
@@ -882,7 +882,7 @@ YY_RULE_SETUP
 #line 83 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    processToken(LEX_TOKEN_DATA_TYPE_STRING, yytext);
     return TOKEN_DATA_TYPE_STRING;
 }
 	YY_BREAK
@@ -891,7 +891,7 @@ YY_RULE_SETUP
 #line 89 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    processToken(LEX_TOKEN_DATA_TYPE_INTEGER, yytext);
     return TOKEN_DATA_TYPE_INTEGER;
 }
 	YY_BREAK
@@ -900,7 +900,7 @@ YY_RULE_SETUP
 #line 95 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    processToken(LEX_TOKEN_DATA_TYPE_FLOAT, yytext);
     return TOKEN_DATA_TYPE_FLOAT;
 }
 	YY_BREAK
@@ -909,7 +909,7 @@ YY_RULE_SETUP
 #line 101 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    processToken(LEX_TOKEN_DATA_TYPE_DOUBLE, yytext);
     return TOKEN_DATA_TYPE_DOUBLE;
 }
 	YY_BREAK
@@ -918,7 +918,7 @@ YY_RULE_SETUP
 #line 107 "solaris.l"
 {
     yylval.str = strdup(yytext);
-    processToken(LEX_TOKEN_DATA_TYPE, yytext);
+    processToken(LEX_TOKEN_DATA_TYPE_BOOLEAN, yytext);
     return TOKEN_DATA_TYPE_BOOLEAN;
 }
 	YY_BREAK
