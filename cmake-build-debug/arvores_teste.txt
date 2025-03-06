@@ -1,26 +1,48 @@
 program:  
-  variable_declaration: string oldName;
-    TOKEN_DATA_TYPE_STRING: string
-    TOKEN_IDENTIFIER: oldName
+  variable_declaration: integer z = 5;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: z
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_INTEGER_NUMBER: 5
     ;: ;
 
-  variable_declaration: string x = "u";
+  variable_declaration: string teste = "teste de string";
     TOKEN_DATA_TYPE_STRING: string
+    TOKEN_IDENTIFIER: teste
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_STRING: "teste de string"
+    ;: ;
+
+  variable_declaration: string oi = teste;
+    TOKEN_DATA_TYPE_STRING: string
+    TOKEN_IDENTIFIER: oi
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_IDENTIFIER: teste
+    ;: ;
+
+  variable_declaration: integer x = z;
+    TOKEN_DATA_TYPE_INTEGER: integer
     TOKEN_IDENTIFIER: x
     TOKEN_ASSIGNMENT_OP: =
-    TOKEN_STRING: "u"
-    ;: ;
-
-  variable_declaration: integer z;
-    TOKEN_DATA_TYPE_INTEGER: integer
     TOKEN_IDENTIFIER: z
     ;: ;
 
-  variable_declaration: integer y = z;
+  variable_declaration: integer y;
     TOKEN_DATA_TYPE_INTEGER: integer
-    assignment: y = z;
-      TOKEN_IDENTIFIER: y
-      TOKEN_ASSIGNMENT_OP: =
-      TOKEN_IDENTIFIER: z
-      TOKEN_DELIMITER: ;
+    TOKEN_IDENTIFIER: y
+    ;: ;
+
+  variable_declaration: float floatNumber = 0.8;
+    TOKEN_DATA_TYPE_FLOAT: float
+    TOKEN_IDENTIFIER: floatNumber
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_FLOAT_NUMBER: 0.8
+    ;: ;
+
+  variable_declaration: float numberDecimal = floatNumber;
+    TOKEN_DATA_TYPE_FLOAT: float
+    TOKEN_IDENTIFIER: numberDecimal
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_IDENTIFIER: floatNumber
+    ;: ;
 

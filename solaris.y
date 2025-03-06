@@ -136,42 +136,17 @@ program:
     ;
 
 variable_declaration:
-    TOKEN_DATA_TYPE_INTEGER assignment {
-        checkDeclarationExists($2->children[0]->value);
-        checkTypesOfAssignment(TYPE_INTEGER, $2->children[2]->value);
-        updateSymbolCategoryAndDataType($2->children[0]->value, VARIABLE, TYPE_INTEGER);
-
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", $1, $2->value);
-        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
-
-        tree variableDeclaration = createNode("variable_declaration", buffer);
-        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_INTEGER", $1));
-        addChild(variableDeclaration, $2);
-        $$ = variableDeclaration;
-    }
-    | TOKEN_DATA_TYPE_FLOAT assignment {
-        checkDeclarationExists($2->children[0]->value);
-        checkTypesOfAssignment(TYPE_FLOAT, $2->children[2]->value);
-        updateSymbolCategoryAndDataType($2->children[0]->value, VARIABLE, TYPE_FLOAT);
-
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", $1, $2->value);
-        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
-
-        tree variableDeclaration = createNode("variable_declaration", buffer);
-        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_FLOAT", $1));
-        addChild(variableDeclaration, $2);
-        $$ = variableDeclaration;
-    }
-    | TOKEN_DATA_TYPE_INTEGER TOKEN_IDENTIFIER ';' {
-        checkDeclarationExists($2);
+    TOKEN_DATA_TYPE_INTEGER TOKEN_IDENTIFIER ';' {
+        // Análise semântica: verifica se a variável está na tabela de símbolos e atualiza a categoria e tipo de dado
+        checkDeclarationExists($2, yylineno);
         updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_INTEGER);
 
+        // Análise sintática
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
 
+        // Criação do nó da árvore sintática
         tree variableDeclaration = createNode("variable_declaration", buffer);
         addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_INTEGER", $1));
         addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
@@ -179,7 +154,7 @@ variable_declaration:
         $$ = variableDeclaration;
     }
     | TOKEN_DATA_TYPE_FLOAT TOKEN_IDENTIFIER ';' {
-        checkDeclarationExists($2);
+        checkDeclarationExists($2, yylineno);
         updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_FLOAT);
 
         char buffer[MAXBUFFER];
@@ -193,7 +168,7 @@ variable_declaration:
         $$ = variableDeclaration;
     }
     | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER ';' {
-        checkDeclarationExists($2);
+        checkDeclarationExists($2, yylineno);
         updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_STRING);
 
         char buffer[MAXBUFFER];
@@ -206,20 +181,144 @@ variable_declaration:
         addChild(variableDeclaration, createNode(";", ";\n"));
         $$ = variableDeclaration;
     }
+    | TOKEN_DATA_TYPE_INTEGER TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER ';' {
+            // Análise semântica
+            checkDeclarationExists($2, yylineno);
+            updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_INTEGER);
+            updateSymbolValue($2, $4, TYPE_INTEGER);
+            updateSymbolCategoryAndDataType($4, CONSTANT, TYPE_INTEGER);
+            updateSymbolValue($4, $4, TYPE_INTEGER);
+
+            // Análise sintática
+            char buffer[MAXBUFFER];
+            sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
+            processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+            // Criação do nó da árvore sintática
+            tree variableDeclaration = createNode("variable_declaration", buffer);
+            addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_INTEGER", $1));
+            addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+            addChild(variableDeclaration, createNode("TOKEN_ASSIGNMENT_OP", $3));
+            addChild(variableDeclaration, createNode("TOKEN_INTEGER_NUMBER", $4));
+            addChild(variableDeclaration, createNode(";", ";\n"));
+            $$ = variableDeclaration;
+        }
+    | TOKEN_DATA_TYPE_FLOAT TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER ';' {
+            // Análise semântica: define a categoria, tipo de dado e valor associado ao 1° identificador da regra
+            checkDeclarationExists($2, yylineno);
+            updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_FLOAT);
+            updateSymbolValue($2, $4, TYPE_FLOAT);
+            updateSymbolCategoryAndDataType($4, CONSTANT, TYPE_FLOAT);
+            updateSymbolValue($4, $4, TYPE_FLOAT);
+
+            // Análise sintática
+            char buffer[MAXBUFFER];
+            sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
+            processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+            // Criação do nó da árvore sintática
+            tree variableDeclaration = createNode("variable_declaration", buffer);
+            addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_FLOAT", $1));
+            addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+            addChild(variableDeclaration, createNode("TOKEN_ASSIGNMENT_OP", $3));
+            addChild(variableDeclaration, createNode("TOKEN_FLOAT_NUMBER", $4));
+            addChild(variableDeclaration, createNode(";", ";\n"));
+            $$ = variableDeclaration;
+    }
     | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
-        checkDeclarationExists($2);
+        // Análise semântica: define a categoria, tipo de dado e valor associado ao 1° identificador da regra
+        checkDeclarationExists($2, yylineno);
         updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_STRING);
         updateSymbolValue($2, $4, TYPE_STRING);
+        updateSymbolCategoryAndDataType($4, CONSTANT, TYPE_STRING);
+        updateSymbolValue($4, $4, TYPE_STRING);
 
+        // Análise sintática
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
         processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
 
+        // Criação do nó da árvore sintática
         tree variableDeclaration = createNode("variable_declaration", buffer);
         addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_STRING", $1));
         addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
         addChild(variableDeclaration, createNode("TOKEN_ASSIGNMENT_OP", $3));
         addChild(variableDeclaration, createNode("TOKEN_STRING", $4));
+        addChild(variableDeclaration, createNode(";", ";\n"));
+        $$ = variableDeclaration;
+    }
+    | TOKEN_DATA_TYPE_INTEGER TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
+        // Análise semântica
+        checkDeclarationExists($2, yylineno);
+        updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_INTEGER);
+        checkDeclarationNotExists($2, yylineno);
+        checkDeclarationNotExists($4, yylineno);
+        dataType dataTypeLeft = getSymbolDataType($2);
+        dataType dataTypeRight = getSymbolDataType($4);
+        checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
+        updateSymbolValue($2, $4, TYPE_IDENTIFIER);
+
+        // Análise sintática
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        // Criação do nó da árvore sintática
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_INTEGER", $1));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(variableDeclaration, createNode("TOKEN_ASSIGNMENT_OP", $3));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $4));
+        addChild(variableDeclaration, createNode(";", ";\n"));
+        $$ = variableDeclaration;
+    }
+    | TOKEN_DATA_TYPE_FLOAT TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
+        // Análise semântica
+        checkDeclarationExists($2, yylineno);
+        updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_FLOAT);
+        checkDeclarationNotExists($2, yylineno);
+        checkDeclarationNotExists($4, yylineno);
+        dataType dataTypeLeft = getSymbolDataType($2);
+        dataType dataTypeRight = getSymbolDataType($4);
+        checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
+        updateSymbolValue($2, $4, TYPE_IDENTIFIER);
+
+        // Análise sintática
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        // Criação do nó da árvore sintática
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_FLOAT", $1));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(variableDeclaration, createNode("TOKEN_ASSIGNMENT_OP", $3));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $4));
+        addChild(variableDeclaration, createNode(";", ";\n"));
+        $$ = variableDeclaration;
+    }
+    | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
+        // Análise semântica
+        checkDeclarationExists($2, yylineno);
+        updateSymbolCategoryAndDataType($2, VARIABLE, TYPE_STRING);
+        checkDeclarationNotExists($2, yylineno);
+        checkDeclarationNotExists($4, yylineno);
+        dataType dataTypeLeft = getSymbolDataType($2);
+        dataType dataTypeRight = getSymbolDataType($4);
+        checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
+        updateSymbolValue($2, $4, TYPE_IDENTIFIER);
+
+        // Análise sintática
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        // Criação do nó da árvore sintática
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_STRING", $1));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(variableDeclaration, createNode("TOKEN_ASSIGNMENT_OP", $3));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $4));
         addChild(variableDeclaration, createNode(";", ";\n"));
         $$ = variableDeclaration;
     }
@@ -251,14 +350,12 @@ variable_declaration:
 
 assignment:
     TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
-        checkDeclarationNotExists($3);
-        dataType dataType = getSymbolDataType($3);
-        updateSymbolValue($1, $3, TYPE_IDENTIFIER);
-
+        // Análise sintática
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s;", $1, $2, $3);
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
 
+        // Criação do nó da árvore sintática
         tree assignment = createNode("assignment", buffer);
         addChild(assignment, createNode("TOKEN_IDENTIFIER", $1));
         addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP", $2));
@@ -290,7 +387,6 @@ assignment:
         addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP", $2));
         addChild(assignment, createNode("TOKEN_INTEGER_NUMBER", $3));
         addChild(assignment, createNode("TOKEN_DELIMITER", ";\n"));
-
         $$ = assignment;
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER ';' {
@@ -307,10 +403,12 @@ assignment:
         $$ = assignment;
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression ';' {
+        // Análise sintática
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s;", $1, $2, $3->value, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
 
+        // Ciração do nó da árvore sintática
         tree assignment = createNode("assignment", buffer);
         addChild(assignment, createNode("TOKEN_IDENTIFIER", $1));
         addChild(assignment, createNode("TOKEN_ASSIGNMENT_OP", $2));
@@ -371,14 +469,17 @@ assignment:
 
 expression:
     expression TOKEN_ARITHMETIC_OP expression {
+        // Análise sintática
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", $1->value, $2, $3->value);
         processSyntacticStructure(SYN_ARITHMETIC_OPERATION, buffer);
 
+        // Criação do nó da árvore sintática
         tree expression = createNode("expression", buffer);
         addChild(expression, $1);
         addChild(expression, createNode("TOKEN_ASSIGNMENT_OP", $2));
         addChild(expression, $3);
+
         $$ = expression;
     }
     | expression TOKEN_RELATIONAL_OP expression {
@@ -415,16 +516,30 @@ expression:
         $$ = expression;
     }
     | TOKEN_IDENTIFIER {
+        // Análise semântica: atualiza a categoria, tipo do valor e valor
+        // checkDeclarationNotExists($1, yylineno);
+
+        // Criação do nó da árvore sintática
         tree expression = createNode("expression", $1);
         addChild(expression, createNode("TOKEN_IDENTIFIER", $1));
         $$ = expression;
     }
     | TOKEN_INTEGER_NUMBER {
+        // Análise semântica: atualiza a categoria, tipo do valor e valor
+        // updateSymbolCategoryAndDataType($1, CONSTANT, TYPE_INTEGER);
+        // updateSymbolValue($1, $1, TYPE_INTEGER);
+
+        // Criação do nó da árvore sintática
         tree expression = createNode("expression", $1);
         addChild(expression, createNode("TOKEN_INTEGER_NUMBER", $1));
         $$ = expression;
     }
     | TOKEN_FLOAT_NUMBER {
+        // Análise semântica: atualiza a categoria, tipo do valor e valor
+        // updateSymbolCategoryAndDataType($1, CONSTANT, TYPE_FLOAT);
+        // updateSymbolValue($1, $1, TYPE_FLOAT);
+
+        // Criação do nó da árvore sintática
         tree expression = createNode("expression", $1);
         addChild(expression, createNode("TOKEN_FLOAT_NUMBER", $1));
         $$ = expression;

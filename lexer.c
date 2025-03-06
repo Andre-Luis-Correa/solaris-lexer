@@ -114,6 +114,7 @@ char* getCategoryName(category cat) {
     switch (cat) {
         case VARIABLE: return "VARIABLE";
         case FUNCTION: return "FUNCTION";
+        case CONSTANT: return "CONSTANT";
         default: return "UNDEFINED";
     }
 }
@@ -132,10 +133,6 @@ char* getTokenValue(tokenList *token) {
     static char buffer[20];
 
     if (token->hasValue) {
-
-        if(token->value.identifierValue != NULL) {
-            return token->value.identifierValue;
-        }
 
         switch (token->dataType) {
             case TYPE_INTEGER:
@@ -290,7 +287,7 @@ void updateSymbolValue(const char *str, const char *value, dataType dataType) {
                     current->value.intValue = strtol(value, &endptr, 10);
                     break;
                 case TYPE_FLOAT:
-                    current->value.floatValue =strtof(value, &endptr);
+                    current->value.floatValue = strtof(value, &endptr);
                     break;
                 case TYPE_STRING:
                     if (value) {

@@ -50,6 +50,7 @@ typedef enum {
 typedef enum {
     VARIABLE,
     FUNCTION,
+    CONSTANT,
     UNDEFINED
 } category;
 

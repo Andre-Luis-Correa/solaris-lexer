@@ -1,4 +1,8 @@
-string oldName;
-string x = "u";
-integer z;
-integer y = z;
+integer z = 5;
+string teste = "teste de string";
+string oi = teste;
+integer x = z;
+integer y;
+float floatNumber = 0.8;
+float numberDecimal = floatNumber;
+
