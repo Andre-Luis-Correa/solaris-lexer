@@ -124,7 +124,7 @@ void processToken(int type, const char *text);
 //   - 'otherTokens' deve ser o ponteiro para a lista de outros tokens ou NULL.
 // Pós-condições:
 //   - Todos os tokens das listas são impressos no console em formato tabular ou estruturado.
-void printTokenLists(const tokenList *reservedWordTokens, const tokenList *symbolTable);
+void printTokenLists(tokenList *reservedWordTokens, tokenList *symbolTable);
 
 tokenList * findSymbol(tokenList * head, const char * str);
 tokenList * updateSymbolTableItem(const char *str, int lexTokenType, category category, dataType dataType, int hasValue, int intValue, float floatValue,const char *stringValue);

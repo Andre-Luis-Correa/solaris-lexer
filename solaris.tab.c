@@ -1851,7 +1851,7 @@ yyreduce:
     {
         checkDeclarationNotExists((yyvsp[(3) - (4)].str));
         dataType dataType = getSymbolDataType((yyvsp[(3) - (4)].str));
-        updateSymbolValue((yyvsp[(1) - (4)].str), (yyvsp[(3) - (4)].str), dataType);
+        updateSymbolValue((yyvsp[(1) - (4)].str), (yyvsp[(3) - (4)].str), TYPE_IDENTIFIER);
 
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s;", (yyvsp[(1) - (4)].str), (yyvsp[(2) - (4)].str), (yyvsp[(3) - (4)].str));

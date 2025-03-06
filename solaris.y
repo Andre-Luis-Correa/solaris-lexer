@@ -253,7 +253,7 @@ assignment:
     TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
         checkDeclarationNotExists($3);
         dataType dataType = getSymbolDataType($3);
-        updateSymbolValue($1, $3, dataType);
+        updateSymbolValue($1, $3, TYPE_IDENTIFIER);
 
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s;", $1, $2, $3);

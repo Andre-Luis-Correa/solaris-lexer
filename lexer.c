@@ -129,22 +129,23 @@ char* getDataTypeName(dataType type) {
 }
 
 char* getTokenValue(tokenList *token) {
+    static char buffer[20]; // Buffer estático para armazenar o valor convertido
+
     if (token->hasValue) {
+        if(token->value.identifierValue != NULL) {
+            return token->value.identifierValue;
+        }
         switch (token->dataType) {
-            case TYPE_INTEGER: {
-                char buffer[20];
+            case TYPE_INTEGER:
                 snprintf(buffer, sizeof(buffer), "%d", token->value.intValue);
                 return buffer;
-            }
-            case TYPE_FLOAT: {
-                static char buffer[20];
+            case TYPE_FLOAT:
                 snprintf(buffer, sizeof(buffer), "%.2f", token->value.floatValue);
                 return buffer;
-            }
             case TYPE_STRING:
-                return token->value.stringValue ? token->value.stringValue : "NULL";
+                return token->value.stringValue ? token->value.stringValue : "N/A";
             case TYPE_IDENTIFIER:
-                return token->value.identifierValue ? token->value.identifierValue : "NULL";
+                return token->value.identifierValue ? token->value.identifierValue : "N/A";
             default:
                 return "N/A";
         }
@@ -205,7 +206,7 @@ void processToken(int type, const char *text) {
 //   - 'otherTokens' deve ser o ponteiro para a lista de outros tokens ou NULL.
 // Pós-condições:
 //   - Todos os tokens das listas são impressos no console em formato tabular ou estruturado.
-void printTokenLists(const tokenList *reservedWordTokens, const tokenList *symbolTable) {
+void printTokenLists(tokenList *reservedWordTokens, tokenList *symbolTable) {
     printf("\n\nTokens Identificados:\n");
     printTokens(reservedWordTokens, "Tabela de Palavras Reservadas");
     printTokens(symbolTable, "Tabela de Simbolos");
@@ -279,7 +280,9 @@ void updateSymbolValue(const char *str, const char *value, dataType dataType) {
             } else {
                 current->hasValue = 0;
             }
+
             char *endptr;
+
             switch (dataType) {
                 case TYPE_INTEGER:
                     current->value.intValue = strtol(value, &endptr, 10);
