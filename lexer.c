@@ -129,12 +129,14 @@ char* getDataTypeName(dataType type) {
 }
 
 char* getTokenValue(tokenList *token) {
-    static char buffer[20]; // Buffer estático para armazenar o valor convertido
+    static char buffer[20];
 
     if (token->hasValue) {
+
         if(token->value.identifierValue != NULL) {
             return token->value.identifierValue;
         }
+
         switch (token->dataType) {
             case TYPE_INTEGER:
                 snprintf(buffer, sizeof(buffer), "%d", token->value.intValue);
