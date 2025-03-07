@@ -27,9 +27,11 @@ program:
     TOKEN_IDENTIFIER: z
     ;: ;
 
-  variable_declaration: integer y;
+  variable_declaration: integer y = 90;
     TOKEN_DATA_TYPE_INTEGER: integer
     TOKEN_IDENTIFIER: y
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_INTEGER_NUMBER: 90
     ;: ;
 
   variable_declaration: float floatNumber = 0.8;
