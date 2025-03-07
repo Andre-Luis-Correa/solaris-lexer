@@ -1,8 +1,12 @@
+# Declaracao de variaveis
 integer z = 5;
 string teste = "teste de string";
 string oi = teste;
 integer x = z;
 integer y = 90;
 float floatNumber = 0.8;
-float numberDecimal = floatNumber;
+float numberDecimal;
 
+floatNumber = numberDecimal;
+
+integer expression = (5 + 5);

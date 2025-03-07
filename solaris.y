@@ -322,20 +322,80 @@ variable_declaration:
         addChild(variableDeclaration, createNode(";", ";\n"));
         $$ = variableDeclaration;
     }
+    | TOKEN_DATA_TYPE_INTEGER TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression ';' {
+        // Análise sintática
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4->value);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        // Criação do nó da árvore sintática
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_INTEGER", $1));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(variableDeclaration, createNode("TOKEN_ASSIGNMENT_OP", $3));
+        addChild(variableDeclaration, $4);
+        addChild(variableDeclaration, createNode(";", ";\n"));
+        $$ = variableDeclaration;
+    }
+    | TOKEN_DATA_TYPE_FLOAT TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP expression ';' {
+        // Análise sintática
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s %s %s;", $1, $2, $3, $4->value);
+        processSyntacticStructure(SYN_VARIABLE_DECLARATION, buffer);
+
+        // Criação do nó da árvore sintática
+        tree variableDeclaration = createNode("variable_declaration", buffer);
+        addChild(variableDeclaration, createNode("TOKEN_DATA_TYPE_FLOAT", $1));
+        addChild(variableDeclaration, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(variableDeclaration, createNode("TOKEN_ASSIGNMENT_OP", $3));
+        addChild(variableDeclaration, $4);
+        addChild(variableDeclaration, createNode(";", ";\n"));
+        $$ = variableDeclaration;
+    }
     /* Tratamento de erro */
-    | TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
+    | TOKEN_DATA_TYPE_INTEGER TOKEN_IDENTIFIER {
         sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
         exit(EXIT_FAILURE);
     }
     /* Tratamento de erro */
-    | TOKEN_DATA_TYPE {
-        sprintf(synErrorMessage, "Erro: Declaracao de variavel incompleta na linha %d\n", yylineno);
+    | TOKEN_DATA_TYPE_FLOAT TOKEN_IDENTIFIER {
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
         exit(EXIT_FAILURE);
     }
     /* Tratamento de erro */
     | TOKEN_DATA_TYPE_STRING TOKEN_IDENTIFIER {
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_DATA_TYPE_INTEGER {
+        sprintf(synErrorMessage, "Erro: Declaracao de variavel incompleta na linha %d\n", yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_DATA_TYPE_FLOAT {
+        sprintf(synErrorMessage, "Erro: Declaracao de variavel incompleta na linha %d\n", yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_DATA_TYPE_STRING {
+        sprintf(synErrorMessage, "Erro: Declaracao de variavel incompleta na linha %d\n", yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_DATA_TYPE_INTEGER TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER {
+        sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
+        processSyntacticStructure(SYN_ERROR, synErrorMessage);
+        exit(EXIT_FAILURE);
+    }
+    /* Tratamento de erro */
+    | TOKEN_DATA_TYPE_FLOAT TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER {
         sprintf(synErrorMessage, "Erro: Falta de ponto e virgula ';' apos a declaracao de [ %s ] na linha %d\n", $2, yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
         exit(EXIT_FAILURE);
@@ -350,6 +410,13 @@ variable_declaration:
 
 assignment:
     TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_IDENTIFIER ';' {
+        checkDeclarationNotExists($1, yylineno);
+        checkDeclarationNotExists($3, yylineno);
+        dataType dataTypeLeft = getSymbolDataType($1);
+        dataType dataTypeRight = getSymbolDataType($3);
+        checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
+        updateSymbolValue($1, $3, TYPE_IDENTIFIER);
+
         // Análise sintática
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s;", $1, $2, $3);
@@ -365,6 +432,13 @@ assignment:
         $$ = assignment;
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_STRING ';' {
+        checkDeclarationNotExists($1, yylineno);
+        dataType dataTypeLeft = getSymbolDataType($1);
+        dataType dataTypeRight = TYPE_STRING;
+        checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
+        updateSymbolValue($1, $3, TYPE_STRING);
+        updateSymbolValue($3, $3, TYPE_STRING);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s;", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
@@ -378,6 +452,13 @@ assignment:
         $$ = assignment;
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_INTEGER_NUMBER ';' {
+        checkDeclarationNotExists($1, yylineno);
+        dataType dataTypeLeft = getSymbolDataType($1);
+        dataType dataTypeRight = TYPE_INTEGER;
+        checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
+        updateSymbolValue($1, $3, TYPE_INTEGER);
+        updateSymbolValue($3, $3, TYPE_INTEGER);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s;", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);
@@ -390,6 +471,13 @@ assignment:
         $$ = assignment;
     }
     | TOKEN_IDENTIFIER TOKEN_ASSIGNMENT_OP TOKEN_FLOAT_NUMBER ';' {
+        checkDeclarationNotExists($1, yylineno);
+        dataType dataTypeLeft = getSymbolDataType($1);
+        dataType dataTypeRight = TYPE_FLOAT;
+        checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
+        updateSymbolValue($1, $3, TYPE_FLOAT);
+        updateSymbolValue($3, $3, TYPE_FLOAT);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s;", $1, $2, $3, ';');
         processSyntacticStructure(SYN_ASSIGNMENT, buffer);

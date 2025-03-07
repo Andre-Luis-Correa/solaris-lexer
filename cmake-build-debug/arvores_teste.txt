@@ -1,4 +1,7 @@
 program:  
+  comment: # Declaracao de variaveis
+    TOKEN_COMMENT_LINE: # Declaracao de variaveis
+
   variable_declaration: integer z = 5;
     TOKEN_DATA_TYPE_INTEGER: integer
     TOKEN_IDENTIFIER: z
@@ -41,10 +44,34 @@ program:
     TOKEN_FLOAT_NUMBER: 0.8
     ;: ;
 
-  variable_declaration: float numberDecimal = floatNumber;
+  variable_declaration: float numberDecimal;
     TOKEN_DATA_TYPE_FLOAT: float
     TOKEN_IDENTIFIER: numberDecimal
-    TOKEN_ASSIGNMENT_OP: =
+    ;: ;
+
+  assignment: floatNumber = numberDecimal;
     TOKEN_IDENTIFIER: floatNumber
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_IDENTIFIER: numberDecimal
+    TOKEN_DELIMITER: ;
+
+  variable_declaration: integer r;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: r
+    ;: ;
+
+  variable_declaration: integer expression = ( 5 + 5 );
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: expression
+    TOKEN_ASSIGNMENT_OP: =
+    expression: ( 5 + 5 )
+      (: (
+      expression: 5 + 5
+        expression: 5
+          TOKEN_INTEGER_NUMBER: 5
+        TOKEN_ASSIGNMENT_OP: +
+        expression: 5
+          TOKEN_INTEGER_NUMBER: 5
+      ): )
     ;: ;
 
