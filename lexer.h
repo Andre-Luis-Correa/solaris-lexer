@@ -99,10 +99,26 @@ void freeTokenList(tokenList *head);
 // Pós-condições: Retorna a string correspondente ao tipo de token.
 const char* getTokenTypeName(int type);
 
+// Retorna o nome da categoria de um símbolo como uma string legível.
+// Pré-condições:
+//   - 'cat' deve ser um valor válido da enumeração 'category'.
+// Pós-condições:
+//   - Retorna uma string representando a categoria do símbolo.
 char* getCategoryName(category cat);
 
+// Retorna o nome do tipo de dado de um símbolo como uma string legível.
+// Pré-condições:
+//   - 'type' deve ser um valor válido da enumeração 'dataType'.
+// Pós-condições:
+//   - Retorna uma string representando o tipo de dado do símbolo.
 char* getDataTypeName(dataType type);
 
+// Retorna o valor armazenado em um token na tabela de símbolos.
+// Pré-condições:
+//   - 'token' deve ser um ponteiro válido para um token na tabela de símbolos.
+// Pós-condições:
+//   - Retorna uma string representando o valor do token.
+//   - Se o token não tiver um valor associado, retorna "N/A".
 char* getTokenValue(tokenList *token);
 
 // Imprime todos os tokens da lista fornecida.
@@ -128,12 +144,47 @@ void processToken(int type, const char *text);
 void printTokenLists(tokenList *reservedWordTokens, tokenList *symbolTable);
 
 tokenList * findSymbol(tokenList * head, const char * str);
-tokenList * updateSymbolTableItem(const char *str, int lexTokenType, category category, dataType dataType, int hasValue, int intValue, float floatValue,const char *stringValue);
-void insertValue(tokenList * newNode, dataType dataType, int intValue, float floatValue, const char *stringValue);
+
+// Atualiza a categoria e o tipo de dado de um símbolo na tabela de símbolos.
+// Pré-condições:
+//   - 'str' deve ser um identificador válido presente na tabela de símbolos.
+//   - 'category' define se o identificador é uma variável, função ou constante.
+//   - 'dataType' define o tipo de dado do identificador.
+// Pós-condições:
+//   - O identificador na tabela de símbolos será atualizado com a nova categoria e tipo de dado.
 void updateSymbolCategoryAndDataType(const char *str, category category, dataType dataType);
+
+// Define o valor de um símbolo na tabela de símbolos.
+// Pré-condições:
+//   - 'symbol' deve ser um identificador válido presente na tabela de símbolos.
+//   - 'value' é a string contendo o valor a ser atribuído.
+//   - 'dataType' define o tipo de dado do valor atribuído.
+// Pós-condições:
+//   - O identificador recebe o valor correspondente ao seu tipo de dado.
 void setSymbolValue(tokenList *symbol, const char *value, dataType dataType);
+
+// Copia o valor de um identificador da tabela de símbolos para outro identificador.
+// Pré-condições:
+//   - 'target' deve ser um identificador válido presente na tabela de símbolos.
+//   - 'identifier' deve ser um identificador previamente declarado na tabela de símbolos.
+// Pós-condições:
+//   - O identificador alvo recebe o valor e o tipo do identificador de origem.
 void copyIdentifierValue(tokenList *target, const char *identifier);
+
+// Atualiza o valor de um símbolo na tabela de símbolos, verificando se é um identificador ou um valor literal.
+// Pré-condições:
+//   - 'str' deve ser um identificador válido presente na tabela de símbolos.
+//   - 'value' é a string contendo o valor a ser atribuído.
+//   - 'dataType' define o tipo de dado do valor atribuído.
+// Pós-condições:
+//   - O identificador recebe o valor correspondente ao seu tipo de dado ou o valor de outro identificador.
 void updateSymbolValue(const char *str, const char *value, dataType dataType);
+
+// Retorna o tipo de dado de um símbolo na tabela de símbolos.
+// Pré-condições:
+//   - 'str' deve ser um identificador válido presente na tabela de símbolos.
+// Pós-condições:
+//   - Retorna o tipo de dado do identificador encontrado na tabela de símbolos.
 dataType getSymbolDataType(const char *str);
 
 #endif // LEXER_H
