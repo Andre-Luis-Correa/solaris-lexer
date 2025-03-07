@@ -131,6 +131,8 @@ tokenList * findSymbol(tokenList * head, const char * str);
 tokenList * updateSymbolTableItem(const char *str, int lexTokenType, category category, dataType dataType, int hasValue, int intValue, float floatValue,const char *stringValue);
 void insertValue(tokenList * newNode, dataType dataType, int intValue, float floatValue, const char *stringValue);
 void updateSymbolCategoryAndDataType(const char *str, category category, dataType dataType);
+void setSymbolValue(tokenList *symbol, const char *value, dataType dataType);
+void copyIdentifierValue(tokenList *target, const char *identifier);
 void updateSymbolValue(const char *str, const char *value, dataType dataType);
 dataType getSymbolDataType(const char *str);
 

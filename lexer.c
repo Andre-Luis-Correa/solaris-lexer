@@ -8,12 +8,16 @@ tokenList *symbolTable = NULL;   // Cabeça da lista de outros tokens
 // Cria um token e inicializa seus valores.
 // Pré-condições: 'value' deve ser uma string válida.
 // Pós-condições: Retorna um novo token com o tipo e valor especificados.
-tokenList* createToken(int type, const char *value) {
-    tokenList *newToken = (tokenList *)malloc(sizeof(tokenList));
+tokenList *createToken(int type, const char *value) {
+    tokenList *newToken = (tokenList *) malloc(sizeof(tokenList));
     newToken->lexTokenType = type;
     newToken->str = strdup(value);
     newToken->category = UNDEFINED;
     newToken->dataType = TYPE_UNDEFINED;
+    newToken->value.identifierValue = NULL;
+    newToken->value.stringValue = NULL;
+    newToken->value.intValue = 0;
+    newToken->value.floatValue = 0;
     newToken->hasValue = 0;
     newToken->next = NULL;
     return newToken;
@@ -72,84 +76,130 @@ void freeTokenList(tokenList *head) {
 // Retorna o nome do tipo de token com base em seu valor enumerado.
 // Pré-condições: 'type' deve ser um valor válido de enumeração de tipo de token.
 // Pós-condições: Retorna a string correspondente ao tipo de token.
-const char* getTokenTypeName(int type) {
+const char *getTokenTypeName(int type) {
     switch (type) {
-        case LEX_TOKEN_RESERVED_WORD:       return "RESERVED_WORD";
-        case LEX_TOKEN_IDENTIFIER:          return "IDENTIFIER";
-        case LEX_TOKEN_INTEGER_NUMBER:      return "INTEGER_NUMBER";
-        case LEX_TOKEN_FLOAT_NUMBER:        return "FLOAT_NUMBER";
-        case LEX_TOKEN_STRING:              return "STRING";
-        case LEX_TOKEN_ARITHMETIC_OP:       return "ARITHMETIC_OP";
-        case LEX_TOKEN_RELATIONAL_OP:       return "RELATIONAL_OP";
-        case LEX_TOKEN_LOGICAL_OP:          return "LOGICAL_OP";
-        case LEX_TOKEN_DELIMITER:           return "DELIMITER";
-        case LEX_TOKEN_ASSIGNMENT_OP:       return "ASSIGNMENT_OP";
-        case LEX_TOKEN_CONDITIONAL_CHOOSE:  return "CONDITIONAL_CHOOSE";
-        case LEX_TOKEN_CONDITIONAL_OTHERWISE: return "CONDITIONAL_OTHERWISE";
-        case LEX_TOKEN_LOOP:                return "LOOP";
-        case LEX_TOKEN_LOOP_UNTIL:          return "LOOP_UNTIL";
-        case LEX_TOKEN_LOOP_WHILE:          return "LOOP_WHILE";
-        case LEX_TOKEN_DATA_TYPE_STRING:    return "DATA_TYPE_STRING";
-        case LEX_TOKEN_DATA_TYPE_INTEGER:   return "DATA_TYPE_INTEGER";
-        case LEX_TOKEN_DATA_TYPE_FLOAT:     return "DATA_TYPE_FLOAT";
-        case LEX_TOKEN_DATA_TYPE_DOUBLE:    return "DATA_TYPE_DOUBLE";
-        case LEX_TOKEN_DATA_TYPE_BOOLEAN:   return "DATA_TYPE_BOOLEAN";
-        case LEX_TOKEN_COMMENT_LINE:        return "COMMENT_LINE";
-        case LEX_TOKEN_COMMENT_BLOCK:       return "COMMENT_BLOCK";
-        case LEX_TOKEN_SHOW:                return "SHOW";
-        case LEX_TOKEN_READ:                return "READ";
-        case LEX_TOKEN_FUNCTION:            return "FUNCTION";
-        case LEX_TOKEN_FUNCTION_RECEIVE:    return "FUNCTION_RECEIVE";
-        case LEX_TOKEN_FUNCTION_RETURN:     return "FUNCTION_RETURN";
-        case LEX_TOKEN_USE:                 return "USE";
-        case LEX_TOKEN_WHITESPACE:          return "WHITESPACE";
-        case LEX_TOKEN_NEWLINE:             return "NEWLINE";
-        case LEX_TOKEN_UNKNOWN:             return "UNKNOWN";
-        case LEX_TOKEN_DATA_TYPE:           return "DATA_TYPE";
-        default:                            return "INVALID";
+        case LEX_TOKEN_RESERVED_WORD:
+            return "RESERVED_WORD";
+        case LEX_TOKEN_IDENTIFIER:
+            return "IDENTIFIER";
+        case LEX_TOKEN_INTEGER_NUMBER:
+            return "INTEGER_NUMBER";
+        case LEX_TOKEN_FLOAT_NUMBER:
+            return "FLOAT_NUMBER";
+        case LEX_TOKEN_STRING:
+            return "STRING";
+        case LEX_TOKEN_ARITHMETIC_OP:
+            return "ARITHMETIC_OP";
+        case LEX_TOKEN_RELATIONAL_OP:
+            return "RELATIONAL_OP";
+        case LEX_TOKEN_LOGICAL_OP:
+            return "LOGICAL_OP";
+        case LEX_TOKEN_DELIMITER:
+            return "DELIMITER";
+        case LEX_TOKEN_ASSIGNMENT_OP:
+            return "ASSIGNMENT_OP";
+        case LEX_TOKEN_CONDITIONAL_CHOOSE:
+            return "CONDITIONAL_CHOOSE";
+        case LEX_TOKEN_CONDITIONAL_OTHERWISE:
+            return "CONDITIONAL_OTHERWISE";
+        case LEX_TOKEN_LOOP:
+            return "LOOP";
+        case LEX_TOKEN_LOOP_UNTIL:
+            return "LOOP_UNTIL";
+        case LEX_TOKEN_LOOP_WHILE:
+            return "LOOP_WHILE";
+        case LEX_TOKEN_DATA_TYPE_STRING:
+            return "DATA_TYPE_STRING";
+        case LEX_TOKEN_DATA_TYPE_INTEGER:
+            return "DATA_TYPE_INTEGER";
+        case LEX_TOKEN_DATA_TYPE_FLOAT:
+            return "DATA_TYPE_FLOAT";
+        case LEX_TOKEN_DATA_TYPE_DOUBLE:
+            return "DATA_TYPE_DOUBLE";
+        case LEX_TOKEN_DATA_TYPE_BOOLEAN:
+            return "DATA_TYPE_BOOLEAN";
+        case LEX_TOKEN_COMMENT_LINE:
+            return "COMMENT_LINE";
+        case LEX_TOKEN_COMMENT_BLOCK:
+            return "COMMENT_BLOCK";
+        case LEX_TOKEN_SHOW:
+            return "SHOW";
+        case LEX_TOKEN_READ:
+            return "READ";
+        case LEX_TOKEN_FUNCTION:
+            return "FUNCTION";
+        case LEX_TOKEN_FUNCTION_RECEIVE:
+            return "FUNCTION_RECEIVE";
+        case LEX_TOKEN_FUNCTION_RETURN:
+            return "FUNCTION_RETURN";
+        case LEX_TOKEN_USE:
+            return "USE";
+        case LEX_TOKEN_WHITESPACE:
+            return "WHITESPACE";
+        case LEX_TOKEN_NEWLINE:
+            return "NEWLINE";
+        case LEX_TOKEN_UNKNOWN:
+            return "UNKNOWN";
+        case LEX_TOKEN_DATA_TYPE:
+            return "DATA_TYPE";
+        default:
+            return "INVALID";
     }
 }
 
-char* getCategoryName(category cat) {
+char *getCategoryName(category cat) {
     switch (cat) {
-        case VARIABLE: return "VARIABLE";
-        case FUNCTION: return "FUNCTION";
-        case CONSTANT: return "CONSTANT";
-        default: return "UNDEFINED";
+        case VARIABLE:
+            return "VARIABLE";
+        case FUNCTION:
+            return "FUNCTION";
+        case CONSTANT:
+            return "CONSTANT";
+        default:
+            return "UNDEFINED";
     }
 }
 
-char* getDataTypeName(dataType type) {
+char *getDataTypeName(dataType type) {
     switch (type) {
-        case TYPE_INTEGER: return "INTEGER";
-        case TYPE_FLOAT: return "FLOAT";
-        case TYPE_STRING: return "STRING";
-        case TYPE_IDENTIFIER: return "IDENTIFIER";
-        default: return "UNDEFINED";
+        case TYPE_INTEGER:
+            return "INTEGER";
+        case TYPE_FLOAT:
+            return "FLOAT";
+        case TYPE_STRING:
+            return "STRING";
+        case TYPE_IDENTIFIER:
+            return "IDENTIFIER";
+        default:
+            return "UNDEFINED";
     }
 }
 
-char* getTokenValue(tokenList *token) {
-    static char buffer[20];
+char *getTokenValue(tokenList *token) {
+    static char buffer[64];
 
-    if (token->hasValue) {
-
-        switch (token->dataType) {
-            case TYPE_INTEGER:
-                snprintf(buffer, sizeof(buffer), "%d", token->value.intValue);
-                return buffer;
-            case TYPE_FLOAT:
-                snprintf(buffer, sizeof(buffer), "%.2f", token->value.floatValue);
-                return buffer;
-            case TYPE_STRING:
-                return token->value.stringValue ? token->value.stringValue : "N/A";
-            case TYPE_IDENTIFIER:
-                return token->value.identifierValue ? token->value.identifierValue : "N/A";
-            default:
-                return "N/A";
-        }
+    if (!token || !token->hasValue) {
+        return "N/A";
     }
-    return "N/A";
+
+    switch (token->dataType) {
+        case TYPE_INTEGER:
+            snprintf(buffer, sizeof(buffer), "%d", token->value.intValue);
+            return buffer;
+
+        case TYPE_FLOAT:
+            snprintf(buffer, sizeof(buffer), "%.2f", token->value.floatValue);
+            return buffer;
+
+        case TYPE_STRING:
+            return token->value.stringValue ? token->value.stringValue : "N/A";
+
+        case TYPE_IDENTIFIER:
+            return token->value.identifierValue ? token->value.identifierValue : "N/A";
+
+        default:
+            return "N/A";
+    }
 }
 
 // Imprime todos os tokens da lista fornecida.
@@ -185,7 +235,7 @@ void processToken(int type, const char *text) {
     if (type != LEX_TOKEN_WHITESPACE && type != LEX_TOKEN_NEWLINE) {
 
         if (type == LEX_TOKEN_UNKNOWN) {
-            fprintf(stderr,"\nERRO LEXICO -> %s\n", text); // Imprime erro léxico
+            fprintf(stderr, "\nERRO LEXICO -> %s\n", text); // Imprime erro léxico
             errorFlag = 1; // Seta a flag de erro
         }
 
@@ -211,7 +261,7 @@ void printTokenLists(tokenList *reservedWordTokens, tokenList *symbolTable) {
     printTokens(symbolTable, "Tabela de Simbolos");
 }
 
-tokenList * findSymbol(tokenList * head, const char * str) {
+tokenList *findSymbol(tokenList *head, const char *str) {
     tokenList *current = head;
     while (current != NULL) {
         if (strcmp(current->str, str) == 0) {
@@ -222,15 +272,16 @@ tokenList * findSymbol(tokenList * head, const char * str) {
     return NULL;
 }
 
-tokenList * updateSymbolTableItem(const char *str, int lexTokenType, category category, dataType dataType, int hasValue, int intValue, float floatValue,const char *stringValue) {
-    tokenList *newNode = (tokenList*) malloc(sizeof(symbolTable));
+tokenList *updateSymbolTableItem(const char *str, int lexTokenType, category category, dataType dataType, int hasValue,
+                                 int intValue, float floatValue, const char *stringValue) {
+    tokenList *newNode = (tokenList *) malloc(sizeof(symbolTable));
     newNode->str = strdup(str);
     newNode->lexTokenType = lexTokenType;
     newNode->category = category;
     newNode->dataType = dataType;
     newNode->hasValue = hasValue;
 
-    if(hasValue == 1) {
+    if (hasValue == 1) {
         insertValue(newNode, dataType, intValue, floatValue, stringValue);
     }
 
@@ -238,7 +289,7 @@ tokenList * updateSymbolTableItem(const char *str, int lexTokenType, category ca
     return newNode;
 }
 
-void insertValue(tokenList * newNode, dataType dataType, int intValue, float floatValue, const char *stringValue) {
+void insertValue(tokenList *newNode, dataType dataType, int intValue, float floatValue, const char *stringValue) {
     switch (dataType) {
         case TYPE_INTEGER:
             newNode->value.intValue = intValue;
@@ -258,7 +309,7 @@ void insertValue(tokenList * newNode, dataType dataType, int intValue, float flo
     }
 }
 
-void updateSymbolCategoryAndDataType(const char *str, category category, dataType dataType){
+void updateSymbolCategoryAndDataType(const char *str, category category, dataType dataType) {
     tokenList *current = symbolTable;
     while (current != NULL) {
         if (strcmp(current->str, str) == 0) {
@@ -269,49 +320,78 @@ void updateSymbolCategoryAndDataType(const char *str, category category, dataTyp
     }
 }
 
+void setSymbolValue(tokenList *symbol, const char *value, dataType dataType) {
+    if (!symbol) return;
+
+    char *endptr;
+
+    switch (dataType) {
+        case TYPE_INTEGER:
+            symbol->value.intValue = strtol(value, &endptr, 10);
+            break;
+
+        case TYPE_FLOAT:
+            symbol->value.floatValue = strtof(value, &endptr);
+            break;
+
+        case TYPE_STRING:
+            free(symbol->value.stringValue); // Libera memória anterior se necessário
+            symbol->value.stringValue = value ? strdup(value) : NULL;
+            break;
+
+        default:
+            break;
+    }
+
+    symbol->hasValue = (value != NULL);
+}
+
+void copyIdentifierValue(tokenList *target, const char *identifier) {
+    if (!target || !identifier) return;
+
+    tokenList *symbolInTable = findSymbol(symbolTable, identifier);
+    if (!symbolInTable) {
+        fprintf(stderr, "Erro semântico: Identificador '%s' não declarado.\n", identifier);
+        exit(EXIT_FAILURE);
+    }
+
+    target->dataType = symbolInTable->dataType;
+
+    switch (symbolInTable->dataType) {
+        case TYPE_INTEGER:
+            target->value.intValue = symbolInTable->value.intValue;
+            break;
+        case TYPE_FLOAT:
+            target->value.floatValue = symbolInTable->value.floatValue;
+            break;
+        case TYPE_STRING:
+            free(target->value.stringValue);
+            target->value.stringValue = symbolInTable->value.stringValue ? strdup(symbolInTable->value.stringValue) : NULL;
+            break;
+        default:
+            break;
+    }
+
+    target->hasValue = symbolInTable->hasValue;
+}
+
 void updateSymbolValue(const char *str, const char *value, dataType dataType) {
     tokenList *current = symbolTable;
 
     while (current != NULL) {
         if (strcmp(current->str, str) == 0) {
-            if (value != NULL) {
-                current->hasValue = 1;
+            if (dataType == TYPE_IDENTIFIER) {
+                copyIdentifierValue(current, value);
             } else {
-                current->hasValue = 0;
+                setSymbolValue(current, value, dataType);
             }
-
-            char *endptr;
-
-            switch (dataType) {
-                case TYPE_INTEGER:
-                    current->value.intValue = strtol(value, &endptr, 10);
-                    break;
-                case TYPE_FLOAT:
-                    current->value.floatValue = strtof(value, &endptr);
-                    break;
-                case TYPE_STRING:
-                    if (value) {
-                        current->value.stringValue = strdup(value);
-                    } else {
-                        current->value.stringValue = NULL;
-                    }
-                    break;
-                case TYPE_IDENTIFIER:
-                    if (value) {
-                        current->value.identifierValue = strdup(value);
-                    } else {
-                        current->value.identifierValue = NULL;
-                    }
-                default:
-                    break;
-            }
-
+            return;
         }
         current = current->next;
     }
 }
 
 dataType getSymbolDataType(const char *str) {
-    tokenList const * symbol = findSymbol(symbolTable, str);
+    tokenList const *symbol = findSymbol(symbolTable, str);
     return symbol->dataType;
 }
