@@ -408,3 +408,13 @@ dataType getSymbolDataType(const char *str) {
     tokenList const *symbol = findSymbol(symbolTable, str);
     return symbol->dataType;
 }
+
+// Retorna a categoria de um símbolo na tabela de símbolos.
+// Pré-condições:
+//   - 'str' deve ser um identificador válido presente na tabela de símbolos.
+// Pós-condições:
+//   - Retorna a categoria do token encontrado na tabela de símbolos.
+category getSymbolCategory(const char *str) {
+    tokenList const *symbol = findSymbol(symbolTable, str);
+    return symbol->category;
+}

@@ -551,7 +551,7 @@ static const yytype_uint16 yyrline[] =
      761,   765,   769,   773,   777,   781,   785,   792,   814,   832,
      843,   854,   869,   880,   891,   901,   906,   911,   919,   928,
      940,   951,   965,   979,  1006,  1033,  1060,  1087,  1114,  1144,
-    1148,  1158,  1173,  1186,  1200,  1214,  1231,  1248
+    1148,  1158,  1173,  1186,  1200,  1214,  1231,  1252
 };
 #endif
 
@@ -3204,6 +3204,10 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 1231 "solaris.y"
     {
+        checkFunctionDeclarationNotExists((yyvsp[(2) - (6)].str), yylineno);
+        category identifierCategory = getSymbolCategory((yyvsp[(2) - (6)].str));
+        verifyFunctionCategory(identifierCategory, yylineno);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s ( %s ) ;", (yyvsp[(1) - (6)].str), (yyvsp[(2) - (6)].str), (yyvsp[(4) - (6)].synTree)->value);
         processSyntacticStructure(SYN_FUNCTION_CALL, buffer);
@@ -3222,7 +3226,7 @@ yyreduce:
 
   case 107:
 /* Line 1792 of yacc.c  */
-#line 1248 "solaris.y"
+#line 1252 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", (yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].str));
@@ -3238,7 +3242,7 @@ yyreduce:
 
 
 /* Line 1792 of yacc.c  */
-#line 3242 "solaris.tab.c"
+#line 3246 "solaris.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -3470,7 +3474,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 1260 "solaris.y"
+#line 1264 "solaris.y"
 
 
 void yyerror(const char *s) {

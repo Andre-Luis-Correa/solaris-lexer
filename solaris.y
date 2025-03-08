@@ -1229,6 +1229,10 @@ function_return:
 
 function_call:
     TOKEN_CALL TOKEN_IDENTIFIER '(' function_parameter ')' ';' {
+        checkFunctionDeclarationNotExists($2, yylineno);
+        category identifierCategory = getSymbolCategory($2);
+        verifyFunctionCategory(identifierCategory, yylineno);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s ( %s ) ;", $1, $2, $4->value);
         processSyntacticStructure(SYN_FUNCTION_CALL, buffer);

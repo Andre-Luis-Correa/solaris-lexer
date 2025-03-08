@@ -188,4 +188,11 @@ void updateSymbolValue(const char *str, const char *value, dataType dataType);
 //   - Retorna o tipo de dado do identificador encontrado na tabela de símbolos.
 dataType getSymbolDataType(const char *str);
 
+// Retorna a categoria de um símbolo na tabela de símbolos.
+// Pré-condições:
+//   - 'str' deve ser um identificador válido presente na tabela de símbolos.
+// Pós-condições:
+//   - Retorna a categoria do token encontrado na tabela de símbolos.
+category getSymbolCategory(const char *str);
+
 #endif // LEXER_H

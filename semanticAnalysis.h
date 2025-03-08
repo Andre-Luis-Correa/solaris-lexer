@@ -27,6 +27,14 @@ void checkFunctionDeclarationExists(const char *str, int yylineno);
 //   - Se a variável **não foi declarada anteriormente**, imprime um erro semântico e encerra a execução.
 void checkDeclarationNotExists(const char *str, int yylineno);
 
+// Verifica se uma função foi declarada antes de ser utilizada.
+// Pré-condições:
+//   - 'str' deve ser um identificador válido de variável.
+//   - 'yylineno' indica a linha do código onde a verificação ocorre.
+// Pós-condições:
+//   - Se a função não foi declarada anteriormente, imprime um erro semântico e encerra a execução.
+void checkFunctionDeclarationNotExists(const char *str, int yylineno);
+
 // Verifica se o tipo de dado atribuído a uma variável é compatível com o tipo declarado.
 // Pré-condições:
 //   - 'dataType' é o tipo esperado da variável que está recebendo a atribuição.
@@ -52,5 +60,13 @@ void checkExpressionHasCompatibleTypes(dataType dataTypeLeft, dataType dataTypeR
 // Pós-condições:
 //   - Se os tipos não forem iguais, imprime um erro semântico e encerra a execução.
 void checkFunctionReturnType(dataType functionDataType, dataType returnDataType, int yylineno);
+
+// Verifica se a categoria de um dado identificador é do tipo função.
+// Pré-condições:
+//   - 'identifierCategory' é a categoria do identificador a ser analisado.
+//   - 'yylineno' indica a linha do código onde a verificação ocorre.
+// Pós-condições:
+//   - Se a categoria não for FUNCTION, imprime um erro semântico e encerra a execução.
+void verifyFunctionCategory(category identifierCategory, int yylineno);
 
 #endif //SEMANTICANALYSIS_H
