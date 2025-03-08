@@ -69,4 +69,13 @@ void checkFunctionReturnType(dataType functionDataType, dataType returnDataType,
 //   - Se a categoria não for FUNCTION, imprime um erro semântico e encerra a execução.
 void verifyFunctionCategory(category identifierCategory, int yylineno);
 
+// Verifica se o número de parâmetros passados para uma função corresponde ao número declarado.
+// Pré-condições:
+//   - 'str' é o nome da função a ser verificada.
+//   - 'paramCount' é o número de parâmetros passados na chamada da função.
+//   - 'yylineno' indica a linha do código onde a verificação ocorre.
+// Pós-condições:
+//   - Se o número de parâmetros não coincidir com a declaração da função, imprime um erro semântico e encerra a execução.
+void verifyNumberOfParameters(const char *str, int paramCount, int yylineno);
+
 #endif //SEMANTICANALYSIS_H

@@ -550,8 +550,8 @@ static const yytype_uint16 yyrline[] =
      682,   697,   717,   723,   729,   735,   741,   749,   753,   757,
      761,   765,   769,   773,   777,   781,   785,   792,   814,   832,
      843,   854,   869,   880,   891,   901,   906,   911,   919,   928,
-     940,   951,   965,   979,  1006,  1033,  1060,  1087,  1114,  1144,
-    1148,  1158,  1173,  1186,  1200,  1214,  1231,  1252
+     940,   951,   965,   979,  1008,  1037,  1066,  1095,  1124,  1156,
+    1160,  1170,  1185,  1198,  1212,  1226,  1243,  1266
 };
 #endif
 
@@ -2898,6 +2898,8 @@ yyreduce:
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (14)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (14)].str), FUNCTION, TYPE_INTEGER);
+        int paramCount = countParameters((yyvsp[(9) - (14)].synTree));
+        updateSymbolNumberOfParameters((yyvsp[(6) - (14)].str), paramCount);
         dataType returnDataType = getSymbolDataType((yyvsp[(13) - (14)].synTree)->children[1]->value);
         checkFunctionReturnType(TYPE_INTEGER, returnDataType, yylineno);
 
@@ -2926,10 +2928,12 @@ yyreduce:
 
   case 94:
 /* Line 1792 of yacc.c  */
-#line 1006 "solaris.y"
+#line 1008 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (15)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (15)].str), FUNCTION, TYPE_INTEGER);
+        int paramCount = countParameters((yyvsp[(9) - (15)].synTree));
+        updateSymbolNumberOfParameters((yyvsp[(6) - (15)].str), paramCount);
         dataType returnDataType = getSymbolDataType((yyvsp[(13) - (15)].synTree)->children[1]->value);
         checkFunctionReturnType(TYPE_INTEGER, returnDataType, yylineno);
 
@@ -2958,10 +2962,12 @@ yyreduce:
 
   case 95:
 /* Line 1792 of yacc.c  */
-#line 1033 "solaris.y"
+#line 1037 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (14)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (14)].str), FUNCTION, TYPE_FLOAT);
+        int paramCount = countParameters((yyvsp[(9) - (14)].synTree));
+        updateSymbolNumberOfParameters((yyvsp[(6) - (14)].str), paramCount);
         dataType returnDataType = getSymbolDataType((yyvsp[(13) - (14)].synTree)->children[1]->value);
         checkFunctionReturnType(TYPE_FLOAT, returnDataType, yylineno);
 
@@ -2990,10 +2996,12 @@ yyreduce:
 
   case 96:
 /* Line 1792 of yacc.c  */
-#line 1060 "solaris.y"
+#line 1066 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (15)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (15)].str), FUNCTION, TYPE_FLOAT);
+        int paramCount = countParameters((yyvsp[(9) - (15)].synTree));
+        updateSymbolNumberOfParameters((yyvsp[(6) - (15)].str), paramCount);
         dataType returnDataType = getSymbolDataType((yyvsp[(13) - (15)].synTree)->children[1]->value);
         checkFunctionReturnType(TYPE_FLOAT, returnDataType, yylineno);
 
@@ -3022,10 +3030,12 @@ yyreduce:
 
   case 97:
 /* Line 1792 of yacc.c  */
-#line 1087 "solaris.y"
+#line 1095 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (14)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (14)].str), FUNCTION, TYPE_STRING);
+        int paramCount = countParameters((yyvsp[(9) - (14)].synTree));
+        updateSymbolNumberOfParameters((yyvsp[(6) - (14)].str), paramCount);
         dataType returnDataType = getSymbolDataType((yyvsp[(13) - (14)].synTree)->children[1]->value);
         checkFunctionReturnType(TYPE_STRING, returnDataType, yylineno);
 
@@ -3054,10 +3064,12 @@ yyreduce:
 
   case 98:
 /* Line 1792 of yacc.c  */
-#line 1114 "solaris.y"
+#line 1124 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (15)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (15)].str), FUNCTION, TYPE_STRING);
+        int paramCount = countParameters((yyvsp[(9) - (15)].synTree));
+        updateSymbolNumberOfParameters((yyvsp[(6) - (15)].str), paramCount);
         dataType returnDataType = getSymbolDataType((yyvsp[(13) - (15)].synTree)->children[1]->value);
         checkFunctionReturnType(TYPE_STRING, returnDataType, yylineno);
 
@@ -3086,7 +3098,7 @@ yyreduce:
 
   case 99:
 /* Line 1792 of yacc.c  */
-#line 1144 "solaris.y"
+#line 1156 "solaris.y"
     {
         tree function_parameter = createNode("function_parameter", " ");
         (yyval.synTree) = function_parameter;
@@ -3095,7 +3107,7 @@ yyreduce:
 
   case 100:
 /* Line 1792 of yacc.c  */
-#line 1148 "solaris.y"
+#line 1160 "solaris.y"
     {
         checkDeclarationNotExists((yyvsp[(1) - (1)].str), yylineno);
 
@@ -3110,7 +3122,7 @@ yyreduce:
 
   case 101:
 /* Line 1792 of yacc.c  */
-#line 1158 "solaris.y"
+#line 1170 "solaris.y"
     {
         checkDeclarationNotExists((yyvsp[(3) - (3)].str), yylineno);
 
@@ -3127,7 +3139,7 @@ yyreduce:
 
   case 102:
 /* Line 1792 of yacc.c  */
-#line 1173 "solaris.y"
+#line 1185 "solaris.y"
     {
         checkDeclarationNotExists((yyvsp[(2) - (3)].str), yylineno);
 
@@ -3145,7 +3157,7 @@ yyreduce:
 
   case 103:
 /* Line 1792 of yacc.c  */
-#line 1186 "solaris.y"
+#line 1198 "solaris.y"
     {
         updateSymbolCategoryAndDataType((yyvsp[(2) - (3)].str), CONSTANT, TYPE_STRING);
         updateSymbolValue((yyvsp[(2) - (3)].str), (yyvsp[(2) - (3)].str), TYPE_STRING);
@@ -3164,7 +3176,7 @@ yyreduce:
 
   case 104:
 /* Line 1792 of yacc.c  */
-#line 1200 "solaris.y"
+#line 1212 "solaris.y"
     {
         updateSymbolCategoryAndDataType((yyvsp[(2) - (3)].str), CONSTANT, TYPE_INTEGER);
         updateSymbolValue((yyvsp[(2) - (3)].str), (yyvsp[(2) - (3)].str), TYPE_INTEGER);
@@ -3183,7 +3195,7 @@ yyreduce:
 
   case 105:
 /* Line 1792 of yacc.c  */
-#line 1214 "solaris.y"
+#line 1226 "solaris.y"
     {
         updateSymbolCategoryAndDataType((yyvsp[(2) - (3)].str), CONSTANT, TYPE_FLOAT);
         updateSymbolValue((yyvsp[(2) - (3)].str), (yyvsp[(2) - (3)].str), TYPE_FLOAT);
@@ -3202,11 +3214,13 @@ yyreduce:
 
   case 106:
 /* Line 1792 of yacc.c  */
-#line 1231 "solaris.y"
+#line 1243 "solaris.y"
     {
         checkFunctionDeclarationNotExists((yyvsp[(2) - (6)].str), yylineno);
         category identifierCategory = getSymbolCategory((yyvsp[(2) - (6)].str));
         verifyFunctionCategory(identifierCategory, yylineno);
+        int paramCount = countParameters((yyvsp[(4) - (6)].synTree));
+        verifyNumberOfParameters((yyvsp[(2) - (6)].str), paramCount, yylineno);
 
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s ( %s ) ;", (yyvsp[(1) - (6)].str), (yyvsp[(2) - (6)].str), (yyvsp[(4) - (6)].synTree)->value);
@@ -3226,7 +3240,7 @@ yyreduce:
 
   case 107:
 /* Line 1792 of yacc.c  */
-#line 1252 "solaris.y"
+#line 1266 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", (yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].str));
@@ -3242,7 +3256,7 @@ yyreduce:
 
 
 /* Line 1792 of yacc.c  */
-#line 3246 "solaris.tab.c"
+#line 3260 "solaris.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -3474,7 +3488,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 1264 "solaris.y"
+#line 1278 "solaris.y"
 
 
 void yyerror(const char *s) {

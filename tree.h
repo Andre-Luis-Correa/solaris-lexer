@@ -47,4 +47,9 @@ void freeTree(tree root);
 // Pós-condições: A árvore será salva no arquivo de texto especificado.
 void writeTreeToTxtFile(char *fileName, tree txtTree);
 
+// Conta a quantidade de parâmetros (identificadores) de um nó function_parameter
+// Pré-condições: 'function_parameter' deve ser diferente de nulo.
+// Pós-condições: Retorna a quantidade de parâmetros (identificadores) que foram encontrados no nó da árvore.
+int countParameters(tree function_parameter);
+
 #endif // TREE_H

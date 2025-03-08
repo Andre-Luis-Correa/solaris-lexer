@@ -62,6 +62,7 @@ typedef struct token {
     category category;
     dataType dataType;
     int hasValue;
+    int numberOfParameters;
     union {
         int    intValue;
         float  floatValue;
@@ -194,5 +195,13 @@ dataType getSymbolDataType(const char *str);
 // Pós-condições:
 //   - Retorna a categoria do token encontrado na tabela de símbolos.
 category getSymbolCategory(const char *str);
+
+// Atualiza o número de parâmetros de uma função na tabela de símbolos.
+// Pré-condições:
+//   - 'str' deve ser um identificador válido presente na tabela de símbolos.
+//   - 'paramCount' é a quantidade de parâmetros de um identificador na categoria FUNCTION.
+// Pós-condições:
+//   - O identificador na tabela de símbolos será atualizado com a quantidade de parâmetros.
+void updateSymbolNumberOfParameters(const char *str, int paramCount);
 
 #endif // LEXER_H

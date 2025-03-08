@@ -70,7 +70,7 @@ program:
       ): )
     ;: ;
 
-  function_declaration: function ( integer ) : sumOfSquares receive ( x, y ) {   return sum; }
+  function_declaration: function ( integer ) : sumOfSquares receive ( x, y, z ) {   return sum; }
     TOKEN_FUNCTION: function
     (: (
     TOKEN_DATA_TYPE_INTEGER: integer
@@ -79,11 +79,14 @@ program:
     TOKEN_IDENTIFIER: sumOfSquares
     TOKEN_FUNCTION_RECEIVE: receive
     (: (
-    function_parameter: x, y
-      function_parameter: x
-        TOKEN_IDENTIFIER: x
+    function_parameter: x, y, z
+      function_parameter: x, y
+        function_parameter: x
+          TOKEN_IDENTIFIER: x
+        ,: ,
+        TOKEN_IDENTIFIER: y
       ,: ,
-      TOKEN_IDENTIFIER: y
+      TOKEN_IDENTIFIER: z
     ): )
     {: {
     possible_content:  

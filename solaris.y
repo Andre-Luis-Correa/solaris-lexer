@@ -979,6 +979,8 @@ function_declaration:
     TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_INTEGER ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '}' {
         checkFunctionDeclarationExists($6, yylineno);
         updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_INTEGER);
+        int paramCount = countParameters($9);
+        updateSymbolNumberOfParameters($6, paramCount);
         dataType returnDataType = getSymbolDataType($13->children[1]->value);
         checkFunctionReturnType(TYPE_INTEGER, returnDataType, yylineno);
 
@@ -1006,6 +1008,8 @@ function_declaration:
     | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_INTEGER ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
         checkFunctionDeclarationExists($6, yylineno);
         updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_INTEGER);
+        int paramCount = countParameters($9);
+        updateSymbolNumberOfParameters($6, paramCount);
         dataType returnDataType = getSymbolDataType($13->children[1]->value);
         checkFunctionReturnType(TYPE_INTEGER, returnDataType, yylineno);
 
@@ -1033,6 +1037,8 @@ function_declaration:
     | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_FLOAT ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '}' {
         checkFunctionDeclarationExists($6, yylineno);
         updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_FLOAT);
+        int paramCount = countParameters($9);
+        updateSymbolNumberOfParameters($6, paramCount);
         dataType returnDataType = getSymbolDataType($13->children[1]->value);
         checkFunctionReturnType(TYPE_FLOAT, returnDataType, yylineno);
 
@@ -1060,6 +1066,8 @@ function_declaration:
     | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_FLOAT ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
         checkFunctionDeclarationExists($6, yylineno);
         updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_FLOAT);
+        int paramCount = countParameters($9);
+        updateSymbolNumberOfParameters($6, paramCount);
         dataType returnDataType = getSymbolDataType($13->children[1]->value);
         checkFunctionReturnType(TYPE_FLOAT, returnDataType, yylineno);
 
@@ -1087,6 +1095,8 @@ function_declaration:
     | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_STRING ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '}' {
         checkFunctionDeclarationExists($6, yylineno);
         updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_STRING);
+        int paramCount = countParameters($9);
+        updateSymbolNumberOfParameters($6, paramCount);
         dataType returnDataType = getSymbolDataType($13->children[1]->value);
         checkFunctionReturnType(TYPE_STRING, returnDataType, yylineno);
 
@@ -1114,6 +1124,8 @@ function_declaration:
     | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_STRING ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
         checkFunctionDeclarationExists($6, yylineno);
         updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_STRING);
+        int paramCount = countParameters($9);
+        updateSymbolNumberOfParameters($6, paramCount);
         dataType returnDataType = getSymbolDataType($13->children[1]->value);
         checkFunctionReturnType(TYPE_STRING, returnDataType, yylineno);
 
@@ -1232,6 +1244,8 @@ function_call:
         checkFunctionDeclarationNotExists($2, yylineno);
         category identifierCategory = getSymbolCategory($2);
         verifyFunctionCategory(identifierCategory, yylineno);
+        int paramCount = countParameters($4);
+        verifyNumberOfParameters($2, paramCount, yylineno);
 
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s ( %s ) ;", $1, $2, $4->value);

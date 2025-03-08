@@ -11,7 +11,7 @@ floatNumber = numberDecimal;
 
 integer expression = (5 + 5);
 
-function (integer): sumOfSquares receive (x, y) {
+function (integer): sumOfSquares receive (x, y, z) {
     integer sum = 5;
 
     # RETORNO DE FUNCAO

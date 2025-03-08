@@ -108,3 +108,24 @@ void writeTreeToTxtFile(char * fileName, tree txtTree) {
     fclose(outputFile);
     printf("\n\nArvore sintatica salva com sucesso em %s.\n\n", outputFileName);
 }
+
+// Conta a quantidade de parâmetros (identificadores) de um nó function_parameter
+// Pré-condições: 'function_parameter' deve ser diferente de nulo.
+// Pós-condições: Retorna a quantidade de parâmetros (identificadores) que foram encontrados no nó da árvore.
+int countParameters(tree function_parameter) {
+    if (function_parameter == NULL) {
+        return 0;
+    }
+
+    if (strcmp(function_parameter->label, "TOKEN_IDENTIFIER") == 0) {
+        return 1;
+    }
+
+    int count = 0;
+    int i;
+    for (i = 0; i < function_parameter->childCount; i++) {
+        count += countParameters(function_parameter->children[i]);
+    }
+
+    return count;
+}

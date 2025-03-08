@@ -19,6 +19,7 @@ tokenList *createToken(int type, const char *value) {
     newToken->value.intValue = 0;
     newToken->value.floatValue = 0;
     newToken->hasValue = 0;
+    newToken->numberOfParameters = 0;
     newToken->next = NULL;
     return newToken;
 }
@@ -226,19 +227,20 @@ char *getTokenValue(tokenList *token) {
 void printTokens(tokenList *head, const char *listName) {
     tokenList *current = head;
     printf("\nTokens na lista %s:\n", listName);
-    printf("--------------------------------------------------------------------------------------------------------------------\n");
-    printf("| %-25s | %-25s | %-15s | %-15s | %-20s |\n", "Tipo", "Cadeia", "Categoria", "DataType", "Valor");
-    printf("--------------------------------------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("| %-25s | %-25s | %-15s | %-20s | %-15s | %-20s |\n", "Tipo", "Cadeia", "Categoria", "N. de Parametros", "DataType", "Valor");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------\n");
     while (current != NULL) {
-        printf("| %-25s | %-25s | %-15s | %-15s | %-20s |\n",
+        printf("| %-25s | %-25s | %-15s | %-20d | %-15s | %-20s |\n",
                getTokenTypeName(current->lexTokenType),
                current->str ? current->str : "NULL",
                getCategoryName(current->category),
+               current->numberOfParameters,
                getDataTypeName(current->dataType),
                getTokenValue(current));
         current = current->next;
     }
-    printf("--------------------------------------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------\n");
 }
 
 // Função auxiliar para armazenar o token na lista apropriada
@@ -417,4 +419,21 @@ dataType getSymbolDataType(const char *str) {
 category getSymbolCategory(const char *str) {
     tokenList const *symbol = findSymbol(symbolTable, str);
     return symbol->category;
+}
+
+// Atualiza o número de parâmetros de uma função na tabela de símbolos.
+// Pré-condições:
+//   - 'str' deve ser um identificador válido presente na tabela de símbolos.
+//   - 'paramCount' é a quantidade de parâmetros de um identificador na categoria FUNCTION.
+// Pós-condições:
+//   - O identificador na tabela de símbolos será atualizado com a quantidade de parâmetros.
+void updateSymbolNumberOfParameters(const char *str, int paramCount) {
+    tokenList *current = symbolTable;
+
+    while (current != NULL) {
+        if (strcmp(current->str, str) == 0) {
+            current->numberOfParameters = paramCount;
+        }
+        current = current->next;
+    }
 }
