@@ -175,7 +175,7 @@ program:
       ;: ;
 
     }: }
-  function_declaration: function ( float ) : getFloatNumberExample receive (   ) {   return 0.5; }
+  function_declaration: function ( float ) : getFloatNumberExample receive (   ) {   return 5.0; }
     TOKEN_FUNCTION: function
     (: (
     TOKEN_DATA_TYPE_FLOAT: float
@@ -189,9 +189,9 @@ program:
     {: {
     possible_content:  
       \n: \n
-    function_return: return 0.5;
+    function_return: return 5.0;
       TOKEN_FUNCTION_RETURN: return
-      TOKEN_FLOAT_NUMBER: 0.5
+      TOKEN_FLOAT_NUMBER: 5.0
       ;: ;
 
     }: }
@@ -215,3 +215,11 @@ program:
       ;: ;
 
     }: }
+  function_call: call getHelloWorld (   ) ;
+    TOKEN_CALL: call
+    TOKEN_IDENTIFIER: getHelloWorld
+    (: (
+    function_parameter:  
+    ): )
+    ;: ;
+

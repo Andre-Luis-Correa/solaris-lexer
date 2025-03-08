@@ -142,6 +142,8 @@ const char *getTokenTypeName(int type) {
             return "UNKNOWN";
         case LEX_TOKEN_DATA_TYPE:
             return "DATA_TYPE";
+        case LEX_TOKEN_CALL:
+            return "CALL";
         default:
             return "INVALID";
     }

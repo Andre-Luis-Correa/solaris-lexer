@@ -75,8 +75,9 @@ extern int yydebug;
      TOKEN_FUNCTION_RECEIVE = 284,
      TOKEN_FUNCTION_RETURN = 285,
      TOKEN_USE = 286,
-     TOKEN_BOOLEAN = 287,
-     TOKEN_UNKNOWN = 288
+     TOKEN_CALL = 287,
+     TOKEN_BOOLEAN = 288,
+     TOKEN_UNKNOWN = 289
    };
 #endif
 
@@ -92,7 +93,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 96 "solaris.tab.h"
+#line 97 "solaris.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

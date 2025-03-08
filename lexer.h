@@ -38,6 +38,7 @@
 #define LEX_TOKEN_NEWLINE               30
 #define LEX_TOKEN_UNKNOWN               31
 #define LEX_TOKEN_DATA_TYPE             32
+#define LEX_TOKEN_CALL                  33
 
 typedef enum {
     TYPE_INTEGER,

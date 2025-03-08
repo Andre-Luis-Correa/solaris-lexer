@@ -38,3 +38,5 @@ function (float): getFloatNumberExample receive () {
 function (string): getHelloWorld receive () {
     return "Hello, World!";
 }
+
+call getHelloWorld();

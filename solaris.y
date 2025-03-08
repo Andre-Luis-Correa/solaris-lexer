@@ -49,6 +49,7 @@
 %token <str> TOKEN_FUNCTION_RECEIVE
 %token <str> TOKEN_FUNCTION_RETURN
 %token <str> TOKEN_USE
+%token <str> TOKEN_CALL
 
 %token TOKEN_BOOLEAN
 %token TOKEN_UNKNOWN
@@ -69,6 +70,7 @@
 %type <synTree> function_declaration
 %type <synTree> function_return
 %type <synTree> function_parameter
+%type <synTree> function_call
 %type <synTree> library_inclusion
 
 %left TOKEN_LOGICAL_OP
@@ -121,6 +123,10 @@ program:
     }
     | program function_return '\n' {
         if (!synTree) synTree = createNode("program", $2->value);
+        addChild(synTree, $2);
+    }
+    | program function_call '\n' {
+        if (!synTree) synTree = createNode("function_call", $2->value);
         addChild(synTree, $2);
     }
     | program library_inclusion '\n' {
@@ -1220,6 +1226,23 @@ function_return:
         $$ = function_return;
     }
     ;
+
+function_call:
+    TOKEN_CALL TOKEN_IDENTIFIER '(' function_parameter ')' ';' {
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s %s ( %s ) ;", $1, $2, $4->value);
+        processSyntacticStructure(SYN_FUNCTION_CALL, buffer);
+
+        tree function_call = createNode("function_call", buffer);
+        addChild(function_call, createNode("TOKEN_CALL", $1));
+        addChild(function_call, createNode("TOKEN_IDENTIFIER", $2));
+        addChild(function_call, createNode("(", "("));
+        addChild(function_call, $4);
+        addChild(function_call, createNode(")", ")"));
+        addChild(function_call, createNode(";", ";\n"));
+
+        $$ = function_call;
+    };
 
 library_inclusion:
     TOKEN_USE TOKEN_STRING {
