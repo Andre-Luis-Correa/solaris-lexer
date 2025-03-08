@@ -195,3 +195,23 @@ program:
       ;: ;
 
     }: }
+  function_declaration: function ( string ) : getHelloWorld receive (   ) {   return "Hello, World!"; }
+    TOKEN_FUNCTION: function
+    (: (
+    TOKEN_DATA_TYPE_STRING: string
+    ): )
+    :: :
+    TOKEN_IDENTIFIER: getHelloWorld
+    TOKEN_FUNCTION_RECEIVE: receive
+    (: (
+    function_parameter:  
+    ): )
+    {: {
+    possible_content:  
+      \n: \n
+    function_return: return "Hello, World!";
+      TOKEN_FUNCTION_RETURN: return
+      TOKEN_STRING: "Hello, World!"
+      ;: ;
+
+    }: }

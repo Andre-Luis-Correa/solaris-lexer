@@ -83,7 +83,7 @@ void checkExpressionHasCompatibleTypes(dataType dataTypeLeft, dataType dataTypeR
 //   - Se os tipos não forem iguais, imprime um erro semântico e encerra a execução.
 void checkFunctionReturnType(dataType functionDataType, dataType returnDataType, int yylineno) {
     if(functionDataType != returnDataType) {
-        fprintf(stderr, "\nERRO SEMANTICO -> O tipo de retorno da funcao nao coincide com o tipo da funcao na linha %d\n", yylineno + 1);
+        fprintf(stderr, "\nERRO SEMANTICO -> O tipo de retorno da funcao nao coincide com o tipo da funcao na linha %d\n", yylineno);
         exit(EXIT_FAILURE);
     }
 }
