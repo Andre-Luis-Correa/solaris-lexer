@@ -55,11 +55,6 @@ program:
     TOKEN_IDENTIFIER: numberDecimal
     TOKEN_DELIMITER: ;
 
-  variable_declaration: integer r;
-    TOKEN_DATA_TYPE_INTEGER: integer
-    TOKEN_IDENTIFIER: r
-    ;: ;
-
   variable_declaration: integer expression = ( 5 + 5 );
     TOKEN_DATA_TYPE_INTEGER: integer
     TOKEN_IDENTIFIER: expression
@@ -75,3 +70,128 @@ program:
       ): )
     ;: ;
 
+  function_declaration: function ( integer ) : sumOfSquares receive ( x, y ) {   return sum; }
+    TOKEN_FUNCTION: function
+    (: (
+    TOKEN_DATA_TYPE_INTEGER: integer
+    ): )
+    :: :
+    TOKEN_IDENTIFIER: sumOfSquares
+    TOKEN_FUNCTION_RECEIVE: receive
+    (: (
+    function_parameter: x, y
+      function_parameter: x
+        TOKEN_IDENTIFIER: x
+      ,: ,
+      TOKEN_IDENTIFIER: y
+    ): )
+    {: {
+    possible_content:  
+      \n: \n
+      variable_declaration: integer sum = 5;
+        TOKEN_DATA_TYPE_INTEGER: integer
+        TOKEN_IDENTIFIER: sum
+        TOKEN_ASSIGNMENT_OP: =
+        TOKEN_INTEGER_NUMBER: 5
+        ;: ;
+
+      \n: \n
+      \n: \n
+      comment: # RETORNO DE FUNCAO
+        TOKEN_COMMENT_LINE: # RETORNO DE FUNCAO
+
+      \n: \n
+      \n: \n
+    function_return: return sum;
+      TOKEN_FUNCTION_RETURN: return
+      TOKEN_IDENTIFIER: sum
+      ;: ;
+
+    }: }
+  function_declaration: function ( integer ) : getMaxNumber receive ( x, y ) {   return maxNumber; }
+    TOKEN_FUNCTION: function
+    (: (
+    TOKEN_DATA_TYPE_INTEGER: integer
+    ): )
+    :: :
+    TOKEN_IDENTIFIER: getMaxNumber
+    TOKEN_FUNCTION_RECEIVE: receive
+    (: (
+    function_parameter: x, y
+      function_parameter: x
+        TOKEN_IDENTIFIER: x
+      ,: ,
+      TOKEN_IDENTIFIER: y
+    ): )
+    {: {
+    possible_content:  
+      \n: \n
+      variable_declaration: integer maxNumber;
+        TOKEN_DATA_TYPE_INTEGER: integer
+        TOKEN_IDENTIFIER: maxNumber
+        ;: ;
+
+      \n: \n
+      \n: \n
+      conditional: choose ( x >= y ) {   } otherwise {   }
+        TOKEN_CONDITIONAL_CHOOSE: choose
+        (: (
+        expression: x >= y
+          expression: x
+            TOKEN_IDENTIFIER: x
+          TOKEN_ASSIGNMENT_OP: >=
+          expression: y
+            TOKEN_IDENTIFIER: y
+        ): )
+        {: {
+        possible_content:  
+          \n: \n
+          assignment: maxNumber = x;
+            TOKEN_IDENTIFIER: maxNumber
+            TOKEN_ASSIGNMENT_OP: =
+            TOKEN_IDENTIFIER: x
+            TOKEN_DELIMITER: ;
+
+          \n: \n
+        }: }
+        TOKEN_CONDITIONAL_OTHERWISE: otherwise
+        {: {
+        possible_content:  
+          \n: \n
+          assignment: maxNumber = y;
+            TOKEN_IDENTIFIER: maxNumber
+            TOKEN_ASSIGNMENT_OP: =
+            TOKEN_IDENTIFIER: y
+            TOKEN_DELIMITER: ;
+
+          \n: \n
+        }: }
+
+      \n: \n
+      \n: \n
+    function_return: return maxNumber;
+      TOKEN_FUNCTION_RETURN: return
+      TOKEN_IDENTIFIER: maxNumber
+      ;: ;
+
+    }: }
+  function_declaration: function ( float ) : getFloatNumberExample receive (   ) {   return 0.5; }
+    TOKEN_FUNCTION: function
+    (: (
+    TOKEN_DATA_TYPE_FLOAT: float
+    ): )
+    :: :
+    TOKEN_IDENTIFIER: getFloatNumberExample
+    TOKEN_FUNCTION_RECEIVE: receive
+    (: (
+    function_parameter:  
+    ): )
+    {: {
+    possible_content:  
+      \n: \n
+    function_return: return 0.5;
+      TOKEN_FUNCTION_RETURN: return
+      TOKEN_FLOAT_NUMBER: 0.5
+      ;: ;
+
+    }: }

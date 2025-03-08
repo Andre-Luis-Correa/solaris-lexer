@@ -10,3 +10,27 @@ float numberDecimal;
 floatNumber = numberDecimal;
 
 integer expression = (5 + 5);
+
+function (integer): sumOfSquares receive (x, y) {
+    integer sum = 5;
+
+    # RETORNO DE FUNCAO
+
+    return sum;
+}
+
+function (integer): getMaxNumber receive (x, y) {
+    integer maxNumber;
+
+    choose ( x >= y ) {
+        maxNumber = x;
+    } otherwise {
+        maxNumber = y;
+    }
+
+    return maxNumber;
+}
+
+function (float): getFloatNumberExample receive () {
+    return 0.5;
+}

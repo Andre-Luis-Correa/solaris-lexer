@@ -11,6 +11,14 @@
 //   - Se a variável já foi declarada anteriormente, imprime um erro semântico e encerra a execução.
 void checkDeclarationExists(const char *str, int yylineno);
 
+// Verifica se uma função já foi declarada na tabela de símbolos.
+// Pré-condições:
+//   - 'str' deve ser um identificador válido de variável.
+//   - 'yylineno' indica a linha do código onde a verificação ocorre.
+// Pós-condições:
+//   - Se a função já foi declarada anteriormente, imprime um erro semântico e encerra a execução.
+void checkFunctionDeclarationExists(const char *str, int yylineno);
+
 // Verifica se uma variável foi declarada antes de ser utilizada.
 // Pré-condições:
 //   - 'str' deve ser um identificador válido de variável.
@@ -35,5 +43,14 @@ void checkTypesOfAssignment(dataType dataType, const char *str);
 // Pós-condições:
 //   - Se os tipos dos operandos forem diferentes, imprime um erro semântico e encerra a execução.
 void checkExpressionHasCompatibleTypes(dataType dataTypeLeft, dataType dataTypeRight, int yylineno);
+
+// Verifica se o tipo de retorno coincide com o tipo da função.
+// Pré-condições:
+//   - 'functionDataType' é o tipo de dado da função.
+//   - 'returnDataType' é o tipo de dado do retorno da função.
+//   - 'yylineno' indica a linha do código onde a verificação ocorre.
+// Pós-condições:
+//   - Se os tipos não forem iguais, imprime um erro semântico e encerra a execução.
+void checkFunctionReturnType(dataType functionDataType, dataType returnDataType, int yylineno);
 
 #endif //SEMANTICANALYSIS_H

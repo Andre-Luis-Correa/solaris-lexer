@@ -970,7 +970,12 @@ read_data:
     ;
 
 function_declaration:
-    TOKEN_FUNCTION '(' TOKEN_DATA_TYPE ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '}' {
+    TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_INTEGER ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '}' {
+        checkFunctionDeclarationExists($6, yylineno);
+        updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_INTEGER);
+        dataType returnDataType = getSymbolDataType($13->children[1]->value);
+        checkFunctionReturnType(TYPE_INTEGER, returnDataType, yylineno);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s %s }", $1, $3, $6, $7, $9->value, $12->value, $13->value);
         processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
@@ -978,7 +983,7 @@ function_declaration:
         tree function_declaration = createNode("function_declaration", buffer);
         addChild(function_declaration, createNode("TOKEN_FUNCTION", $1));
         addChild(function_declaration, createNode("(", "("));
-        addChild(function_declaration, createNode("TOKEN_DATA_TYPE", $3));
+        addChild(function_declaration, createNode("TOKEN_DATA_TYPE_INTEGER", $3));
         addChild(function_declaration, createNode(")", ")"));
         addChild(function_declaration, createNode(":", ":"));
         addChild(function_declaration, createNode("TOKEN_IDENTIFIER", $6));
@@ -992,7 +997,12 @@ function_declaration:
         addChild(function_declaration, createNode("}", "}"));
         $$ = function_declaration;
     }
-    | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
+    | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_INTEGER ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
+        checkFunctionDeclarationExists($6, yylineno);
+        updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_INTEGER);
+        dataType returnDataType = getSymbolDataType($13->children[1]->value);
+        checkFunctionReturnType(TYPE_INTEGER, returnDataType, yylineno);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s %s }", $1, $3, $6, $7, $9->value, $12->value, $13->value);
         processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
@@ -1000,7 +1010,115 @@ function_declaration:
         tree function_declaration = createNode("function_declaration", buffer);
         addChild(function_declaration, createNode("TOKEN_FUNCTION", $1));
         addChild(function_declaration, createNode("(", "("));
-        addChild(function_declaration, createNode("TOKEN_DATA_TYPE", $3));
+        addChild(function_declaration, createNode("TOKEN_DATA_TYPE_INTEGER", $3));
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode(":", ":"));
+        addChild(function_declaration, createNode("TOKEN_IDENTIFIER", $6));
+        addChild(function_declaration, createNode("TOKEN_FUNCTION_RECEIVE", $7));
+        addChild(function_declaration, createNode("(", "("));
+        addChild(function_declaration, $9);
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode("{", "{"));
+        addChild(function_declaration, $12);
+        addChild(function_declaration, $13);
+        addChild(function_declaration, createNode("}", "}"));
+        $$ = function_declaration;
+    }
+    | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_FLOAT ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '}' {
+        checkFunctionDeclarationExists($6, yylineno);
+        updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_FLOAT);
+        dataType returnDataType = getSymbolDataType($13->children[1]->value);
+        checkFunctionReturnType(TYPE_FLOAT, returnDataType, yylineno);
+
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s %s }", $1, $3, $6, $7, $9->value, $12->value, $13->value);
+        processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
+
+        tree function_declaration = createNode("function_declaration", buffer);
+        addChild(function_declaration, createNode("TOKEN_FUNCTION", $1));
+        addChild(function_declaration, createNode("(", "("));
+        addChild(function_declaration, createNode("TOKEN_DATA_TYPE_FLOAT", $3));
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode(":", ":"));
+        addChild(function_declaration, createNode("TOKEN_IDENTIFIER", $6));
+        addChild(function_declaration, createNode("TOKEN_FUNCTION_RECEIVE", $7));
+        addChild(function_declaration, createNode("(", "("));
+        addChild(function_declaration, $9);
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode("{", "{"));
+        addChild(function_declaration, $12);
+        addChild(function_declaration, $13);
+        addChild(function_declaration, createNode("}", "}"));
+        $$ = function_declaration;
+    }
+    | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_FLOAT ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
+        checkFunctionDeclarationExists($6, yylineno);
+        updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_FLOAT);
+        dataType returnDataType = getSymbolDataType($13->children[1]->value);
+        checkFunctionReturnType(TYPE_FLOAT, returnDataType, yylineno);
+
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s %s }", $1, $3, $6, $7, $9->value, $12->value, $13->value);
+        processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
+
+        tree function_declaration = createNode("function_declaration", buffer);
+        addChild(function_declaration, createNode("TOKEN_FUNCTION", $1));
+        addChild(function_declaration, createNode("(", "("));
+        addChild(function_declaration, createNode("TOKEN_DATA_TYPE_FLOAT", $3));
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode(":", ":"));
+        addChild(function_declaration, createNode("TOKEN_IDENTIFIER", $6));
+        addChild(function_declaration, createNode("TOKEN_FUNCTION_RECEIVE", $7));
+        addChild(function_declaration, createNode("(", "("));
+        addChild(function_declaration, $9);
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode("{", "{"));
+        addChild(function_declaration, $12);
+        addChild(function_declaration, $13);
+        addChild(function_declaration, createNode("}", "}"));
+        $$ = function_declaration;
+    }
+    | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_STRING ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '}' {
+        checkFunctionDeclarationExists($6, yylineno);
+        updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_STRING);
+        dataType returnDataType = getSymbolDataType($13->children[1]->value);
+        checkFunctionReturnType(TYPE_STRING, returnDataType, yylineno);
+
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s %s }", $1, $3, $6, $7, $9->value, $12->value, $13->value);
+        processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
+
+        tree function_declaration = createNode("function_declaration", buffer);
+        addChild(function_declaration, createNode("TOKEN_FUNCTION", $1));
+        addChild(function_declaration, createNode("(", "("));
+        addChild(function_declaration, createNode("TOKEN_DATA_TYPE_STRING", $3));
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode(":", ":"));
+        addChild(function_declaration, createNode("TOKEN_IDENTIFIER", $6));
+        addChild(function_declaration, createNode("TOKEN_FUNCTION_RECEIVE", $7));
+        addChild(function_declaration, createNode("(", "("));
+        addChild(function_declaration, $9);
+        addChild(function_declaration, createNode(")", ")"));
+        addChild(function_declaration, createNode("{", "{"));
+        addChild(function_declaration, $12);
+        addChild(function_declaration, $13);
+        addChild(function_declaration, createNode("}", "}"));
+        $$ = function_declaration;
+    }
+    | TOKEN_FUNCTION '(' TOKEN_DATA_TYPE_STRING ')' ':' TOKEN_IDENTIFIER TOKEN_FUNCTION_RECEIVE '(' function_parameter ')' '{' possible_content function_return '\n' '}' {
+        checkFunctionDeclarationExists($6, yylineno);
+        updateSymbolCategoryAndDataType($6, FUNCTION, TYPE_STRING);
+        dataType returnDataType = getSymbolDataType($13->children[1]->value);
+        checkFunctionReturnType(TYPE_STRING, returnDataType, yylineno);
+
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s ( %s ) : %s %s ( %s ) { %s %s }", $1, $3, $6, $7, $9->value, $12->value, $13->value);
+        processSyntacticStructure(SYN_FUNCTION_DECLARATION, buffer);
+
+        tree function_declaration = createNode("function_declaration", buffer);
+        addChild(function_declaration, createNode("TOKEN_FUNCTION", $1));
+        addChild(function_declaration, createNode("(", "("));
+        addChild(function_declaration, createNode("TOKEN_DATA_TYPE_STRING", $3));
         addChild(function_declaration, createNode(")", ")"));
         addChild(function_declaration, createNode(":", ":"));
         addChild(function_declaration, createNode("TOKEN_IDENTIFIER", $6));
@@ -1017,30 +1135,38 @@ function_declaration:
     ;
 
 function_parameter:
-    TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
-        char buffer[MAXBUFFER];
-        sprintf(buffer, "%s %s", $1, $2);
-
-        tree function_parameter = createNode("function_parameter", buffer);
-        addChild(function_parameter, createNode("TOKEN_DATA_TYPE", $1));
-        addChild(function_parameter, createNode("TOKEN_IDENTIFIER", $2));
+    /* vazio */ {
+        tree function_parameter = createNode("function_parameter", " ");
         $$ = function_parameter;
     }
-    | function_parameter ',' TOKEN_DATA_TYPE TOKEN_IDENTIFIER {
+    | TOKEN_IDENTIFIER {
+        checkDeclarationNotExists($1, yylineno);
+
         char buffer[MAXBUFFER];
-        sprintf(buffer, "%s, %s %s", $1->value, $3, $4);
+        sprintf(buffer, "%s", $1);
+
+        tree function_parameter = createNode("function_parameter", buffer);
+        addChild(function_parameter, createNode("TOKEN_IDENTIFIER", $1));
+        $$ = function_parameter;
+    }
+    | function_parameter ',' TOKEN_IDENTIFIER {
+        checkDeclarationNotExists($3, yylineno);
+
+        char buffer[MAXBUFFER];
+        sprintf(buffer, "%s, %s", $1->value, $3);
 
         tree function_parameter = createNode("function_parameter", buffer);
         addChild(function_parameter, $1);
         addChild(function_parameter, createNode(",", ","));
-        addChild(function_parameter, createNode("TOKEN_DATA_TYPE", $3));
-        addChild(function_parameter, createNode("TOKEN_IDENTIFIER", $4));
+        addChild(function_parameter, createNode("TOKEN_IDENTIFIER", $3));
         $$ = function_parameter;
     }
     ;
 
 function_return:
     TOKEN_FUNCTION_RETURN TOKEN_IDENTIFIER ';' {
+        checkDeclarationNotExists($2, yylineno);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
@@ -1052,6 +1178,9 @@ function_return:
         $$ = function_return;
     }
     | TOKEN_FUNCTION_RETURN TOKEN_STRING ';' {
+        updateSymbolCategoryAndDataType($2, CONSTANT, TYPE_STRING);
+        updateSymbolValue($2, $2, TYPE_STRING);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
@@ -1063,6 +1192,9 @@ function_return:
         $$ = function_return;
     }
     | TOKEN_FUNCTION_RETURN TOKEN_INTEGER_NUMBER ';' {
+        updateSymbolCategoryAndDataType($2, CONSTANT, TYPE_INTEGER);
+        updateSymbolValue($2, $2, TYPE_INTEGER);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);
@@ -1074,6 +1206,9 @@ function_return:
         $$ = function_return;
     }
     | TOKEN_FUNCTION_RETURN TOKEN_FLOAT_NUMBER ';' {
+        updateSymbolCategoryAndDataType($2, CONSTANT, TYPE_FLOAT);
+        updateSymbolValue($2, $2, TYPE_FLOAT);
+
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", $1, $2);
         processSyntacticStructure(SYN_FUNCTION_RETURN, buffer);

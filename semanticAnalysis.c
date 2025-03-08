@@ -17,6 +17,20 @@ void checkDeclarationExists(const char *str, int yylineno) {
     }
 }
 
+// Verifica se uma função já foi declarada na tabela de símbolos.
+// Pré-condições:
+//   - 'str' deve ser um identificador válido de variável.
+//   - 'yylineno' indica a linha do código onde a verificação ocorre.
+// Pós-condições:
+//   - Se a função já foi declarada anteriormente, imprime um erro semântico e encerra a execução.
+void checkFunctionDeclarationExists(const char *str, int yylineno) {
+    tokenList const * symbol = findSymbol(symbolTable, str);
+    if(symbol && symbol->category != UNDEFINED && symbol->dataType != TYPE_UNDEFINED) {
+        fprintf(stderr, "\nERRO SEMANTICO -> A funcao %s ja foi declarada anteriormente na linha %d\n", str, yylineno + 1);
+        exit(EXIT_FAILURE);
+    }
+}
+
 // Verifica se uma variável foi declarada antes de ser utilizada.
 // Pré-condições:
 //   - 'str' deve ser um identificador válido de variável.
@@ -56,6 +70,20 @@ void checkTypesOfAssignment(dataType dataType, const char *str) {
 void checkExpressionHasCompatibleTypes(dataType dataTypeLeft, dataType dataTypeRight, int yylineno) {
     if(dataTypeLeft != dataTypeRight) {
         fprintf(stderr, "\nERRO SEMANTICO -> Os lados da expressao possuem tipos de dados diferentes na linha %d\n", yylineno + 1);
+        exit(EXIT_FAILURE);
+    }
+}
+
+// Verifica se o tipo de retorno coincide com o tipo da função.
+// Pré-condições:
+//   - 'functionDataType' é o tipo de dado da função.
+//   - 'returnDataType' é o tipo de dado do retorno da função.
+//   - 'yylineno' indica a linha do código onde a verificação ocorre.
+// Pós-condições:
+//   - Se os tipos não forem iguais, imprime um erro semântico e encerra a execução.
+void checkFunctionReturnType(dataType functionDataType, dataType returnDataType, int yylineno) {
+    if(functionDataType != returnDataType) {
+        fprintf(stderr, "\nERRO SEMANTICO -> O tipo de retorno da funcao nao coincide com o tipo da funcao na linha %d\n", yylineno + 1);
         exit(EXIT_FAILURE);
     }
 }
