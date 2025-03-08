@@ -32,7 +32,7 @@ function (integer): getMaxNumber receive (x, y) {
 }
 
 function (float): getFloatNumberExample receive () {
-    return 5;
+    return 5.0;
 }
 
 function (string): getHelloWorld receive () {
