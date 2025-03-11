@@ -1,8 +1,6 @@
 # INCLUSAO DE BIBLIOTECAS
 
 use "solarisIo.sol"
-use "solarisLib.sol"
-use "directory/myLib.sol"
 
 ##
     comentario de bloco
@@ -11,36 +9,35 @@ use "directory/myLib.sol"
 
 # DECLARACAO DE VARIAVEIS
 
+integer n1 = 5;
+float n2 = 2.5;
+string str = "Exemplo";
+
+integer total;
 float x;
-string name = "Bruna";
-string oldName = "Andre";
-string address;
-float y;
-integer num = 5 + 9;
-integer total = 0;
+string name;
 
 # ATRIBUICOES
 
-y = (5 + 9) * (9 + (9/2) * 9) && 1;
-oldName = name;
-name = "Joao";
-x = 5.0;
-oldName = name;
-y = 0.939393;
+total = 6;
+x = 2 + (2 / 2) + 1;
+x = 2.5;
+name = "Camile";
 
 # OPERACOES CONDICIONAIS
 
-choose ( oldName == Name ) {
+choose ( n1 == total ) {
 }
 
-choose ( oldName == Name ) {
-    choose ( x >= y ) {
-        x = y;
+choose ( n1 == total ) {
+    choose ( n1 >= total ) {
+        show n1;
     } otherwise {
-        y = x;
+        show n2;
     }
 } otherwise {
-    x = 7.8;
+    show n1;
+    show n2;
 }
 
 # LOOP 1: WHILE
@@ -56,10 +53,8 @@ while (counter <= 8 && (counter != 9)) {
 
 # LOOP 2: LOOP - UNTIL
 
-integer i;
-
-loop (i = 3) until ( i <= 5) {
-    x = 90.0;
+loop (counter = 3) until ( counter <= 5) {
+    x = 95.4;
 }
 
 # ESCRITA DE DADOS
@@ -83,5 +78,7 @@ function (integer): changeNumberValue receive (a, b) {
 
     return a;
 }
+
+# CHAMADA DE FUNÇÃO
 
 call changeNumberValue(a, b);

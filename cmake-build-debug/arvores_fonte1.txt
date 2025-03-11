@@ -7,16 +7,6 @@ program:
     TOKEN_STRING: "solarisIo.sol"
     ;: ;
 
-  library_inclusion: use "solarisLib.sol";
-    TOKEN_USE: use
-    TOKEN_STRING: "solarisLib.sol"
-    ;: ;
-
-  library_inclusion: use "directory/myLib.sol";
-    TOKEN_USE: use
-    TOKEN_STRING: "directory/myLib.sol"
-    ;: ;
-
   comment: ##
     comentario de bloco
     onde pode ser incluido uma sequencia de caracteres
@@ -29,176 +19,133 @@ program:
   comment: # DECLARACAO DE VARIAVEIS
     TOKEN_COMMENT_LINE: # DECLARACAO DE VARIAVEIS
 
+  variable_declaration: integer n1 = 5;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: n1
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_INTEGER_NUMBER: 5
+    ;: ;
+
+  variable_declaration: float n2 = 2.5;
+    TOKEN_DATA_TYPE_FLOAT: float
+    TOKEN_IDENTIFIER: n2
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_FLOAT_NUMBER: 2.5
+    ;: ;
+
+  variable_declaration: string str = "Exemplo";
+    TOKEN_DATA_TYPE_STRING: string
+    TOKEN_IDENTIFIER: str
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_STRING: "Exemplo"
+    ;: ;
+
+  variable_declaration: integer total;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: total
+    ;: ;
+
   variable_declaration: float x;
     TOKEN_DATA_TYPE_FLOAT: float
     TOKEN_IDENTIFIER: x
     ;: ;
 
-  variable_declaration: string name = "Bruna";
+  variable_declaration: string name;
     TOKEN_DATA_TYPE_STRING: string
     TOKEN_IDENTIFIER: name
-    TOKEN_ASSIGNMENT_OP: =
-    TOKEN_STRING: "Bruna"
-    ;: ;
-
-  variable_declaration: string oldName = "Andre";
-    TOKEN_DATA_TYPE_STRING: string
-    TOKEN_IDENTIFIER: oldName
-    TOKEN_ASSIGNMENT_OP: =
-    TOKEN_STRING: "Andre"
-    ;: ;
-
-  variable_declaration: string address;
-    TOKEN_DATA_TYPE_STRING: string
-    TOKEN_IDENTIFIER: address
-    ;: ;
-
-  variable_declaration: float y;
-    TOKEN_DATA_TYPE_FLOAT: float
-    TOKEN_IDENTIFIER: y
-    ;: ;
-
-  variable_declaration: integer num = 5 + 9;
-    TOKEN_DATA_TYPE_INTEGER: integer
-    TOKEN_IDENTIFIER: num
-    TOKEN_ASSIGNMENT_OP: =
-    expression: 5 + 9
-      expression: 5
-        TOKEN_INTEGER_NUMBER: 5
-      TOKEN_ASSIGNMENT_OP: +
-      expression: 9
-        TOKEN_INTEGER_NUMBER: 9
-    ;: ;
-
-  variable_declaration: integer total = 0;
-    TOKEN_DATA_TYPE_INTEGER: integer
-    TOKEN_IDENTIFIER: total
-    TOKEN_ASSIGNMENT_OP: =
-    TOKEN_INTEGER_NUMBER: 0
     ;: ;
 
   comment: # ATRIBUICOES
     TOKEN_COMMENT_LINE: # ATRIBUICOES
 
-  assignment: y = ( 5 + 9 ) * ( 9 + ( 9 / 2 ) * 9 ) && 1;
-    TOKEN_IDENTIFIER: y
+  assignment: total = 6;
+    TOKEN_IDENTIFIER: total
     TOKEN_ASSIGNMENT_OP: =
-    expression: ( 5 + 9 ) * ( 9 + ( 9 / 2 ) * 9 ) && 1
-      expression: ( 5 + 9 ) * ( 9 + ( 9 / 2 ) * 9 )
-        expression: ( 5 + 9 )
+    TOKEN_INTEGER_NUMBER: 6
+    TOKEN_DELIMITER: ;
+
+  assignment: x = 2 + ( 2 / 2 ) + 1;
+    TOKEN_IDENTIFIER: x
+    TOKEN_ASSIGNMENT_OP: =
+    expression: 2 + ( 2 / 2 ) + 1
+      expression: 2 + ( 2 / 2 )
+        expression: 2
+          TOKEN_INTEGER_NUMBER: 2
+        TOKEN_ASSIGNMENT_OP: +
+        expression: ( 2 / 2 )
           (: (
-          expression: 5 + 9
-            expression: 5
-              TOKEN_INTEGER_NUMBER: 5
-            TOKEN_ASSIGNMENT_OP: +
-            expression: 9
-              TOKEN_INTEGER_NUMBER: 9
+          expression: 2 / 2
+            expression: 2
+              TOKEN_INTEGER_NUMBER: 2
+            TOKEN_ASSIGNMENT_OP: /
+            expression: 2
+              TOKEN_INTEGER_NUMBER: 2
           ): )
-        TOKEN_ASSIGNMENT_OP: *
-        expression: ( 9 + ( 9 / 2 ) * 9 )
-          (: (
-          expression: 9 + ( 9 / 2 ) * 9
-            expression: 9 + ( 9 / 2 )
-              expression: 9
-                TOKEN_INTEGER_NUMBER: 9
-              TOKEN_ASSIGNMENT_OP: +
-              expression: ( 9 / 2 )
-                (: (
-                expression: 9 / 2
-                  expression: 9
-                    TOKEN_INTEGER_NUMBER: 9
-                  TOKEN_ASSIGNMENT_OP: /
-                  expression: 2
-                    TOKEN_INTEGER_NUMBER: 2
-                ): )
-            TOKEN_ASSIGNMENT_OP: *
-            expression: 9
-              TOKEN_INTEGER_NUMBER: 9
-          ): )
-      TOKEN_ASSIGNMENT_OP: &&
+      TOKEN_ASSIGNMENT_OP: +
       expression: 1
         TOKEN_INTEGER_NUMBER: 1
     TOKEN_DELIMITER: ;
 
-  assignment: oldName = name;
-    TOKEN_IDENTIFIER: oldName
-    TOKEN_ASSIGNMENT_OP: =
-    TOKEN_IDENTIFIER: name
-    TOKEN_DELIMITER: ;
-
-  assignment: name = "Joao";
-    TOKEN_IDENTIFIER: name
-    TOKEN_ASSIGNMENT_OP: =
-    TOKEN_STRING: "Joao"
-    TOKEN_DELIMITER: ;
-
-  assignment: x = 5.0;
+  assignment: x = 2.5;
     TOKEN_IDENTIFIER: x
     TOKEN_ASSIGNMENT_OP: =
-    TOKEN_FLOAT_NUMBER: 5.0
+    TOKEN_FLOAT_NUMBER: 2.5
     TOKEN_DELIMITER: ;
 
-  assignment: oldName = name;
-    TOKEN_IDENTIFIER: oldName
-    TOKEN_ASSIGNMENT_OP: =
+  assignment: name = "Camile";
     TOKEN_IDENTIFIER: name
-    TOKEN_DELIMITER: ;
-
-  assignment: y = 0.939393;
-    TOKEN_IDENTIFIER: y
     TOKEN_ASSIGNMENT_OP: =
-    TOKEN_FLOAT_NUMBER: 0.939393
+    TOKEN_STRING: "Camile"
     TOKEN_DELIMITER: ;
 
   comment: # OPERACOES CONDICIONAIS
     TOKEN_COMMENT_LINE: # OPERACOES CONDICIONAIS
 
-  conditional: choose ( oldName == Name ) {   }
+  conditional: choose ( n1 == total ) {   }
     TOKEN_CONDITIONAL_CHOOSE: choose
     (: (
-    expression: oldName == Name
-      expression: oldName
-        TOKEN_IDENTIFIER: oldName
+    expression: n1 == total
+      expression: n1
+        TOKEN_IDENTIFIER: n1
       TOKEN_ASSIGNMENT_OP: ==
-      expression: Name
-        TOKEN_IDENTIFIER: Name
+      expression: total
+        TOKEN_IDENTIFIER: total
     ): )
     {: {
     possible_content:  
       \n: \n
     }: }
 
-  conditional: choose ( oldName == Name ) {   } otherwise {   }
+  conditional: choose ( n1 == total ) {   } otherwise {   }
     TOKEN_CONDITIONAL_CHOOSE: choose
     (: (
-    expression: oldName == Name
-      expression: oldName
-        TOKEN_IDENTIFIER: oldName
+    expression: n1 == total
+      expression: n1
+        TOKEN_IDENTIFIER: n1
       TOKEN_ASSIGNMENT_OP: ==
-      expression: Name
-        TOKEN_IDENTIFIER: Name
+      expression: total
+        TOKEN_IDENTIFIER: total
     ): )
     {: {
     possible_content:  
       \n: \n
-      conditional: choose ( x >= y ) {   } otherwise {   }
+      conditional: choose ( n1 >= total ) {   } otherwise {   }
         TOKEN_CONDITIONAL_CHOOSE: choose
         (: (
-        expression: x >= y
-          expression: x
-            TOKEN_IDENTIFIER: x
+        expression: n1 >= total
+          expression: n1
+            TOKEN_IDENTIFIER: n1
           TOKEN_ASSIGNMENT_OP: >=
-          expression: y
-            TOKEN_IDENTIFIER: y
+          expression: total
+            TOKEN_IDENTIFIER: total
         ): )
         {: {
         possible_content:  
           \n: \n
-          assignment: x = y;
-            TOKEN_IDENTIFIER: x
-            TOKEN_ASSIGNMENT_OP: =
-            TOKEN_IDENTIFIER: y
-            TOKEN_DELIMITER: ;
+          write_data: show n1;
+            TOKEN_SHOW: show
+            TOKEN_IDENTIFIER: n1
+            ;: ;
 
           \n: \n
         }: }
@@ -206,11 +153,10 @@ program:
         {: {
         possible_content:  
           \n: \n
-          assignment: y = x;
-            TOKEN_IDENTIFIER: y
-            TOKEN_ASSIGNMENT_OP: =
-            TOKEN_IDENTIFIER: x
-            TOKEN_DELIMITER: ;
+          write_data: show n2;
+            TOKEN_SHOW: show
+            TOKEN_IDENTIFIER: n2
+            ;: ;
 
           \n: \n
         }: }
@@ -221,11 +167,16 @@ program:
     {: {
     possible_content:  
       \n: \n
-      assignment: x = 7.8;
-        TOKEN_IDENTIFIER: x
-        TOKEN_ASSIGNMENT_OP: =
-        TOKEN_FLOAT_NUMBER: 7.8
-        TOKEN_DELIMITER: ;
+      write_data: show n1;
+        TOKEN_SHOW: show
+        TOKEN_IDENTIFIER: n1
+        ;: ;
+
+      \n: \n
+      write_data: show n2;
+        TOKEN_SHOW: show
+        TOKEN_IDENTIFIER: n2
+        ;: ;
 
       \n: \n
     }: }
@@ -299,24 +250,19 @@ program:
   comment: # LOOP 2: LOOP - UNTIL
     TOKEN_COMMENT_LINE: # LOOP 2: LOOP - UNTIL
 
-  variable_declaration: integer i;
-    TOKEN_DATA_TYPE_INTEGER: integer
-    TOKEN_IDENTIFIER: i
-    ;: ;
-
-  loop: loop ( i = 3 ) until ( i <= 5 ) {   }
+  loop: loop ( counter = 3 ) until ( counter <= 5 ) {   }
     TOKEN_LOOP: loop
     (: (
-    loop_start: i = 3
-      TOKEN_IDENTIFIER: i
+    loop_start: counter = 3
+      TOKEN_IDENTIFIER: counter
       TOKEN_ASSIGNMENT_OP: =
       TOKEN_INTEGER_NUMBER: 3
     ): )
     TOKEN_LOOP_UNTIL: until
     (: (
-    loop_condition: i <= 5
-      loop_condition: i
-        TOKEN_IDENTIFIER: i
+    loop_condition: counter <= 5
+      loop_condition: counter
+        TOKEN_IDENTIFIER: counter
       TOKEN_RELATIONAL_OP: <=
       loop_condition: 5
         TOKEN_INTEGER_NUMBER: 5
@@ -324,10 +270,10 @@ program:
     {: {
     possible_content:  
       \n: \n
-      assignment: x = 90.0;
+      assignment: x = 95.4;
         TOKEN_IDENTIFIER: x
         TOKEN_ASSIGNMENT_OP: =
-        TOKEN_FLOAT_NUMBER: 90.0
+        TOKEN_FLOAT_NUMBER: 95.4
         TOKEN_DELIMITER: ;
 
       \n: \n
@@ -404,6 +350,9 @@ program:
       ;: ;
 
     }: }
+  comment: # CHAMADA DE FUNÇÃO
+    TOKEN_COMMENT_LINE: # CHAMADA DE FUNÇÃO
+
   function_call: call changeNumberValue ( a, b ) ;
     TOKEN_CALL: call
     TOKEN_IDENTIFIER: changeNumberValue

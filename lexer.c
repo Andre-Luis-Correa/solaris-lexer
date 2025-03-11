@@ -227,11 +227,11 @@ char *getTokenValue(tokenList *token) {
 void printTokens(tokenList *head, const char *listName) {
     tokenList *current = head;
     printf("\nTokens na lista %s:\n", listName);
-    printf("----------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("| %-25s | %-25s | %-15s | %-20s | %-15s | %-20s |\n", "Tipo", "Cadeia", "Categoria", "N. de Parametros", "DataType", "Valor");
-    printf("----------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("-----------------------------------------------------------------------------------------------------------------------\n");
+    printf("| %-20s | %-25s | %-10s | %-20s | %-10s | %-15s |\n", "Tipo", "Cadeia", "Categoria", "N. de Parametros", "DataType", "Valor");
+    printf("-----------------------------------------------------------------------------------------------------------------------\n");
     while (current != NULL) {
-        printf("| %-25s | %-25s | %-15s | %-20d | %-15s | %-20s |\n",
+        printf("| %-20s | %-25s | %-10s | %-20d | %-10s | %-15s |\n",
                getTokenTypeName(current->lexTokenType),
                current->str ? current->str : "NULL",
                getCategoryName(current->category),
@@ -240,7 +240,7 @@ void printTokens(tokenList *head, const char *listName) {
                getTokenValue(current));
         current = current->next;
     }
-    printf("----------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("-----------------------------------------------------------------------------------------------------------------------\n");
 }
 
 // Função auxiliar para armazenar o token na lista apropriada

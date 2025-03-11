@@ -544,14 +544,14 @@ static const yytype_uint16 yyrline[] =
        0,    84,    84,    88,    92,    96,   100,   104,   108,   112,
      116,   120,   124,   128,   132,   136,   139,   145,   162,   176,
      190,   212,   234,   256,   281,   306,   331,   346,   362,   368,
-     374,   380,   386,   392,   398,   404,   410,   418,   440,   460,
-     479,   499,   515,   523,   531,   539,   547,   555,   565,   579,
-     590,   601,   612,   621,   631,   642,   650,   656,   664,   672,
-     682,   697,   717,   723,   729,   735,   741,   749,   753,   757,
-     761,   765,   769,   773,   777,   781,   785,   792,   814,   832,
-     843,   854,   869,   880,   891,   901,   906,   911,   919,   928,
-     940,   951,   965,   979,  1008,  1037,  1066,  1095,  1124,  1156,
-    1160,  1170,  1185,  1198,  1212,  1226,  1243,  1266
+     374,   380,   386,   392,   398,   404,   410,   418,   440,   461,
+     481,   502,   518,   526,   534,   542,   550,   558,   568,   582,
+     593,   604,   615,   624,   634,   645,   653,   659,   667,   675,
+     685,   700,   720,   726,   732,   738,   744,   752,   756,   760,
+     764,   768,   772,   776,   780,   784,   788,   795,   817,   835,
+     846,   857,   872,   883,   894,   904,   909,   914,   922,   931,
+     943,   954,   968,   982,  1011,  1040,  1069,  1098,  1127,  1159,
+    1163,  1173,  1188,  1201,  1215,  1229,  1246,  1269
 };
 #endif
 
@@ -2136,6 +2136,7 @@ yyreduce:
         dataType dataTypeRight = TYPE_STRING;
         checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
         updateSymbolValue((yyvsp[(1) - (4)].str), (yyvsp[(3) - (4)].str), TYPE_STRING);
+        updateSymbolCategoryAndDataType((yyvsp[(3) - (4)].str), CONSTANT, TYPE_STRING);
         updateSymbolValue((yyvsp[(3) - (4)].str), (yyvsp[(3) - (4)].str), TYPE_STRING);
 
         char buffer[MAXBUFFER];
@@ -2154,13 +2155,14 @@ yyreduce:
 
   case 39:
 /* Line 1792 of yacc.c  */
-#line 460 "solaris.y"
+#line 461 "solaris.y"
     {
         checkDeclarationNotExists((yyvsp[(1) - (4)].str), yylineno);
         dataType dataTypeLeft = getSymbolDataType((yyvsp[(1) - (4)].str));
         dataType dataTypeRight = TYPE_INTEGER;
         checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
         updateSymbolValue((yyvsp[(1) - (4)].str), (yyvsp[(3) - (4)].str), TYPE_INTEGER);
+        updateSymbolCategoryAndDataType((yyvsp[(3) - (4)].str), CONSTANT, TYPE_INTEGER);
         updateSymbolValue((yyvsp[(3) - (4)].str), (yyvsp[(3) - (4)].str), TYPE_INTEGER);
 
         char buffer[MAXBUFFER];
@@ -2178,13 +2180,14 @@ yyreduce:
 
   case 40:
 /* Line 1792 of yacc.c  */
-#line 479 "solaris.y"
+#line 481 "solaris.y"
     {
         checkDeclarationNotExists((yyvsp[(1) - (4)].str), yylineno);
         dataType dataTypeLeft = getSymbolDataType((yyvsp[(1) - (4)].str));
         dataType dataTypeRight = TYPE_FLOAT;
         checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
         updateSymbolValue((yyvsp[(1) - (4)].str), (yyvsp[(3) - (4)].str), TYPE_FLOAT);
+        updateSymbolCategoryAndDataType((yyvsp[(3) - (4)].str), CONSTANT, TYPE_FLOAT);
         updateSymbolValue((yyvsp[(3) - (4)].str), (yyvsp[(3) - (4)].str), TYPE_FLOAT);
 
         char buffer[MAXBUFFER];
@@ -2203,7 +2206,7 @@ yyreduce:
 
   case 41:
 /* Line 1792 of yacc.c  */
-#line 499 "solaris.y"
+#line 502 "solaris.y"
     {
         // Análise sintática
         char buffer[MAXBUFFER];
@@ -2223,7 +2226,7 @@ yyreduce:
 
   case 42:
 /* Line 1792 of yacc.c  */
-#line 515 "solaris.y"
+#line 518 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].str));
@@ -2235,7 +2238,7 @@ yyreduce:
 
   case 43:
 /* Line 1792 of yacc.c  */
-#line 523 "solaris.y"
+#line 526 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].str));
@@ -2247,7 +2250,7 @@ yyreduce:
 
   case 44:
 /* Line 1792 of yacc.c  */
-#line 531 "solaris.y"
+#line 534 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].str));
@@ -2259,7 +2262,7 @@ yyreduce:
 
   case 45:
 /* Line 1792 of yacc.c  */
-#line 539 "solaris.y"
+#line 542 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].str));
@@ -2271,7 +2274,7 @@ yyreduce:
 
   case 46:
 /* Line 1792 of yacc.c  */
-#line 547 "solaris.y"
+#line 550 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].synTree));
@@ -2283,7 +2286,7 @@ yyreduce:
 
   case 47:
 /* Line 1792 of yacc.c  */
-#line 555 "solaris.y"
+#line 558 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s", (yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].str));
@@ -2295,7 +2298,7 @@ yyreduce:
 
   case 48:
 /* Line 1792 of yacc.c  */
-#line 565 "solaris.y"
+#line 568 "solaris.y"
     {
         // Análise sintática
         char buffer[MAXBUFFER];
@@ -2314,7 +2317,7 @@ yyreduce:
 
   case 49:
 /* Line 1792 of yacc.c  */
-#line 579 "solaris.y"
+#line 582 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].synTree)->value, (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].synTree)->value);
@@ -2330,7 +2333,7 @@ yyreduce:
 
   case 50:
 /* Line 1792 of yacc.c  */
-#line 590 "solaris.y"
+#line 593 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].synTree)->value, (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].synTree)->value);
@@ -2346,7 +2349,7 @@ yyreduce:
 
   case 51:
 /* Line 1792 of yacc.c  */
-#line 601 "solaris.y"
+#line 604 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "( %s )", (yyvsp[(2) - (3)].synTree)->value);
@@ -2362,7 +2365,7 @@ yyreduce:
 
   case 52:
 /* Line 1792 of yacc.c  */
-#line 612 "solaris.y"
+#line 615 "solaris.y"
     {
         // Análise semântica: atualiza a categoria, tipo do valor e valor
         // checkDeclarationNotExists($1, yylineno);
@@ -2376,7 +2379,7 @@ yyreduce:
 
   case 53:
 /* Line 1792 of yacc.c  */
-#line 621 "solaris.y"
+#line 624 "solaris.y"
     {
         // Análise semântica: atualiza a categoria, tipo do valor e valor
         // updateSymbolCategoryAndDataType($1, CONSTANT, TYPE_INTEGER);
@@ -2391,7 +2394,7 @@ yyreduce:
 
   case 54:
 /* Line 1792 of yacc.c  */
-#line 631 "solaris.y"
+#line 634 "solaris.y"
     {
         // Análise semântica: atualiza a categoria, tipo do valor e valor
         // updateSymbolCategoryAndDataType($1, CONSTANT, TYPE_FLOAT);
@@ -2406,7 +2409,7 @@ yyreduce:
 
   case 55:
 /* Line 1792 of yacc.c  */
-#line 642 "solaris.y"
+#line 645 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s", (yyvsp[(1) - (2)].synTree), (yyvsp[(2) - (2)].str));
@@ -2418,7 +2421,7 @@ yyreduce:
 
   case 56:
 /* Line 1792 of yacc.c  */
-#line 650 "solaris.y"
+#line 653 "solaris.y"
     {
         sprintf(synErrorMessage, "Erro: Operacao incompleta entre parenteses na linha %d\n", yylineno + 1);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
@@ -2428,7 +2431,7 @@ yyreduce:
 
   case 57:
 /* Line 1792 of yacc.c  */
-#line 656 "solaris.y"
+#line 659 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "( %s", (yyvsp[(2) - (2)].synTree)->value);
@@ -2440,7 +2443,7 @@ yyreduce:
 
   case 58:
 /* Line 1792 of yacc.c  */
-#line 664 "solaris.y"
+#line 667 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s", (yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].synTree)->value);
@@ -2452,7 +2455,7 @@ yyreduce:
 
   case 59:
 /* Line 1792 of yacc.c  */
-#line 672 "solaris.y"
+#line 675 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s", (yyvsp[(1) - (1)].str));
@@ -2464,7 +2467,7 @@ yyreduce:
 
   case 60:
 /* Line 1792 of yacc.c  */
-#line 682 "solaris.y"
+#line 685 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %c %s %c %c %s %c", (yyvsp[(1) - (7)].str), '(', (yyvsp[(3) - (7)].synTree)->value, ')', '{', (yyvsp[(6) - (7)].synTree)->value, '}');
@@ -2484,7 +2487,7 @@ yyreduce:
 
   case 61:
 /* Line 1792 of yacc.c  */
-#line 697 "solaris.y"
+#line 700 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %c %s %c %c %s %c %s %c %s %c", (yyvsp[(1) - (11)].str), '(', (yyvsp[(3) - (11)].synTree)->value, ')', '{', (yyvsp[(6) - (11)].synTree)->value, '}', (yyvsp[(8) - (11)].str), '{', (yyvsp[(10) - (11)].synTree)->value, '}');
@@ -2508,7 +2511,7 @@ yyreduce:
 
   case 62:
 /* Line 1792 of yacc.c  */
-#line 717 "solaris.y"
+#line 720 "solaris.y"
     {
         sprintf(synErrorMessage, "Erro: Falta de fechamento de parenteses no condicional na linha %d\n", yylineno + 1);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
@@ -2518,7 +2521,7 @@ yyreduce:
 
   case 63:
 /* Line 1792 of yacc.c  */
-#line 723 "solaris.y"
+#line 726 "solaris.y"
     {
         sprintf(synErrorMessage, "Erro: Condicional sem expressao na linha %d\n", yylineno +1 );
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
@@ -2528,7 +2531,7 @@ yyreduce:
 
   case 64:
 /* Line 1792 of yacc.c  */
-#line 729 "solaris.y"
+#line 732 "solaris.y"
     {
         sprintf(synErrorMessage, "Erro: Falta de abertura de bloco '{' no condicional na linha %d\n", yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
@@ -2538,7 +2541,7 @@ yyreduce:
 
   case 65:
 /* Line 1792 of yacc.c  */
-#line 735 "solaris.y"
+#line 738 "solaris.y"
     {
         sprintf(synErrorMessage, "Erro: Bloco 'otherwise' incompleto na linha %d\n", yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
@@ -2548,7 +2551,7 @@ yyreduce:
 
   case 66:
 /* Line 1792 of yacc.c  */
-#line 741 "solaris.y"
+#line 744 "solaris.y"
     {
         sprintf(synErrorMessage, "Erro: Falta de fechamento de bloco '}' no condicional na linha %d\n", yylineno);
         processSyntacticStructure(SYN_ERROR, synErrorMessage);
@@ -2558,7 +2561,7 @@ yyreduce:
 
   case 67:
 /* Line 1792 of yacc.c  */
-#line 749 "solaris.y"
+#line 752 "solaris.y"
     {
         tree possible_content = createNode("possible_content", " ");
         (yyval.synTree) = possible_content;
@@ -2567,7 +2570,7 @@ yyreduce:
 
   case 68:
 /* Line 1792 of yacc.c  */
-#line 753 "solaris.y"
+#line 756 "solaris.y"
     {
         addChild((yyvsp[(1) - (2)].synTree), createNode("\\n", "\\n"));
         (yyval.synTree) = (yyvsp[(1) - (2)].synTree);
@@ -2576,7 +2579,7 @@ yyreduce:
 
   case 69:
 /* Line 1792 of yacc.c  */
-#line 757 "solaris.y"
+#line 760 "solaris.y"
     {
         addChild((yyvsp[(1) - (2)].synTree), (yyvsp[(2) - (2)].synTree));
         (yyval.synTree) = (yyvsp[(1) - (2)].synTree);
@@ -2585,7 +2588,7 @@ yyreduce:
 
   case 70:
 /* Line 1792 of yacc.c  */
-#line 761 "solaris.y"
+#line 764 "solaris.y"
     {
         addChild((yyvsp[(1) - (2)].synTree), (yyvsp[(2) - (2)].synTree));
         (yyval.synTree) = (yyvsp[(1) - (2)].synTree);
@@ -2594,7 +2597,7 @@ yyreduce:
 
   case 71:
 /* Line 1792 of yacc.c  */
-#line 765 "solaris.y"
+#line 768 "solaris.y"
     {
         addChild((yyvsp[(1) - (2)].synTree), (yyvsp[(2) - (2)].synTree));
         (yyval.synTree) = (yyvsp[(1) - (2)].synTree);
@@ -2603,7 +2606,7 @@ yyreduce:
 
   case 72:
 /* Line 1792 of yacc.c  */
-#line 769 "solaris.y"
+#line 772 "solaris.y"
     {
         addChild((yyvsp[(1) - (2)].synTree), (yyvsp[(2) - (2)].synTree));
         (yyval.synTree) = (yyvsp[(1) - (2)].synTree);
@@ -2612,7 +2615,7 @@ yyreduce:
 
   case 73:
 /* Line 1792 of yacc.c  */
-#line 773 "solaris.y"
+#line 776 "solaris.y"
     {
         addChild((yyvsp[(1) - (2)].synTree), (yyvsp[(2) - (2)].synTree));
         (yyval.synTree) = (yyvsp[(1) - (2)].synTree);
@@ -2621,7 +2624,7 @@ yyreduce:
 
   case 74:
 /* Line 1792 of yacc.c  */
-#line 777 "solaris.y"
+#line 780 "solaris.y"
     {
         addChild((yyvsp[(1) - (2)].synTree), (yyvsp[(2) - (2)].synTree));
         (yyval.synTree) = (yyvsp[(1) - (2)].synTree);
@@ -2630,7 +2633,7 @@ yyreduce:
 
   case 75:
 /* Line 1792 of yacc.c  */
-#line 781 "solaris.y"
+#line 784 "solaris.y"
     {
         addChild((yyvsp[(1) - (2)].synTree), (yyvsp[(2) - (2)].synTree));
         (yyval.synTree) = (yyvsp[(1) - (2)].synTree);
@@ -2639,7 +2642,7 @@ yyreduce:
 
   case 76:
 /* Line 1792 of yacc.c  */
-#line 785 "solaris.y"
+#line 788 "solaris.y"
     {
         addChild((yyvsp[(1) - (2)].synTree), (yyvsp[(2) - (2)].synTree));
         (yyval.synTree) = (yyvsp[(1) - (2)].synTree);
@@ -2648,7 +2651,7 @@ yyreduce:
 
   case 77:
 /* Line 1792 of yacc.c  */
-#line 792 "solaris.y"
+#line 795 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s ( %s ) %s ( %s ) { %s }", (yyvsp[(1) - (11)].str), (yyvsp[(3) - (11)].synTree)->value, (yyvsp[(5) - (11)].str), (yyvsp[(7) - (11)].synTree)->value, (yyvsp[(10) - (11)].synTree)->value);
@@ -2672,7 +2675,7 @@ yyreduce:
 
   case 78:
 /* Line 1792 of yacc.c  */
-#line 814 "solaris.y"
+#line 817 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s ( %s ) { %s }", (yyvsp[(1) - (7)].str), (yyvsp[(3) - (7)].synTree)->value, (yyvsp[(6) - (7)].synTree)->value);
@@ -2692,7 +2695,7 @@ yyreduce:
 
   case 79:
 /* Line 1792 of yacc.c  */
-#line 832 "solaris.y"
+#line 835 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].str));
@@ -2708,7 +2711,7 @@ yyreduce:
 
   case 80:
 /* Line 1792 of yacc.c  */
-#line 843 "solaris.y"
+#line 846 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].str));
@@ -2724,7 +2727,7 @@ yyreduce:
 
   case 81:
 /* Line 1792 of yacc.c  */
-#line 854 "solaris.y"
+#line 857 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s %s", (yyvsp[(1) - (4)].str), (yyvsp[(2) - (4)].str), (yyvsp[(3) - (4)].str), (yyvsp[(4) - (4)].str));
@@ -2741,7 +2744,7 @@ yyreduce:
 
   case 82:
 /* Line 1792 of yacc.c  */
-#line 869 "solaris.y"
+#line 872 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].synTree)->value, (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].synTree)->value);
@@ -2757,7 +2760,7 @@ yyreduce:
 
   case 83:
 /* Line 1792 of yacc.c  */
-#line 880 "solaris.y"
+#line 883 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s %s", (yyvsp[(1) - (3)].synTree)->value, (yyvsp[(2) - (3)].str), (yyvsp[(3) - (3)].synTree)->value);
@@ -2773,7 +2776,7 @@ yyreduce:
 
   case 84:
 /* Line 1792 of yacc.c  */
-#line 891 "solaris.y"
+#line 894 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%c %s %c", '(', (yyvsp[(2) - (3)].synTree)->value, ')');
@@ -2788,7 +2791,7 @@ yyreduce:
 
   case 85:
 /* Line 1792 of yacc.c  */
-#line 901 "solaris.y"
+#line 904 "solaris.y"
     {
         tree loop_condition = createNode("loop_condition", (yyvsp[(1) - (1)].str));
         addChild(loop_condition, createNode("TOKEN_IDENTIFIER", (yyvsp[(1) - (1)].str)));
@@ -2798,7 +2801,7 @@ yyreduce:
 
   case 86:
 /* Line 1792 of yacc.c  */
-#line 906 "solaris.y"
+#line 909 "solaris.y"
     {
         tree loop_condition = createNode("loop_condition", (yyvsp[(1) - (1)].str));
         addChild(loop_condition, createNode("TOKEN_INTEGER_NUMBER", (yyvsp[(1) - (1)].str)));
@@ -2808,7 +2811,7 @@ yyreduce:
 
   case 87:
 /* Line 1792 of yacc.c  */
-#line 911 "solaris.y"
+#line 914 "solaris.y"
     {
         tree loop_condition = createNode("loop_condition", (yyvsp[(1) - (1)].str));
         addChild(loop_condition, createNode("TOKEN_FLOAT_NUMBER", (yyvsp[(1) - (1)].str)));
@@ -2818,7 +2821,7 @@ yyreduce:
 
   case 88:
 /* Line 1792 of yacc.c  */
-#line 919 "solaris.y"
+#line 922 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s", (yyvsp[(1) - (1)].str));
@@ -2832,7 +2835,7 @@ yyreduce:
 
   case 89:
 /* Line 1792 of yacc.c  */
-#line 928 "solaris.y"
+#line 931 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s", (yyvsp[(1) - (1)].str));
@@ -2846,7 +2849,7 @@ yyreduce:
 
   case 90:
 /* Line 1792 of yacc.c  */
-#line 940 "solaris.y"
+#line 943 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str));
@@ -2862,7 +2865,7 @@ yyreduce:
 
   case 91:
 /* Line 1792 of yacc.c  */
-#line 951 "solaris.y"
+#line 954 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str));
@@ -2878,7 +2881,7 @@ yyreduce:
 
   case 92:
 /* Line 1792 of yacc.c  */
-#line 965 "solaris.y"
+#line 968 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", (yyvsp[(1) - (3)].str), (yyvsp[(2) - (3)].str));
@@ -2894,7 +2897,7 @@ yyreduce:
 
   case 93:
 /* Line 1792 of yacc.c  */
-#line 979 "solaris.y"
+#line 982 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (14)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (14)].str), FUNCTION, TYPE_INTEGER);
@@ -2928,7 +2931,7 @@ yyreduce:
 
   case 94:
 /* Line 1792 of yacc.c  */
-#line 1008 "solaris.y"
+#line 1011 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (15)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (15)].str), FUNCTION, TYPE_INTEGER);
@@ -2962,7 +2965,7 @@ yyreduce:
 
   case 95:
 /* Line 1792 of yacc.c  */
-#line 1037 "solaris.y"
+#line 1040 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (14)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (14)].str), FUNCTION, TYPE_FLOAT);
@@ -2996,7 +2999,7 @@ yyreduce:
 
   case 96:
 /* Line 1792 of yacc.c  */
-#line 1066 "solaris.y"
+#line 1069 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (15)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (15)].str), FUNCTION, TYPE_FLOAT);
@@ -3030,7 +3033,7 @@ yyreduce:
 
   case 97:
 /* Line 1792 of yacc.c  */
-#line 1095 "solaris.y"
+#line 1098 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (14)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (14)].str), FUNCTION, TYPE_STRING);
@@ -3064,7 +3067,7 @@ yyreduce:
 
   case 98:
 /* Line 1792 of yacc.c  */
-#line 1124 "solaris.y"
+#line 1127 "solaris.y"
     {
         checkFunctionDeclarationExists((yyvsp[(6) - (15)].str), yylineno);
         updateSymbolCategoryAndDataType((yyvsp[(6) - (15)].str), FUNCTION, TYPE_STRING);
@@ -3098,7 +3101,7 @@ yyreduce:
 
   case 99:
 /* Line 1792 of yacc.c  */
-#line 1156 "solaris.y"
+#line 1159 "solaris.y"
     {
         tree function_parameter = createNode("function_parameter", " ");
         (yyval.synTree) = function_parameter;
@@ -3107,7 +3110,7 @@ yyreduce:
 
   case 100:
 /* Line 1792 of yacc.c  */
-#line 1160 "solaris.y"
+#line 1163 "solaris.y"
     {
         checkDeclarationNotExists((yyvsp[(1) - (1)].str), yylineno);
 
@@ -3122,7 +3125,7 @@ yyreduce:
 
   case 101:
 /* Line 1792 of yacc.c  */
-#line 1170 "solaris.y"
+#line 1173 "solaris.y"
     {
         checkDeclarationNotExists((yyvsp[(3) - (3)].str), yylineno);
 
@@ -3139,7 +3142,7 @@ yyreduce:
 
   case 102:
 /* Line 1792 of yacc.c  */
-#line 1185 "solaris.y"
+#line 1188 "solaris.y"
     {
         checkDeclarationNotExists((yyvsp[(2) - (3)].str), yylineno);
 
@@ -3157,7 +3160,7 @@ yyreduce:
 
   case 103:
 /* Line 1792 of yacc.c  */
-#line 1198 "solaris.y"
+#line 1201 "solaris.y"
     {
         updateSymbolCategoryAndDataType((yyvsp[(2) - (3)].str), CONSTANT, TYPE_STRING);
         updateSymbolValue((yyvsp[(2) - (3)].str), (yyvsp[(2) - (3)].str), TYPE_STRING);
@@ -3176,7 +3179,7 @@ yyreduce:
 
   case 104:
 /* Line 1792 of yacc.c  */
-#line 1212 "solaris.y"
+#line 1215 "solaris.y"
     {
         updateSymbolCategoryAndDataType((yyvsp[(2) - (3)].str), CONSTANT, TYPE_INTEGER);
         updateSymbolValue((yyvsp[(2) - (3)].str), (yyvsp[(2) - (3)].str), TYPE_INTEGER);
@@ -3195,7 +3198,7 @@ yyreduce:
 
   case 105:
 /* Line 1792 of yacc.c  */
-#line 1226 "solaris.y"
+#line 1229 "solaris.y"
     {
         updateSymbolCategoryAndDataType((yyvsp[(2) - (3)].str), CONSTANT, TYPE_FLOAT);
         updateSymbolValue((yyvsp[(2) - (3)].str), (yyvsp[(2) - (3)].str), TYPE_FLOAT);
@@ -3214,7 +3217,7 @@ yyreduce:
 
   case 106:
 /* Line 1792 of yacc.c  */
-#line 1243 "solaris.y"
+#line 1246 "solaris.y"
     {
         checkFunctionDeclarationNotExists((yyvsp[(2) - (6)].str), yylineno);
         category identifierCategory = getSymbolCategory((yyvsp[(2) - (6)].str));
@@ -3240,7 +3243,7 @@ yyreduce:
 
   case 107:
 /* Line 1792 of yacc.c  */
-#line 1266 "solaris.y"
+#line 1269 "solaris.y"
     {
         char buffer[MAXBUFFER];
         sprintf(buffer, "%s %s;", (yyvsp[(1) - (2)].str), (yyvsp[(2) - (2)].str));
@@ -3256,7 +3259,7 @@ yyreduce:
 
 
 /* Line 1792 of yacc.c  */
-#line 3260 "solaris.tab.c"
+#line 3263 "solaris.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -3488,7 +3491,7 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 1278 "solaris.y"
+#line 1281 "solaris.y"
 
 
 void yyerror(const char *s) {

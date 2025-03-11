@@ -443,6 +443,7 @@ assignment:
         dataType dataTypeRight = TYPE_STRING;
         checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
         updateSymbolValue($1, $3, TYPE_STRING);
+        updateSymbolCategoryAndDataType($3, CONSTANT, TYPE_STRING);
         updateSymbolValue($3, $3, TYPE_STRING);
 
         char buffer[MAXBUFFER];
@@ -463,6 +464,7 @@ assignment:
         dataType dataTypeRight = TYPE_INTEGER;
         checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
         updateSymbolValue($1, $3, TYPE_INTEGER);
+        updateSymbolCategoryAndDataType($3, CONSTANT, TYPE_INTEGER);
         updateSymbolValue($3, $3, TYPE_INTEGER);
 
         char buffer[MAXBUFFER];
@@ -482,6 +484,7 @@ assignment:
         dataType dataTypeRight = TYPE_FLOAT;
         checkExpressionHasCompatibleTypes(dataTypeLeft, dataTypeRight, yylineno);
         updateSymbolValue($1, $3, TYPE_FLOAT);
+        updateSymbolCategoryAndDataType($3, CONSTANT, TYPE_FLOAT);
         updateSymbolValue($3, $3, TYPE_FLOAT);
 
         char buffer[MAXBUFFER];
