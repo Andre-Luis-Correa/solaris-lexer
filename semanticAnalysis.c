@@ -12,7 +12,7 @@
 void checkDeclarationExists(const char *str, int yylineno) {
     tokenList const * symbol = findSymbol(symbolTable, str);
     if(symbol && symbol->category != UNDEFINED && symbol->dataType != TYPE_UNDEFINED) {
-        fprintf(stderr, "\nERRO SEMANTICO -> A variavel %s ja foi declarada anteriormente na linha %d\n", str, yylineno + 1);
+        fprintf(stderr, "\nERRO SEMANTICO -> A variavel %s esta sendo redeclarada na linha %d\n", str, yylineno + 1);
         exit(EXIT_FAILURE);
     }
 }
@@ -26,7 +26,7 @@ void checkDeclarationExists(const char *str, int yylineno) {
 void checkFunctionDeclarationExists(const char *str, int yylineno) {
     tokenList const * symbol = findSymbol(symbolTable, str);
     if(symbol && symbol->category != UNDEFINED && symbol->dataType != TYPE_UNDEFINED) {
-        fprintf(stderr, "\nERRO SEMANTICO -> A funcao %s ja foi declarada anteriormente na linha %d\n", str, yylineno + 1);
+        fprintf(stderr, "\nERRO SEMANTICO -> A funcao %s esta sendo redeclarada na linha %d\n", str, yylineno + 1);
         exit(EXIT_FAILURE);
     }
 }

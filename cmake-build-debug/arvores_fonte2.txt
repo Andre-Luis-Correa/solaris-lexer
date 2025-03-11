@@ -8,12 +8,8 @@ program:
   comment: # ERRO LEXICO: STRING MAL FORMADA
     TOKEN_COMMENT_LINE: # ERRO LEXICO: STRING MAL FORMADA
 
-  variable_declaration: string test = "ola";
-    TOKEN_DATA_TYPE_STRING: string
-    TOKEN_IDENTIFIER: test
-    TOKEN_ASSIGNMENT_OP: =
-    TOKEN_STRING: "ola"
-    ;: ;
+  comment: # string test = "ola;
+    TOKEN_COMMENT_LINE: # string test = "ola;
 
   comment: # ERRO LEXICO: COMENTARIO DE BLOCO SEM FECHAMENTO
     TOKEN_COMMENT_LINE: # ERRO LEXICO: COMENTARIO DE BLOCO SEM FECHAMENTO
@@ -36,14 +32,8 @@ program:
   comment: # integer
     TOKEN_COMMENT_LINE: # integer
 
-  comment: # string newName
-    TOKEN_COMMENT_LINE: # string newName
-
   comment: # string newName = "Roberto"
     TOKEN_COMMENT_LINE: # string newName = "Roberto"
-
-  comment: # integer intNumber = 5 && (9/1000)
-    TOKEN_COMMENT_LINE: # integer intNumber = 5 && (9/1000)
 
   comment: # ERRO SINTÁTICO: ATRIBUICAO COM FALTA DE ;
     TOKEN_COMMENT_LINE: # ERRO SINTÁTICO: ATRIBUICAO COM FALTA DE ;
@@ -110,4 +100,76 @@ program:
 
   comment: # choose (x == 5) { } otherwise
     TOKEN_COMMENT_LINE: # choose (x == 5) { } otherwise
+
+  comment: # ERRO SEMANTICO: REDECLARAÇÃO DE VARIÁVEL
+    TOKEN_COMMENT_LINE: # ERRO SEMANTICO: REDECLARAÇÃO DE VARIÁVEL
+
+  comment: # integer x;
+    TOKEN_COMMENT_LINE: # integer x;
+
+  comment: # float x;
+    TOKEN_COMMENT_LINE: # float x;
+
+  comment: # ERRO SEMANTICO: ATRIBUICAO ENTRE TIPOS DE DADOS DIFERENTES
+    TOKEN_COMMENT_LINE: # ERRO SEMANTICO: ATRIBUICAO ENTRE TIPOS DE DADOS DIFERENTES
+
+  comment: # float floatNumber = 5.0;
+    TOKEN_COMMENT_LINE: # float floatNumber = 5.0;
+
+  comment: # integer newNumber = floatNumber;
+    TOKEN_COMMENT_LINE: # integer newNumber = floatNumber;
+
+  comment: # float n1 = 5.0;
+    TOKEN_COMMENT_LINE: # float n1 = 5.0;
+
+  comment: # integer n2;
+    TOKEN_COMMENT_LINE: # integer n2;
+
+  comment: # n1 = n2;
+    TOKEN_COMMENT_LINE: # n1 = n2;
+
+  comment: # ERRO SEMANTICO: CHAMADA DE FUNCAO COM QUANTIDADE DE PARAMETROS DIFERENTE DA DECLARACAO
+    TOKEN_COMMENT_LINE: # ERRO SEMANTICO: CHAMADA DE FUNCAO COM QUANTIDADE DE PARAMETROS DIFERENTE DA DECLARACAO
+
+  comment: # integer a;
+    TOKEN_COMMENT_LINE: # integer a;
+
+  comment: # integer b;
+    TOKEN_COMMENT_LINE: # integer b;
+
+  comment: # integer c;
+    TOKEN_COMMENT_LINE: # integer c;
+
+  comment: # integer d;
+    TOKEN_COMMENT_LINE: # integer d;
+
+  comment: # function (integer): changeNumberValue receive (a, b, c, d) {
+    TOKEN_COMMENT_LINE: # function (integer): changeNumberValue receive (a, b, c, d) {
+
+  comment: #    return 5;
+    TOKEN_COMMENT_LINE: #    return 5;
+
+  comment: # }
+    TOKEN_COMMENT_LINE: # }
+
+  comment: # integer e;
+    TOKEN_COMMENT_LINE: # integer e;
+
+  comment: # integer f;
+    TOKEN_COMMENT_LINE: # integer f;
+
+  comment: # call changeNumberValue(e, f);
+    TOKEN_COMMENT_LINE: # call changeNumberValue(e, f);
+
+  comment: # ERRO SEMANTICO: CHAMADA DE FUNCAO COM QUANTIDADE DE PARAMETROS DIFERENTE DA DECLARACAO
+    TOKEN_COMMENT_LINE: # ERRO SEMANTICO: CHAMADA DE FUNCAO COM QUANTIDADE DE PARAMETROS DIFERENTE DA DECLARACAO
+
+  comment: # function (integer): returnInteger receive () {
+    TOKEN_COMMENT_LINE: # function (integer): returnInteger receive () {
+
+  comment: #    return "Olá, Mundo!";
+    TOKEN_COMMENT_LINE: #    return "Olá, Mundo!";
+
+  comment: # }
+    TOKEN_COMMENT_LINE: # }
 

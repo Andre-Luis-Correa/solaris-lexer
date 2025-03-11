@@ -37,3 +37,7 @@
 11	258	7634392077477650	CMakeFiles/untitled1.dir/lex.yy.c.obj	bc644b37d94a7bf7
 28	298	7634392077879943	CMakeFiles/untitled1.dir/solaris.tab.c.obj	eecb5a0f5327f6cf
 298	511	7634392079905990	untitled1.exe	e46eb4d34f00ab6f
+5	219	7634398444241861	CMakeFiles/untitled1.dir/semanticAnalysis.c.obj	696f34487f4ad290
+220	1503	7634398457101441	untitled1.exe	e46eb4d34f00ab6f
+3	153	7634398568963771	CMakeFiles/untitled1.dir/semanticAnalysis.c.obj	696f34487f4ad290
+154	379	7634398571094689	untitled1.exe	e46eb4d34f00ab6f

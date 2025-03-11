@@ -4,7 +4,7 @@
 
 # ERRO LEXICO: STRING MAL FORMADA
 
-string test = "ola";
+# string test = "ola;
 
 # ERRO LEXICO: COMENTARIO DE BLOCO SEM FECHAMENTO
 
@@ -17,9 +17,7 @@ string test = "ola";
 
 # integer number
 # integer
-# string newName
 # string newName = "Roberto"
-# integer intNumber = 5 && (9/1000)
 
 # ERRO SINTÁTICO: ATRIBUICAO COM FALTA DE ;
 
@@ -53,10 +51,46 @@ string test = "ola";
 # ERRO SINTATICO: EXPRESSAO INCOMPLETA DENTRO DO CONDICIONAL
 
 
-# choose x > 5) { }
+# choose (x > 5 { }
 
 # choose () { }
 
 # choose (x == 5)
 
 # choose (x == 5) { } otherwise
+
+# ERRO SEMANTICO: REDECLARAÇÃO DE VARIÁVEL
+
+# integer x;
+# float x;
+
+# ERRO SEMANTICO: ATRIBUICAO ENTRE TIPOS DE DADOS DIFERENTES
+
+# float floatNumber = 5.0;
+# integer newNumber = floatNumber;
+
+# float n1 = 5.0;
+# integer n2;
+# n1 = n2;
+
+# ERRO SEMANTICO: CHAMADA DE FUNCAO COM QUANTIDADE DE PARAMETROS DIFERENTE DA DECLARACAO
+
+# integer a;
+# integer b;
+# integer c;
+# integer d;
+
+# function (integer): changeNumberValue receive (a, b, c, d) {
+#    return 5;
+# }
+
+# integer e;
+# integer f;
+
+# call changeNumberValue(e, f);
+
+# ERRO SEMANTICO: CHAMADA DE FUNCAO COM QUANTIDADE DE PARAMETROS DIFERENTE DA DECLARACAO
+
+# function (integer): returnInteger receive () {
+#    return "Olá, Mundo!";
+# }
