@@ -11,7 +11,7 @@ use "directory/myLib.sol"
 
 # DECLARACAO DE VARIAVEIS
 
-integer x;
+float x;
 string name = "Bruna";
 string oldName = "Andre";
 string address;
@@ -24,7 +24,7 @@ integer total = 0;
 y = (5 + 9) * (9 + (9/2) * 9) && 1;
 oldName = name;
 name = "Joao";
-x = 5;
+x = 5.0;
 oldName = name;
 y = 0.939393;
 
@@ -40,7 +40,7 @@ choose ( oldName == Name ) {
         y = x;
     }
 } otherwise {
-    x = 5;
+    x = 7.8;
 }
 
 # LOOP 1: WHILE
@@ -56,16 +56,10 @@ while (counter <= 8 && (counter != 9)) {
 
 # LOOP 2: LOOP - UNTIL
 
-loop (integer i = 3) until ( i <= 5) {
-    x = 90;
+integer i;
 
-    loop (integer i = 3) until ( i <= 5) {
-        x = 90;
-    }
-
-    loop (integer i = 3) until ( i <= 5) {
-        x = 90;
-    }
+loop (i = 3) until ( i <= 5) {
+    x = 90.0;
 }
 
 # ESCRITA DE DADOS
@@ -79,10 +73,15 @@ read name;
 
 # DELCARACAO DE FUNCAO
 
-function (integer): sumOfSquares receive (integer a, integer b) {
-    integer sum = a * a + b * b;
+integer a;
+integer b;
+
+function (integer): changeNumberValue receive (a, b) {
+    a = b;
 
     # RETORNO DE FUNCAO
 
-    return sum;
+    return a;
 }
+
+call changeNumberValue(a, b);

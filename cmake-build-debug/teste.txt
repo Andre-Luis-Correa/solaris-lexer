@@ -1,11 +1,25 @@
-# Declaracao de variaveis
-integer z = 5;
-string teste = "teste de string";
-string oi = teste;
-integer x = z;
-integer y = 90;
-float floatNumber = 0.8;
-float numberDecimal;
+# INCLUSAO DE BIBLIOTECAS
+
+use "solarisIo.sol"
+use "solarisLib.sol"
+use "directory/myLib.sol"
+
+##
+    comentario de bloco
+    onde pode ser incluido uma sequencia de caracteres
+##
+
+
+# DECLARACAO DE VARIAVEIS
+
+integer x;
+string name = "Bruna";
+string oldName = "Andre";
+string address;
+float y;
+integer num = 5 + 9;
+integer total = 0;
+
 
 floatNumber = numberDecimal;
 

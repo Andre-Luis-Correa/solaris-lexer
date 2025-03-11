@@ -29,8 +29,8 @@ program:
   comment: # DECLARACAO DE VARIAVEIS
     TOKEN_COMMENT_LINE: # DECLARACAO DE VARIAVEIS
 
-  variable_declaration: integer x;
-    TOKEN_DATA_TYPE: integer
+  variable_declaration: float x;
+    TOKEN_DATA_TYPE_FLOAT: float
     TOKEN_IDENTIFIER: x
     ;: ;
 
@@ -54,30 +54,28 @@ program:
     ;: ;
 
   variable_declaration: float y;
-    TOKEN_DATA_TYPE: float
+    TOKEN_DATA_TYPE_FLOAT: float
     TOKEN_IDENTIFIER: y
     ;: ;
 
   variable_declaration: integer num = 5 + 9;
-    TOKEN_DATA_TYPE: integer
-    assignment: num = 5 + 9;
-      TOKEN_IDENTIFIER: num
-      TOKEN_ASSIGNMENT_OP: =
-      expression: 5 + 9
-        expression: 5
-          TOKEN_INTEGER_NUMBER: 5
-        TOKEN_ASSIGNMENT_OP: +
-        expression: 9
-          TOKEN_INTEGER_NUMBER: 9
-      TOKEN_DELIMITER: ;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: num
+    TOKEN_ASSIGNMENT_OP: =
+    expression: 5 + 9
+      expression: 5
+        TOKEN_INTEGER_NUMBER: 5
+      TOKEN_ASSIGNMENT_OP: +
+      expression: 9
+        TOKEN_INTEGER_NUMBER: 9
+    ;: ;
 
   variable_declaration: integer total = 0;
-    TOKEN_DATA_TYPE: integer
-    assignment: total = 0;
-      TOKEN_IDENTIFIER: total
-      TOKEN_ASSIGNMENT_OP: =
-      TOKEN_INTEGER_NUMBER: 0
-      TOKEN_DELIMITER: ;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: total
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_INTEGER_NUMBER: 0
+    ;: ;
 
   comment: # ATRIBUICOES
     TOKEN_COMMENT_LINE: # ATRIBUICOES
@@ -134,10 +132,10 @@ program:
     TOKEN_STRING: "Joao"
     TOKEN_DELIMITER: ;
 
-  assignment: x = 5;
+  assignment: x = 5.0;
     TOKEN_IDENTIFIER: x
     TOKEN_ASSIGNMENT_OP: =
-    TOKEN_INTEGER_NUMBER: 5
+    TOKEN_FLOAT_NUMBER: 5.0
     TOKEN_DELIMITER: ;
 
   assignment: oldName = name;
@@ -223,10 +221,10 @@ program:
     {: {
     possible_content:  
       \n: \n
-      assignment: x = 5;
+      assignment: x = 7.8;
         TOKEN_IDENTIFIER: x
         TOKEN_ASSIGNMENT_OP: =
-        TOKEN_INTEGER_NUMBER: 5
+        TOKEN_FLOAT_NUMBER: 7.8
         TOKEN_DELIMITER: ;
 
       \n: \n
@@ -236,12 +234,11 @@ program:
     TOKEN_COMMENT_LINE: # LOOP 1: WHILE
 
   variable_declaration: integer counter = 0;
-    TOKEN_DATA_TYPE: integer
-    assignment: counter = 0;
-      TOKEN_IDENTIFIER: counter
-      TOKEN_ASSIGNMENT_OP: =
-      TOKEN_INTEGER_NUMBER: 0
-      TOKEN_DELIMITER: ;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: counter
+    TOKEN_ASSIGNMENT_OP: =
+    TOKEN_INTEGER_NUMBER: 0
+    ;: ;
 
   loop_while: while ( counter <= 8 && ( counter != 9 ) ) {   }
     TOKEN_LOOP_WHILE: while
@@ -302,11 +299,15 @@ program:
   comment: # LOOP 2: LOOP - UNTIL
     TOKEN_COMMENT_LINE: # LOOP 2: LOOP - UNTIL
 
-  loop: loop ( integer i = 3 ) until ( i <= 5 ) {   }
+  variable_declaration: integer i;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: i
+    ;: ;
+
+  loop: loop ( i = 3 ) until ( i <= 5 ) {   }
     TOKEN_LOOP: loop
     (: (
-    loop_start: integer i = 3
-      TOKEN_DATA_TYPE: integer
+    loop_start: i = 3
       TOKEN_IDENTIFIER: i
       TOKEN_ASSIGNMENT_OP: =
       TOKEN_INTEGER_NUMBER: 3
@@ -323,75 +324,11 @@ program:
     {: {
     possible_content:  
       \n: \n
-      assignment: x = 90;
+      assignment: x = 90.0;
         TOKEN_IDENTIFIER: x
         TOKEN_ASSIGNMENT_OP: =
-        TOKEN_INTEGER_NUMBER: 90
+        TOKEN_FLOAT_NUMBER: 90.0
         TOKEN_DELIMITER: ;
-
-      \n: \n
-      \n: \n
-      loop: loop ( integer i = 3 ) until ( i <= 5 ) {   }
-        TOKEN_LOOP: loop
-        (: (
-        loop_start: integer i = 3
-          TOKEN_DATA_TYPE: integer
-          TOKEN_IDENTIFIER: i
-          TOKEN_ASSIGNMENT_OP: =
-          TOKEN_INTEGER_NUMBER: 3
-        ): )
-        TOKEN_LOOP_UNTIL: until
-        (: (
-        loop_condition: i <= 5
-          loop_condition: i
-            TOKEN_IDENTIFIER: i
-          TOKEN_RELATIONAL_OP: <=
-          loop_condition: 5
-            TOKEN_INTEGER_NUMBER: 5
-        ): )
-        {: {
-        possible_content:  
-          \n: \n
-          assignment: x = 90;
-            TOKEN_IDENTIFIER: x
-            TOKEN_ASSIGNMENT_OP: =
-            TOKEN_INTEGER_NUMBER: 90
-            TOKEN_DELIMITER: ;
-
-          \n: \n
-        }: }
-
-      \n: \n
-      \n: \n
-      loop: loop ( integer i = 3 ) until ( i <= 5 ) {   }
-        TOKEN_LOOP: loop
-        (: (
-        loop_start: integer i = 3
-          TOKEN_DATA_TYPE: integer
-          TOKEN_IDENTIFIER: i
-          TOKEN_ASSIGNMENT_OP: =
-          TOKEN_INTEGER_NUMBER: 3
-        ): )
-        TOKEN_LOOP_UNTIL: until
-        (: (
-        loop_condition: i <= 5
-          loop_condition: i
-            TOKEN_IDENTIFIER: i
-          TOKEN_RELATIONAL_OP: <=
-          loop_condition: 5
-            TOKEN_INTEGER_NUMBER: 5
-        ): )
-        {: {
-        possible_content:  
-          \n: \n
-          assignment: x = 90;
-            TOKEN_IDENTIFIER: x
-            TOKEN_ASSIGNMENT_OP: =
-            TOKEN_INTEGER_NUMBER: 90
-            TOKEN_DELIMITER: ;
-
-          \n: \n
-        }: }
 
       \n: \n
     }: }
@@ -420,46 +357,39 @@ program:
   comment: # DELCARACAO DE FUNCAO
     TOKEN_COMMENT_LINE: # DELCARACAO DE FUNCAO
 
-  function_declaration: function ( integer ) : sumOfSquares receive ( integer a, integer b ) {   return sum; }
+  variable_declaration: integer a;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: a
+    ;: ;
+
+  variable_declaration: integer b;
+    TOKEN_DATA_TYPE_INTEGER: integer
+    TOKEN_IDENTIFIER: b
+    ;: ;
+
+  function_declaration: function ( integer ) : changeNumberValue receive ( a, b ) {   return a; }
     TOKEN_FUNCTION: function
     (: (
-    TOKEN_DATA_TYPE: integer
+    TOKEN_DATA_TYPE_INTEGER: integer
     ): )
     :: :
-    TOKEN_IDENTIFIER: sumOfSquares
+    TOKEN_IDENTIFIER: changeNumberValue
     TOKEN_FUNCTION_RECEIVE: receive
     (: (
-    function_parameter: integer a, integer b
-      function_parameter: integer a
-        TOKEN_DATA_TYPE: integer
+    function_parameter: a, b
+      function_parameter: a
         TOKEN_IDENTIFIER: a
       ,: ,
-      TOKEN_DATA_TYPE: integer
       TOKEN_IDENTIFIER: b
     ): )
     {: {
     possible_content:  
       \n: \n
-      variable_declaration: integer sum = a * a + b * b;
-        TOKEN_DATA_TYPE: integer
-        assignment: sum = a * a + b * b;
-          TOKEN_IDENTIFIER: sum
-          TOKEN_ASSIGNMENT_OP: =
-          expression: a * a + b * b
-            expression: a * a + b
-              expression: a * a
-                expression: a
-                  TOKEN_IDENTIFIER: a
-                TOKEN_ASSIGNMENT_OP: *
-                expression: a
-                  TOKEN_IDENTIFIER: a
-              TOKEN_ASSIGNMENT_OP: +
-              expression: b
-                TOKEN_IDENTIFIER: b
-            TOKEN_ASSIGNMENT_OP: *
-            expression: b
-              TOKEN_IDENTIFIER: b
-          TOKEN_DELIMITER: ;
+      assignment: a = b;
+        TOKEN_IDENTIFIER: a
+        TOKEN_ASSIGNMENT_OP: =
+        TOKEN_IDENTIFIER: b
+        TOKEN_DELIMITER: ;
 
       \n: \n
       \n: \n
@@ -468,9 +398,21 @@ program:
 
       \n: \n
       \n: \n
-    function_return: return sum;
+    function_return: return a;
       TOKEN_FUNCTION_RETURN: return
-      TOKEN_IDENTIFIER: sum
+      TOKEN_IDENTIFIER: a
       ;: ;
 
     }: }
+  function_call: call changeNumberValue ( a, b ) ;
+    TOKEN_CALL: call
+    TOKEN_IDENTIFIER: changeNumberValue
+    (: (
+    function_parameter: a, b
+      function_parameter: a
+        TOKEN_IDENTIFIER: a
+      ,: ,
+      TOKEN_IDENTIFIER: b
+    ): )
+    ;: ;
+
